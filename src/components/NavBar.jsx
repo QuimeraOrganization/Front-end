@@ -13,7 +13,7 @@ export default function NavBar() {
           <Image src="Logo.svg" />
           <HStack>
             <Text
-              fontSize={24}
+              fontSize={{ base: '12px', md: '16px', lg: '18px' }}
               fontWeight={700}
               marginLeft={4}
             >
@@ -24,6 +24,7 @@ export default function NavBar() {
       </HStack>
 
       <HStack
+        fontSize={{ base: '11px', md: '12px', lg: '13px' }}
         fontWeight={700}
         spacing={5}
       >
@@ -32,12 +33,20 @@ export default function NavBar() {
         <Link href="/">Categorias</Link>
       </HStack>
 
-      <HStack fontWeight={700}>
+      <HStack
+        fontSize={{ base: '11px', md: '12px', lg: '13px' }}
+        fontWeight={700}
+      >
         <Button
+          height={0}
+          fontSize={{ base: '11px', md: '12px', lg: '13px' }}
           backgroundColor="#fff"
           color="#6FBE5E"
           border="1px solid #6FBE5E"
           borderRadius={200}
+          padding={3}
+          paddingInlineStart={0}
+          paddingInlineEnd={0}
         >
           Entrar
         </Button>
