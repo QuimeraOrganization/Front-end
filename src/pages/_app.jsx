@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }) {
     <ChakraProvider theme={theme}>
       {/* Depois modificar para não aparecer a barra de navegação no login e no cadastro */}
       <NavBar />
-      <Component {...pageProps} />
+      <Component {...pageProps} />  
     </ChakraProvider>
   );
 }
