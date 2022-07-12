@@ -32,6 +32,7 @@ export default function UserList(props) {
     base: false,
     lg: true,
   });
+
   const handleDelete = async (id) => {
     await deleteUser(id);
     setUsers(await getUsers());
@@ -98,7 +99,7 @@ export default function UserList(props) {
                   <Td>{user.id}</Td>
 
                   <Td>
-                    <Link href="/users/edit">
+                    <Link href={`/users/edit/${user.id}`}>
                       <Button
                         as="a"
                         left="10px"
@@ -146,14 +147,14 @@ export async function getServerSideProps(context) {
 
   const token = cookies["nextauth.token"];
   //se não existir o token, ele redireciona para a pag index.
-  // if (!token) {
-  //   return {
-  //     redirect: {
-  //       destination: "/",
-  //       permanent: false,
-  //     },
-  //   };
-  // }
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
   const response = await axios.get("/users");
   return {
     props: {

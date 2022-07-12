@@ -12,4 +12,14 @@ async function getUsers() {
   return users.data;
 }
 
-export { createUser, deleteUser, getUsers };
+async function updateUser(id, email, password, permission) {
+  const user = await axios.put(`/users/${id}`, { email, password, permission });
+  return user.data;
+}
+
+async function getUserById(id) {
+  const users = await axios.get(`/users/${id}`);
+  return users.data;
+}
+
+export { createUser, deleteUser, getUsers, updateUser, getUserById };
