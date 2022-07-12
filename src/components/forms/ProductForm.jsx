@@ -143,6 +143,17 @@ export default function ProductForm() {
     });
   }
 
+  function isValidFields() {
+    if (product.name != '' &&
+      product.description != '' &&
+      product.brandId != null &&
+      product.categories.length != 0 &&
+      product.ingredients.length != 0) {
+      return true;
+    }
+    return false;
+  }
+
   function handleSubmit() {
     product.name === '' ? setNameError(true) : setNameError(false);
     product.description === '' ? setDescriptionError(true) : setDescriptionError(false);
@@ -150,8 +161,8 @@ export default function ProductForm() {
     product.categories.length === 0 ? setCategoriesError(true) : setCategoriesError(false);
     product.ingredients.length === 0 ? setIngredientsError(true) : setIngredientsError(false);
 
-    if (!(isNameError || isDescriptionError || isBrandError || isCategoriesError || isIngredientsError)) {
-      console.log("cadastra")
+    if (isValidFields()) {
+      console.log("cadastra");
     }
 
     console.log(product)
@@ -284,6 +295,17 @@ export default function ProductForm() {
             </VStack>
           )}
         />
+        {isIngredientsError && (
+          <FormErrorMessage>Campo obrigatório</FormErrorMessage>
+        )}
+      </FormControl>
+
+      <FormControl
+        isRequired
+        isInvalid={isIngredientsError}
+      >
+        <FormLabel htmlFor='image'>Imagem</FormLabel>
+        {/* File picker */}
         {isIngredientsError && (
           <FormErrorMessage>Campo obrigatório</FormErrorMessage>
         )}
