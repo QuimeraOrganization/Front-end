@@ -1,9 +1,22 @@
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { Flex, Stack, Spinner, HStack, VStack, Input, InputGroup, InputRightAddon, Select, Wrap, Text, Button } from '@chakra-ui/react';
-import { SearchIcon } from '@chakra-ui/icons';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import {
+  Flex,
+  Stack,
+  Spinner,
+  HStack,
+  VStack,
+  Input,
+  InputGroup,
+  InputRightAddon,
+  Select,
+  Wrap,
+  Text,
+  Button,
+} from "@chakra-ui/react";
+import { SearchIcon } from "@chakra-ui/icons";
 
-import Card from '../components/Card';
+import Card from "../components/Card";
 import { getProductsPaged } from "../services/productService";
 
 export default function Home() {
@@ -37,24 +50,13 @@ export default function Home() {
   }
 
   return (
-    <VStack
-      px={10}
-      mt={4}
-    >
-      <HStack
-        width="100%"
-        justify="space-between"
-        mb={4}
-      >
+    <VStack px={10} mt={4}>
+      <HStack width="100%" justify="space-between" mb={4}>
         {/* Barra de busca */}
-        <InputGroup
-          size='sm'
-          width="30%"
-          border="0px solid #6FBE5E"
-        >
+        <InputGroup size="sm" width="30%" border="0px solid #6FBE5E">
           <Input
-            placeholder='Busque por um produto...'
-            fontSize={{ base: '11px', md: '12px', lg: '13px' }}
+            placeholder="Busque por um produto..."
+            fontSize={{ base: "11px", md: "12px", lg: "13px" }}
             borderRadius={200}
           />
           <InputRightAddon
@@ -67,34 +69,29 @@ export default function Home() {
 
         {/* Filtro */}
         <Select
-          size='sm'
-          fontSize={{ base: '11px', md: '12px', lg: '13px' }}
+          size="sm"
+          fontSize={{ base: "11px", md: "12px", lg: "13px" }}
           width="20%"
-          placeholder='Filtrar por'
+          placeholder="Filtrar por"
           backgroundColor="#fff"
           border="1px solid"
           borderColor="#6FBE5E"
           borderRadius={6}
         >
-          <option value='option1'>Verificado</option>
-          <option value='option2'>Nome crescente</option>
-          <option value='option3'>Nome decresente</option>
+          <option value="option1">Verificado</option>
+          <option value="option2">Nome crescente</option>
+          <option value="option3">Nome decresente</option>
         </Select>
       </HStack>
 
-      {loading && (
-        <Spinner color="#6FBE5E" />
-      )}
+      {loading && <Spinner color="#6FBE5E" />}
 
       <HStack>
-        <Flex
-          direction="row"
-          justify="center"
-          wrap="wrap"
-        >
-          {
-            pageProducts != null && pageProducts.data != null && !loading &&
-            (pageProducts.data.map(product => {
+        <Flex direction="row" justify="center" wrap="wrap">
+          {pageProducts != null &&
+            pageProducts.data != null &&
+            !loading &&
+            pageProducts.data.map((product) => {
               return (
                 <Card
                   key={product.id}
@@ -104,15 +101,14 @@ export default function Home() {
                   categories={product.CategoriesOnProducts}
                 />
               );
-            }))
-          }
+            })}
         </Flex>
       </HStack>
 
       <HStack>
         <Button
           disabled={currentPage - 1 < 1 ? true : false}
-          size='sm'
+          size="sm"
           my={2}
           backgroundColor="#fff"
           border="1px solid"
@@ -125,7 +121,7 @@ export default function Home() {
         <Button
           disabled={false}
           cursor="default"
-          size='sm'
+          size="sm"
           my={2}
           backgroundColor="#fff"
           border="1px solid"
@@ -136,8 +132,8 @@ export default function Home() {
         </Button>
 
         <Button
-          disabled={currentPage + 1 > pageProducts.totalPages ? true : false}
-          size='sm'
+          disabled={currentPage + 1 > pageProducts?.totalPages ? true : false}
+          size="sm"
           my={2}
           backgroundColor="#fff"
           border="1px solid"
@@ -147,6 +143,6 @@ export default function Home() {
           Next
         </Button>
       </HStack>
-    </VStack >
-  )
+    </VStack>
+  );
 }
