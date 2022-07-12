@@ -34,7 +34,7 @@ export default function NavBar() {
         fontSize={{ base: "11px", md: "12px", lg: "13px" }}
         fontWeight={700}
       >
-        <NextLink href="/home">
+        <NextLink href="/login">
           <Button
             height={0}
             fontSize={{ base: "11px", md: "12px", lg: "13px" }}
@@ -51,7 +51,7 @@ export default function NavBar() {
         </NextLink>
         <Text>ou</Text>
 
-        <Link href="/" color="#6FBE5E">
+        <Link href="/userRegister" color="#6FBE5E">
           Cadastre-se
         </Link>
       </HStack>
