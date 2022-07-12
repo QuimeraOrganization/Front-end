@@ -4,7 +4,7 @@ import { Flex, Spinner, HStack, VStack, Input, InputGroup, InputRightAddon, Sele
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Lorem } from '@chakra-ui/react'
 import { SearchIcon, ChevronLeftIcon, ChevronRightIcon, AddIcon } from '@chakra-ui/icons';
 
-import Card from '../components/Card';
+import Card from "../components/Card";
 import { getProductsPaged } from "../services/productService";
 import ProductForm from '../components/forms/ProductForm';
 
