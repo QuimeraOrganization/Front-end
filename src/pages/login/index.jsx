@@ -133,7 +133,6 @@ const SignIn = () => {
                   h="44.74"
                   mt="40px"
                   borderRadius={10}
-                  type="submit"
                   variant="solid"
                   colorScheme="teal"
                   backgroundColor="#253C1F"
