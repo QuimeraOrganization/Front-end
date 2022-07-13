@@ -23,7 +23,8 @@ import Link from "next/link";
 
 import axios from "../../config/axios";
 import SideBar from "../../components/SideBar/index";
-import { getUsers, deleteUser } from "../../services/userService";
+import { getFeedbacks, deleteFeedback } from "../../services/feedbackService";
+
 export default function FeedbackList(props) {
   const [feedbacks, setFeedbacks] = useState(props.feedbacks);
 
@@ -78,28 +79,28 @@ export default function FeedbackList(props) {
                   <Checkbox colorScheme="green" />
                 </Th>
                 <Th>Usuário</Th>
-                {isWideVersion && <Th>Permission</Th>}
+                {isWideVersion && <Th>Produto</Th>}
                 <Th>ID</Th>
                 <Th width="1px"></Th>
                 <Th width="1px"></Th>
               </Tr>
             </Thead>
             <Tbody>
-              {/* {feedbacks.map((user) => (
-                <Tr key={'#'}>
+              {feedbacks.map((feedback) => (
+                <Tr key={feedback.id}>
                   <Td px={["4", "4", "6"]}> 
                     <Checkbox colorScheme="green" />
                   </Td>
                   <Td>
                     <Box>
-                      <Text fontSize="sm">{'#'}</Text>
+                      <Text fontSize="sm">{feedback.userId}</Text>
                     </Box>
                   </Td>
-                  {isWideVersion && <Td>{'#'}</Td>}
-                  <Td>{'#'}</Td>
+                  {isWideVersion && <Td>{feedback.productId}</Td>}
+                  <Td>{feedback.id}</Td>
 
                   <Td>
-                    <Link href={`/feedbacks/edit/${'#'}`}>
+                    <Link href={`/feedbacks/edit/${feedback.id}`}>
                       <Button
                         as="a"
                         left="10px"
@@ -131,8 +132,7 @@ export default function FeedbackList(props) {
                     </Button>
                   </Td>
                 </Tr>
-              ))} */
-}
+              ))} 
             </Tbody>
           </Table>
         </Box>
@@ -143,11 +143,11 @@ export default function FeedbackList(props) {
 //método executado no lado do servidor, quando o user acessar a página;
 //nesse caso o next faz um get na minha api antes de rendezirar a pagina, ou seja
 //antes de aparecer qualquer tipo de interface
-/*export async function getServerSideProps(context) {
+export async function getServerSideProps(context) {
   const cookies = parseCookies(context);
  
   const token = cookies["nextauth.token"];
-  //se não existir o token, ele redireciona para a pag index.
+  //se não existir o token, ele redireciona para a pag index. 
   if (!token) {
     return {
       redirect: {
@@ -155,12 +155,12 @@ export default function FeedbackList(props) {
         permanent: false,
       },
     };
-  }
+  } 
   const response = await axios.get("/feedbacks");
-  return {
+  return {   
     props: {
       feedbacks: response.data,
     }, // will be passed to the page component as props
     //sempre tem que passar o componente props, mesmo que seja vazio.
   }; 
-} */
+} 

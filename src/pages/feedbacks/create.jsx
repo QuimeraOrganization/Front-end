@@ -11,14 +11,14 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { Input } from "../../components/Form/Input";
-import { createUser } from "../../services/userService";
+import { createFeedback } from "../../services/feedbackService";
 import Router from "next/router";
 import Link from "next/link";
 import SideBar from "../../components/SideBar/index";
 import { parseCookies } from "nookies";
 import { toast } from "react-toastify";
 
-export default function UserList() {
+export default function FeedbackList() {
   const [product, setProduct] = useState(" ");
   const [content, setContent] = useState(" ");  
   const [error, setError] = useState(false);
@@ -84,8 +84,7 @@ export default function UserList() {
                 label="Comentário"
                 onChange={(e) => setContent(e.target.value)}
               />
-            </SimpleGrid>
-            {error ? <p>"Verifique a senha!"</p> : ""}
+            </SimpleGrid>          
           </VStack>
           <Flex mt="8" justify="flex-end">
             <HStack spacing="4">
