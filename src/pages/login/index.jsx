@@ -15,7 +15,7 @@ import {
   Container,
   Icon,
 } from "@chakra-ui/react";
-import { RiEyeCloseLine, RiEyeLine, RiEyeCloseFill } from "react-icons/ri";
+import { RiEyeLine, RiEyeOffFill } from "react-icons/ri";
 import { parseCookies } from "nookies";
 import { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
@@ -117,7 +117,7 @@ const SignIn = () => {
                       showPassword ? (
                         <Icon as={RiEyeLine} />
                       ) : (
-                        <Icon as={RiEyeCloseLine} />
+                        <Icon as={RiEyeOffFill} />
                       )
                     }
                   >

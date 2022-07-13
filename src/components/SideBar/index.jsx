@@ -35,7 +35,7 @@ export default function SideBar() {
           <NavLink
             icon={RiDashboardLine}
             entidade={"Feedbacks"}
-            href="/feedback"
+            href="/feedbacks"
           />
         </NavSection>
       </Stack>

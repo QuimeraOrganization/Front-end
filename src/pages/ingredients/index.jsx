@@ -30,7 +30,6 @@ import {
 export default function UserList(props) {
   const [ingredients, setIngredients] = useState(props.ingredients);
 
-  console.log(ingredients);
   //breakpoint de responsividade
   const isWideVersion = useBreakpointValue({
     base: false,
