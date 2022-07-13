@@ -29,7 +29,7 @@ function AuthProvider({ children }) {
 
   async function singIn({ email, password }) {
     try {
-      const res = await axios.post("token", {
+      const res = await axios.post("/token", {
         email,
         password,
       });

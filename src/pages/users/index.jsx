@@ -74,9 +74,7 @@ export default function UserList(props) {
           <Table>
             <Thead>
               <Tr>
-                <Th px={["4", "4", "6"]} color="gray" width="32px">
-                  <Checkbox colorScheme="green" />
-                </Th>
+                <Th px={["4", "4", "6"]} color="gray" width="32px"></Th>
                 <Th>Usuário</Th>
                 {isWideVersion && <Th>Permission</Th>}
                 <Th>ID</Th>
@@ -87,9 +85,7 @@ export default function UserList(props) {
             <Tbody>
               {users.map((user) => (
                 <Tr key={user.id}>
-                  <Td px={["4", "4", "6"]}>
-                    <Checkbox colorScheme="green" />
-                  </Td>
+                  <Td px={["4", "4", "6"]}></Td>
                   <Td>
                     <Box>
                       <Text fontSize="sm">{user.email}</Text>
