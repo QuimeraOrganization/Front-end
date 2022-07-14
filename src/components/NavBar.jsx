@@ -69,6 +69,11 @@ export default function NavBar() {
                   <NextLink href="/users">Monitoramento</NextLink>
                 </MenuItem>
               )}
+              {user.permission === "BRAND" && (
+                <MenuItem>
+                  <NextLink href="/provider">Monitoramento</NextLink>
+                </MenuItem>
+              )}
               <MenuItem
                 onClick={() => {
                   signOutUser();
