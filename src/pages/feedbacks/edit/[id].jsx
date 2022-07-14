@@ -22,19 +22,20 @@ import { toast } from "react-toastify";
 export default function EditUser({ feedbackId }) {
   const [contents, setContents] = useState({});
   const [productId, setProductId] = useState({});
-  const [userId, setUserid] = useState({});
+  const [userId, setUserId] = useState({});
 
   useEffect(() => {
     getFeedbackById(feedbackId).then((data) => {
       setContents(data.contents);
       setProductId(data.product.id);
-      setUserid(data.user.id);
+      setUserId(data.user.id);
     });
   }, []);
 
   const handleUpdateFeedback = async () => {
+    console.log("userId", userId);
     try {
-      await updateFeedback(feedbackId, contents, productId, userId);
+      await updateFeedback(feedbackId, contents, userId, productId);
 
       toast.success("Comentário atualizado com sucesso", {
         autoClose: 2000,
