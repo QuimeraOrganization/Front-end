@@ -22,7 +22,7 @@ import {
 } from "../../../services/ingredientService";
 import { toast } from "react-toastify";
 
-export default function EditUser({ ingredientId }) {
+export default function EditIngredient({ ingredientId }) {
   const [ingredient, setIngredient] = useState({
     name: "",
   });

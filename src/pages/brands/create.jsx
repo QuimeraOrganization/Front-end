@@ -17,7 +17,7 @@ import SideBar from "../../components/SideBar/index";
 import { parseCookies } from "nookies";
 import { toast } from "react-toastify";
 
-export default function UserList() {
+export default function CreateBrand() {
   const [name, setName] = useState("");
 
   const handleSubmit = async () => {

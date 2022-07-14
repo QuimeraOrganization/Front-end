@@ -22,7 +22,7 @@ import {
 } from "../../../services/categoryService";
 import { toast } from "react-toastify";
 
-export default function EditUser({ categoryId }) {
+export default function EditCategory({ categoryId }) {
   const [category, setCategory] = useState({
     name: "",
   });

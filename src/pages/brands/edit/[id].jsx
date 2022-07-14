@@ -17,7 +17,7 @@ import Router from "next/router";
 import { getBrandById, updateBrand } from "../../../services/brandService";
 import { toast } from "react-toastify";
 
-export default function EditUser({ brandId }) {
+export default function EditBrand({ brandId }) {
   console.log(brandId);
   const [brand, setBrand] = useState({
     name: "",

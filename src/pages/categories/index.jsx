@@ -27,7 +27,7 @@ import {
   getAllCategories,
   deleteCategory,
 } from "../../services/categoryService";
-export default function UserList(props) {
+export default function CategoryList(props) {
   const [categories, setCategories] = useState(props.categories);
 
   //breakpoint de responsividade

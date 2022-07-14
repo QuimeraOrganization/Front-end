@@ -30,7 +30,7 @@ import axios from "../../config/axios";
 import SideBar from "../../components/SideBar/index";
 import { getAllBrands, deleteBrand } from "../../services/brandService";
 
-export default function UserList(props) {
+export default function BrandList(props) {
   const [brands, setBrands] = useState(props.brands);
 
   //breakpoint de responsividade

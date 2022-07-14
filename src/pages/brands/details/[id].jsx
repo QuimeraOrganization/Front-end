@@ -21,7 +21,7 @@ import { getBrandById } from "../../../services/brandService";
 import Link from "next/link";
 import axios from "../../../config/axios";
 
-export default function UserList({ brandId }) {
+export default function BrandDetails({ brandId }) {
   const [brands, setBrands] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");

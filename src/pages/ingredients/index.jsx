@@ -27,7 +27,7 @@ import {
   getAllIngredients,
   deleteIngredient,
 } from "../../services/ingredientService";
-export default function UserList(props) {
+export default function IngredientList(props) {
   const [ingredients, setIngredients] = useState(props.ingredients);
 
   //breakpoint de responsividade
