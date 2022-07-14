@@ -13,7 +13,7 @@ import {
   Button,
   Icon,
 } from "@chakra-ui/react";
-import { RiArrowLeftLine, RiFileList2Line } from "react-icons/ri";
+import { RiArrowLeftLine } from "react-icons/ri";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 import SideBar from "../../../components/SideBar/index";

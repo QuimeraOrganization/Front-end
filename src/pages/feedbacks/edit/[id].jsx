@@ -7,8 +7,10 @@ import {
   SimpleGrid,
   HStack,
   Button,
+  Icon,
 } from "@chakra-ui/react";
 import Link from "next/link";
+import { RiArrowLeftLine } from "react-icons/ri";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 import { Input } from "../../../components/Form/Input";
@@ -72,9 +74,25 @@ export default function EditUser({ feedbackId }) {
           bg="#F2F1F1"
           p={["6", "8"]}
         >
-          <Heading size="lg" fontWeight="700">
-            Editar Feedback
-          </Heading>
+          <Flex mb="8" justify="space-between" align="center">
+            <Heading size="lg" fontWeight="normal">
+              Editar Comentário
+            </Heading>
+            <Link href="/feedbacks" passHref>
+              <Button
+                as="a"
+                size="sm"
+                fontSize="sm"
+                bg="#6FBE5E"
+                colorScheme="#FFFFFF"
+                cursor="pointer"
+                _hover={{ bg: "green.400" }}
+                leftIcon={<Icon as={RiArrowLeftLine} />}
+              >
+                Voltar
+              </Button>
+            </Link>
+          </Flex>
           <Divider my="6" borderColor="gray.700" />
           <VStack spacing={["6", "8"]}>
             <SimpleGrid minChildWidth="248px" spacing={["6", "8"]} w="100%">
