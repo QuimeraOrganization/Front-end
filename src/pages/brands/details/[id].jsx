@@ -19,13 +19,24 @@ import { useEffect, useState } from "react";
 import SideBar from "../../../components/SideBar/index";
 import { getBrandById } from "../../../services/brandService";
 import Link from "next/link";
+import axios from "../../../config/axios";
+
 export default function UserList({ brandId }) {
   const [brands, setBrands] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    getBrandById(brandId).then((data) => {
-      setBrands(data);
-    });
+    try {
+      setLoading(true);
+      getBrandById(brandId).then((data) => {
+        setBrands(data);
+      });
+    } catch (error) {
+      setError("deu erro");
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   return (
@@ -116,6 +127,9 @@ export async function getServerSideProps(context) {
       },
     };
   }
+  // const response = await axios.get(`/brands/${context.query.id}`);
+  // const response = }getBrandById();
+  // console.log("response", response);
 
   return {
     props: {
