@@ -16,12 +16,11 @@ import {
   Divider,
 } from "@chakra-ui/react";
 import { RiEyeLine, RiEyeOffFill } from "react-icons/ri";
-import { createUser } from "../../services/userService";
+import { createProvider, createUser } from "../../services/userService";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { parseCookies } from "nookies";
 import Router from "next/router";
-import Link from "next/link";
 const Cadastro = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,7 +29,7 @@ const Cadastro = () => {
   const handleSubmit = async () => {
     try {
       if (confirmPassowrd === password) {
-        await createUser(email, password);
+        await createProvider(email, password);
         toast.success("Usuário cadastrado com sucesso!", {
           autoClose: 2000,
         });
@@ -209,28 +208,6 @@ const Cadastro = () => {
               >
                 Cadastrar
               </Button>
-              <Divider
-                w="343px"
-                h="44.74"
-                ml="188px"
-                mr="188px"
-                my="6"
-                borderColor="gray.500"
-              />
-              <Link href="/providerRegister">
-                <Text
-                  width="100%"
-                  my="10"
-                  ml="180px"
-                  color="#6FBE5E"
-                  fontWeight="700"
-                  lineHeight="10"
-                  fontSize="25px"
-                  cursor="pointer"
-                >
-                  Cadastre-se como Fornecedor
-                </Text>
-              </Link>
             </FormControl>
           </Stack>
         </Box>

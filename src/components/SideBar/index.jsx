@@ -1,4 +1,5 @@
 import { Box, Stack } from "@chakra-ui/react";
+import { useContext } from "react";
 import {
   RiContactsLine,
   RiProductHuntLine,
@@ -6,6 +7,7 @@ import {
 } from "react-icons/ri";
 import NavLink from "./NavLink";
 import NavSection from "./NavSection";
+
 export default function SideBar() {
   return (
     <Box as="aside" w="64" mr="8">
@@ -15,7 +17,7 @@ export default function SideBar() {
           <NavLink
             icon={RiProductHuntLine}
             entidade={"Produtos"}
-            href="/produtos?page=1"
+            href="/products"
           />
           <NavLink
             icon={RiProductHuntLine}

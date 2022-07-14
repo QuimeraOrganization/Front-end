@@ -11,7 +11,9 @@ function MyApp({ Component, pageProps }) {
     <AuthProvider>
       <ChakraProvider theme={theme}>
         {/* renderização condicional para tela de login */}
-        {router.asPath !== "/login" && router.asPath !== "/userRegister" ? (
+        {router.asPath !== "/login" &&
+        router.asPath !== "/userRegister" &&
+        router.asPath !== "/providerRegister" ? (
           <NavBar />
         ) : (
           ""

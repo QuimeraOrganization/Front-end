@@ -17,15 +17,24 @@ function AuthProvider({ children }) {
       if (token) {
         const id = parseJwt(token).id;
 
-        await axios.get(`/users/${id}`).then((res) => {
-          setUser(parseJwt(token));
-        }).catch((error) => {
-          singOut();
-        });
+        await axios
+          .get(`/users/${id}`)
+          .then((res) => {
+            setUser(parseJwt(token));
+          })
+          .catch((error) => {
+            singOut();
+          });
+      } else {
+        setUser(undefined);
       }
     })();
-
   }, []);
+
+  const signOutUser = () => {
+    singOut();
+    setUser(undefined);
+  };
 
   async function singIn({ email, password }) {
     try {
@@ -56,7 +65,9 @@ function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ singIn, isAuthenticated, user }}>
+    <AuthContext.Provider
+      value={{ singIn, isAuthenticated, user, signOutUser }}
+    >
       {children}
     </AuthContext.Provider>
   );
