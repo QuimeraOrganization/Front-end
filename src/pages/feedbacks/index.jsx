@@ -27,7 +27,6 @@ import { getFeedbacks, deleteFeedback } from "../../services/feedbackService";
 
 export default function FeedbackList(props) {
   const [feedbacks, setFeedbacks] = useState(props.feedbacks);
-
   //breakpoint de responsividade
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -75,11 +74,10 @@ export default function FeedbackList(props) {
           <Table>
             <Thead>
               <Tr>
-                <Th px={["4", "4", "6"]} color="gray" width="32px">
-                  <Checkbox colorScheme="green" />
-                </Th>
+                <Th px={["4", "4", "6"]} color="gray" width="32px"></Th>
                 <Th>Usuário</Th>
                 {isWideVersion && <Th>Produto</Th>}
+                {isWideVersion && <Th>Comentário</Th>}
                 <Th>ID</Th>
                 <Th width="1px"></Th>
                 <Th width="1px"></Th>
@@ -88,15 +86,16 @@ export default function FeedbackList(props) {
             <Tbody>
               {feedbacks.map((feedback) => (
                 <Tr key={feedback.id}>
-                  <Td px={["4", "4", "6"]}> 
-                    <Checkbox colorScheme="green" />
-                  </Td>
+                  <Td px={["4", "4", "6"]}></Td>
                   <Td>
                     <Box>
-                      <Text fontSize="sm">{feedback.userId}</Text>
+                      <Text fontSize="sm">{feedback.user.email}</Text>
                     </Box>
                   </Td>
-                  {isWideVersion && <Td>{feedback.productId}</Td>}
+                  {isWideVersion && <Td>{feedback.product.name}</Td>}
+                  {isWideVersion && (
+                    <Td wordBreak="break-word">{feedback.contents}</Td>
+                  )}
                   <Td>{feedback.id}</Td>
 
                   <Td>
@@ -125,14 +124,14 @@ export default function FeedbackList(props) {
                       colorScheme="#FFFFFF"
                       cursor="pointer"
                       _hover={{ bg: "green.400" }}
-                      onClick={() => handleDelete(feedbacks.id)}
+                      onClick={() => handleDelete(feedback.id)}
                       leftIcon={<Icon as={RiDeleteBinLine} />}
                     >
                       Excluir
                     </Button>
                   </Td>
                 </Tr>
-              ))} 
+              ))}
             </Tbody>
           </Table>
         </Box>
@@ -145,9 +144,9 @@ export default function FeedbackList(props) {
 //antes de aparecer qualquer tipo de interface
 export async function getServerSideProps(context) {
   const cookies = parseCookies(context);
- 
+
   const token = cookies["nextauth.token"];
-  //se não existir o token, ele redireciona para a pag index. 
+  //se não existir o token, ele redireciona para a pag index.
   if (!token) {
     return {
       redirect: {
@@ -155,12 +154,13 @@ export async function getServerSideProps(context) {
         permanent: false,
       },
     };
-  } 
+  }
   const response = await axios.get("/feedbacks");
-  return {   
+
+  return {
     props: {
       feedbacks: response.data,
     }, // will be passed to the page component as props
     //sempre tem que passar o componente props, mesmo que seja vazio.
-  }; 
-} 
+  };
+}

@@ -7,56 +7,57 @@ import {
   SimpleGrid,
   HStack,
   Button,
-  Select,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { Input } from "../../components/Form/Input";
-import { createFeedback } from "../../services/feedbackService";
-import Router from "next/router";
 import Link from "next/link";
-import SideBar from "../../components/SideBar/index";
 import { parseCookies } from "nookies";
+import { useEffect, useState } from "react";
+import { Input } from "../../../components/Form/Input";
+import SideBar from "../../../components/SideBar";
+import {
+  getFeedbackById,
+  updateFeedback,
+} from "../../../services/feedbackService";
 import { toast } from "react-toastify";
 
-export default function FeedbackList() {
-  const [productId, setProductId] = useState(" ");
-  const [userId, setUserId] = useState(" ");
-  const [contents, setContents] = useState(" ");
-  const [error, setError] = useState(false);
+export default function EditUser({ feedbackId }) {
+  const [contents, setContents] = useState({});
+  const [productId, setProductId] = useState({});
+  const [userId, setUserid] = useState({});
 
-  const handleSubmit = async () => {
+  useEffect(() => {
+    getFeedbackById(feedbackId).then((data) => {
+      setContents(data.contents);
+      setProductId(data.product.id);
+      setUserid(data.user.id);
+    });
+  }, []);
+
+  const handleUpdateFeedback = async () => {
     try {
-      await createFeedback(contents, productId, userId);
-      toast.success("Comentário cadastrado com sucesso!", {
+      await updateFeedback(feedbackId, contents, productId, userId);
+
+      toast.success("Comentário atualizado com sucesso", {
         autoClose: 2000,
       });
-      Router.push("/feedbacks");
     } catch (err) {
+      if (!contents) {
+        toast.error("Comentário obrigatório!", {
+          autoClose: 2000,
+        });
+      }
       if (!productId) {
-        toast.error("ID do PRODUTO obrigatório", {
+        toast.error("ID do PRODUTO obrigatório!", {
           autoClose: 2000,
         });
       }
       if (!userId) {
-        toast.error("ID do USER obrigatório", {
-          autoClose: 2000,
-        });
-      }
-      if (!contents) {
-        toast.error("Conteúdo do comentário obrigatório", {
+        toast.error("ID do USER obrigatória!", {
           autoClose: 2000,
         });
       }
     }
   };
 
-  {
-    /* <Select  placeholder='Produto'>
-              <option value='option1'>Produto 1</option>
-              <option value='option2'>Produto 2</option>
-              <option value='option3'>Produto 3</option>
-            </Select> */
-  }
   return (
     <Box>
       <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
@@ -71,19 +72,21 @@ export default function FeedbackList() {
           p={["6", "8"]}
         >
           <Heading size="lg" fontWeight="700">
-            Criar Comentário
+            Editar Feedback
           </Heading>
           <Divider my="6" borderColor="gray.700" />
           <VStack spacing={["6", "8"]}>
             <SimpleGrid minChildWidth="248px" spacing={["6", "8"]} w="100%">
               <Input
+                value={productId}
                 name="product"
                 type="number"
                 label="Produto ID"
                 onChange={(e) => setProductId(e.target.value)}
               />
               <Input
-                name="product"
+                value={userId}
+                name="user"
                 type="number"
                 label="User ID"
                 onChange={(e) => setUserId(e.target.value)}
@@ -91,6 +94,7 @@ export default function FeedbackList() {
             </SimpleGrid>
             <SimpleGrid minChildWidth="248px" spacing={["6", "8"]} w="100%">
               <Input
+                value={contents}
                 name="content"
                 type="text"
                 label="Comentário"
@@ -105,15 +109,15 @@ export default function FeedbackList() {
                   Cancelar
                 </Button>
               </Link>
-              <Button
-                type="submit"
-                onClick={handleSubmit}
-                bg="#6FBE5E"
-                _hover={{ bg: "green.400" }}
-                color="#ffffff"
-              >
-                Cadastrar
-              </Button>
+              <Link href="/feedbacks">
+                <Button
+                  bg="#6FBE5E"
+                  color="#ffffff"
+                  onClick={handleUpdateFeedback}
+                >
+                  Salvar
+                </Button>
+              </Link>
             </HStack>
           </Flex>
         </Box>
@@ -122,24 +126,24 @@ export default function FeedbackList() {
   );
 }
 
-/*
 export async function getServerSideProps(context) {
   const cookies = parseCookies(context);
 
   const token = cookies["nextauth.token"];
- 
+  //se não existir o token, ele redireciona para a pag index.
   if (!token) {
     return {
       redirect: {
-        destination: "/produtos?page=1",
+        destination: "/",
         permanent: false,
       },
     };
   }
-  return {
-    props: {},
-  };
-  
-}
 
-*/
+  return {
+    props: {
+      feedbackId: context.query.id,
+    }, // will be passed to the page component as props
+    //sempre tem que passar o componente props, mesmo que seja vazio.
+  };
+}
