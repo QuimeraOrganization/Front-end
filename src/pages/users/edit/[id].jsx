@@ -17,18 +17,18 @@ import { getUserById, updateUser } from "../../../services/userService";
 import { toast } from "react-toastify";
 
 export default function EditUser({ userId }) {
-  const [user, setUser] = useState({ email: "", permission: "", password: "" });
+  const [email, setEmail] = useState("");
+  const [permission, setPermission] = useState("");
+  const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   useEffect(() => {
-    getUserById(userId).then(({ email, permission, password }) => {
-      setUser({
-        email,
-        permission,
-        password,
-      });
+    getUserById(userId).then((data) => {
+      setEmail(data.email);
+      setPermission(data.permission);
+      setPassword(data.password);
     });
   }, []);
-  console.log({ user });
+
   const handleUpdateUser = async () => {
     try {
       if (confirmPassword === user.password) {
@@ -40,17 +40,17 @@ export default function EditUser({ userId }) {
       });
     } catch (err) {
       console.log(user.password);
-      if (!user.email) {
+      if (email) {
         toast.error("Email obrigatório!", {
           autoClose: 2000,
         });
       }
-      if (!user.password) {
+      if (password) {
         toast.error("Senha obrigatória!", {
           autoClose: 2000,
         });
       }
-      if (user.password.length > 16) {
+      if (password.length > 16) {
         toast.error("Password deve ter no máximo 16 caracteres!", {
           autoClose: 2000,
         });
@@ -78,29 +78,26 @@ export default function EditUser({ userId }) {
           <VStack spacing={["6", "8"]}>
             <SimpleGrid minChildWidth="248px" spacing={["6", "8"]} w="100%">
               <Input
-                value={user.email}
+                value={email}
                 name="email"
                 type="email"
                 label="E-mail"
-                onChange={(e) => setUser({ ...user, email: e.target.value })}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <Input
-                value={user.permission}
+                value={permission}
                 name="permission"
                 type="text"
                 label="Permission"
-                onChange={(e) =>
-                  setUser({ ...user, permission: e.target.value })
-                }
+                onChange={(e) => setPermission(e.target.value)}
               />
             </SimpleGrid>
             <SimpleGrid minChildWidth="248px" spacing={["6", "8"]} w="100%">
               <Input
-                value={user.password}
                 name="password"
                 type="password"
                 label="Senha"
-                onChange={(e) => setUser({ ...user, password: e.target.value })}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <Input
                 name="passoword_confirmation"
