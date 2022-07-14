@@ -8,7 +8,7 @@ const AuthContext = createContext({});
 
 function AuthProvider({ children }) {
   const [user, setUser] = useState();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const isAuthenticated = !!user;
 
   useEffect(() => {
@@ -37,6 +37,7 @@ function AuthProvider({ children }) {
 
   const signOutUser = () => {
     singOut();
+    setIsLoading(false);
     setUser(undefined);
   };
 
