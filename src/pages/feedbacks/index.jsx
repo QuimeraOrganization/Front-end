@@ -75,10 +75,10 @@ export default function FeedbackList(props) {
             <Thead>
               <Tr>
                 <Th px={["4", "4", "6"]} color="gray" width="32px"></Th>
-                <Th>Usuário</Th>
-                {isWideVersion && <Th>Produto</Th>}
-                {isWideVersion && <Th>Comentário</Th>}
                 <Th>ID</Th>
+                {isWideVersion && <Th>Comentário</Th>}
+                {isWideVersion && <Th>Usuário</Th>}
+                {isWideVersion && <Th>Produto</Th>}
                 <Th width="1px"></Th>
                 <Th width="1px"></Th>
               </Tr>
@@ -87,16 +87,18 @@ export default function FeedbackList(props) {
               {feedbacks.map((feedback) => (
                 <Tr key={feedback.id}>
                   <Td px={["4", "4", "6"]}></Td>
-                  <Td>
-                    <Box>
-                      <Text fontSize="sm">{feedback.user.email}</Text>
-                    </Box>
-                  </Td>
-                  {isWideVersion && <Td>{feedback.product.name}</Td>}
+                  <Td>{feedback.id}</Td>
                   {isWideVersion && (
                     <Td wordBreak="break-word">{feedback.contents}</Td>
                   )}
-                  <Td>{feedback.id}</Td>
+                  <Td>
+                    <Box>
+                      {isWideVersion && (
+                        <Text fontSize="sm">{feedback.user.email}</Text>
+                      )}
+                    </Box>
+                  </Td>
+                  {isWideVersion && <Td>{feedback.product.name}</Td>}
 
                   <Td>
                     <Link href={`/feedbacks/edit/${feedback.id}`}>

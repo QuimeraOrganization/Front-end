@@ -101,6 +101,7 @@ export default function EditUser({ feedbackId }) {
                 name="product"
                 type="number"
                 label="Produto ID"
+                disabled
                 onChange={(e) => setProductId(e.target.value)}
               />
               <Input
@@ -108,6 +109,7 @@ export default function EditUser({ feedbackId }) {
                 name="user"
                 type="number"
                 label="User ID"
+                disabled
                 onChange={(e) => setUserId(e.target.value)}
               />
             </SimpleGrid>
