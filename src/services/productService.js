@@ -35,7 +35,7 @@ async function getProductsPaged(page) {
 
 async function getProductById(id) {
   const product = await axios
-    .get(`/products/unique/${id}`)
+    .get(`/products/${id}`)
     .then((response) => {
       return response.data;
     })
