@@ -13,18 +13,18 @@ function AuthProvider({ children }) {
   useEffect(() => {
     const { "nextauth.token": token } = parseCookies();
 
-    if (token) {
-      const id = parseJwt(token).id;
-      axios
-        .get(`/users/${id}`)
-        .then((res) => {
-          const { id, email, permission } = res.data;
-          setUser(id, email, permission);
-        })
-        .catch(() => {
+    (async () => {
+      if (token) {
+        const id = parseJwt(token).id;
+
+        await axios.get(`/users/${id}`).then((res) => {
+          setUser(parseJwt(token));
+        }).catch((error) => {
           singOut();
         });
-    }
+      }
+    })();
+
   }, []);
 
   async function singIn({ email, password }) {
