@@ -1,15 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { VStack, FormControl, FormLabel, FormErrorMessage, Text, Input, Button } from '@chakra-ui/react';
 import { Select } from "chakra-react-select";
+import FilePicker from "chakra-ui-file-picker";
 
 import { getAllBrands, createBrand } from "../../services/brandService";
 import { getAllCategories, createCategory } from "../../services/categoryService";
 import { getAllIngredients } from "../../services/ingredientService";
+import { createProduct } from "../../services/productService";
+
+import { AuthContext } from "../../context/AuthContext";
 
 const initialProduct = {
   name: '',
   description: '',
   brandId: null,
+  userId: null,
   categories: [],
   ingredients: []
 }
@@ -45,6 +50,9 @@ export default function ProductForm() {
   const [isCategoriesError, setCategoriesError] = useState(false);
   const [isIngredientsError, setIngredientsError] = useState(false);
 
+  const imageRef = useRef();
+  const { user } = useContext(AuthContext);
+
   useEffect(() => {
     (async () => {
       const brandsResponse = await getAllBrands();
@@ -77,6 +85,10 @@ export default function ProductForm() {
           }
         })
       );
+
+      setProduct(prevState => {
+        return { ...prevState, userId: user.id }
+      });
 
     })();
   }, []);
@@ -154,7 +166,7 @@ export default function ProductForm() {
     return false;
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     product.name === '' ? setNameError(true) : setNameError(false);
     product.description === '' ? setDescriptionError(true) : setDescriptionError(false);
     product.brandId === null ? setBrandError(true) : setBrandError(false);
@@ -163,6 +175,11 @@ export default function ProductForm() {
 
     if (isValidFields()) {
       console.log("cadastra");
+
+      // Implementar o toast
+      const response = await createProduct(product, imageRef);
+
+      console.log(response);
     }
 
     console.log(product)
@@ -300,15 +317,19 @@ export default function ProductForm() {
         )}
       </FormControl>
 
-      <FormControl
-        isRequired
-        isInvalid={isIngredientsError}
-      >
+      <FormControl>
         <FormLabel htmlFor='image'>Imagem</FormLabel>
-        {/* File picker */}
-        {isIngredientsError && (
-          <FormErrorMessage>Campo obrigatório</FormErrorMessage>
-        )}
+        <FilePicker
+          placeholder="Selecione uma imagem"
+          clearButtonLabel="Remover"
+          inputProps={{ cursor: "pointer" }}
+          inputGroupProps={{ cursor: "pointer" }}
+          accept="image/*"
+          onFileChange={(fileList) => { }}
+          multipleFiles={false}
+          hideClearButton={false}
+          ref={imageRef}
+        />
       </FormControl>
 
       <Button
