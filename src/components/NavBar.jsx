@@ -8,17 +8,23 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Stack,
+  Skeleton,
 } from "@chakra-ui/react";
-import Link from "../components/Link";
+import { RiLogoutBoxRFill } from "react-icons/ri";
 import { AuthContext } from "../context/AuthContext";
-import NextLink from "next/link";
 import { useContext } from "react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import { singOut } from "../utils/singOut";
+
+import Link from "../components/Link";
+import NextLink from "next/link";
 
 export default function NavBar() {
-  const { user, signOutUser } = useContext(AuthContext);
-  console.log({ user });
+  const { user, signOutUser, isLoading } = useContext(AuthContext);
+
+  const isLogged = !isLoading && user;
+  const isNotLogged = !isLoading && !user;
+
   return (
     <Flex justify="space-between" px={10} py={5}>
       <HStack>
@@ -50,7 +56,9 @@ export default function NavBar() {
         fontSize={{ base: "11px", md: "12px", lg: "13px" }}
         fontWeight={700}
       >
-        {user ? (
+        {isLoading && <Skeleton height="40px" width="240px" />}
+
+        {isLogged && (
           <Menu>
             <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
               {user.email}
@@ -70,7 +78,9 @@ export default function NavBar() {
               </MenuItem>
             </MenuList>
           </Menu>
-        ) : (
+        )}
+
+        {isNotLogged && (
           <>
             <NextLink href="/login">
               <Button

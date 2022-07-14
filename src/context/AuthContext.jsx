@@ -8,6 +8,7 @@ const AuthContext = createContext({});
 
 function AuthProvider({ children }) {
   const [user, setUser] = useState();
+  const [isLoading, setIsLoading] = useState(true);
   const isAuthenticated = !!user;
 
   useEffect(() => {
@@ -15,14 +16,17 @@ function AuthProvider({ children }) {
 
     (async () => {
       if (token) {
+        setIsLoading(true);
         const id = parseJwt(token).id;
 
         await axios
           .get(`/users/${id}`)
           .then((res) => {
             setUser(parseJwt(token));
+            setIsLoading(false);
           })
           .catch((error) => {
+            setIsLoading(false);
             singOut();
           });
       } else {
@@ -66,7 +70,7 @@ function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ singIn, isAuthenticated, user, signOutUser }}
+      value={{ singIn, isAuthenticated, user, signOutUser, isLoading }}
     >
       {children}
     </AuthContext.Provider>
