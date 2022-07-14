@@ -19,23 +19,8 @@ export default function SideBar() {
           />
           <NavLink
             icon={RiProductHuntLine}
-            entidade={"Ingredientes"}
-            href="/ingredients"
-          />
-          <NavLink
-            icon={RiProductHuntLine}
             entidade={"Marcas"}
             href="/brands"
-          />
-          <NavLink
-            icon={RiDashboardLine}
-            entidade={"Categorias"}
-            href="/categories"
-          />
-          <NavLink
-            icon={RiDashboardLine}
-            entidade={"Feedbacks"}
-            href="/feedbacks"
           />
         </NavSection>
       </Stack>

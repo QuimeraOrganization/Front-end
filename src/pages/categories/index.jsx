@@ -27,7 +27,7 @@ import {
   getAllCategories,
   deleteCategory,
 } from "../../services/categoryService";
-export default function UserList(props) {
+export default function CategoryList(props) {
   const [categories, setCategories] = useState(props.categories);
 
   //breakpoint de responsividade
@@ -79,7 +79,7 @@ export default function UserList(props) {
               <Tr>
                 <Th px={["4", "4", "6"]} color="gray" width="32px"></Th>
                 <Th>Categoria</Th>
-                {isWideVersion && <Th>Permission</Th>}
+                {isWideVersion && <Th>Data de Cadastro</Th>}
                 <Th>ID</Th>
                 <Th width="1px"></Th>
                 <Th width="1px"></Th>
@@ -94,7 +94,7 @@ export default function UserList(props) {
                       <Text fontSize="sm">{category.name}</Text>
                     </Box>
                   </Td>
-                  {isWideVersion && <Td>{category.name}</Td>}
+                  {isWideVersion && <Td>{category.created_at}</Td>}
                   <Td>{category.id}</Td>
 
                   <Td>

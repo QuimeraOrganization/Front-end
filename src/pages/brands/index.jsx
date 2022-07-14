@@ -18,17 +18,20 @@ import {
 
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
-import { RiAddLine, RiDeleteBinLine, RiPencilLine } from "react-icons/ri";
+import {
+  RiAddLine,
+  RiDeleteBinLine,
+  RiPencilLine,
+  RiFileList2Line,
+} from "react-icons/ri";
 import Link from "next/link";
-
+import Router from "next/router";
 import axios from "../../config/axios";
 import SideBar from "../../components/SideBar/index";
-import {
-  getAllIngredients,
-  deleteIngredient,
-} from "../../services/ingredientService";
-export default function IngredientList(props) {
-  const [ingredients, setIngredients] = useState(props.ingredients);
+import { getAllBrands, deleteBrand } from "../../services/brandService";
+
+export default function BrandList(props) {
+  const [brands, setBrands] = useState(props.brands);
 
   //breakpoint de responsividade
   const isWideVersion = useBreakpointValue({
@@ -37,8 +40,8 @@ export default function IngredientList(props) {
   });
 
   const handleDelete = async (id) => {
-    await deleteIngredient(id);
-    setIngredients(await getAllIngredients());
+    await deleteBrand(id);
+    setBrands(await getAllBrands());
   };
 
   return (
@@ -56,9 +59,9 @@ export default function IngredientList(props) {
         >
           <Flex mb="8" justify="space-between" align="center">
             <Heading size="lg" fontWeight="normal">
-              Ingredientes
+              Marcas
             </Heading>
-            <Link href="/ingredients/create" passHref>
+            <Link href="/brands/create" passHref>
               <Button
                 as="a"
                 size="sm"
@@ -78,27 +81,36 @@ export default function IngredientList(props) {
             <Thead>
               <Tr>
                 <Th px={["4", "4", "6"]} color="gray" width="32px"></Th>
-                <Th>Ingrediente</Th>
-                {isWideVersion && <Th>Data de cadastro</Th>}
-                <Th>ID</Th>
+                <Th>Marca</Th>
+                {isWideVersion && <Th>ID</Th>}
+
                 <Th width="1px"></Th>
                 <Th width="1px"></Th>
+                <Th width="1px"></Th>
+                {/* <Th width="1px"></Th> */}
               </Tr>
             </Thead>
             <Tbody>
-              {ingredients.map((ingredient) => (
-                <Tr key={ingredient.id}>
+              {brands.map((brand) => (
+                <Tr key={brand.id}>
                   <Td px={["4", "4", "6"]}></Td>
                   <Td>
                     <Box>
-                      <Text fontSize="sm">{ingredient.name}</Text>
+                      <Text fontSize="sm">{brand.name}</Text>
                     </Box>
                   </Td>
-                  {isWideVersion && <Td>{ingredient.created_at}</Td>}
-                  <Td>{ingredient.id}</Td>
+                  {/* {isWideVersion && (
+                    <Td>
+
+                      {brand.product.map((product) => {
+                        return <span key={product.id}>{product.name}</span>;
+                      })}
+                    </Td>
+                  )} */}
+                  {isWideVersion && <Td>{brand.id}</Td>}
 
                   <Td>
-                    <Link href={`/ingredients/edit/${ingredient.id}`}>
+                    <Link href={`/brands/edit/${brand.id}`}>
                       <Button
                         as="a"
                         left="10px"
@@ -123,7 +135,22 @@ export default function IngredientList(props) {
                       colorScheme="#FFFFFF"
                       cursor="pointer"
                       _hover={{ bg: "green.400" }}
-                      onClick={() => handleDelete(ingredient.id)}
+                      onClick={() => Router.push(`/brands/details/${brand.id}`)}
+                      leftIcon={<Icon as={RiFileList2Line} />}
+                    >
+                      Detalhes
+                    </Button>
+                  </Td>
+                  <Td>
+                    <Button
+                      as="a"
+                      size="sm"
+                      fontSize="sm"
+                      bg="#6FBE5E"
+                      colorScheme="#FFFFFF"
+                      cursor="pointer"
+                      _hover={{ bg: "green.400" }}
+                      onClick={() => handleDelete(brand.id)}
                       leftIcon={<Icon as={RiDeleteBinLine} />}
                     >
                       Excluir
@@ -154,10 +181,10 @@ export async function getServerSideProps(context) {
       },
     };
   }
-  const response = await axios.get("/ingredients");
+  const response = await axios.get("/brands");
   return {
     props: {
-      ingredients: response.data,
+      brands: response.data,
     }, // will be passed to the page component as props
     //sempre tem que passar o componente props, mesmo que seja vazio.
   };

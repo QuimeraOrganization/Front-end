@@ -10,26 +10,26 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { Input } from "../../components/Form/Input";
-import { createIngredient } from "../../services/ingredientService";
+import { createBrand } from "../../services/brandService";
 import Router from "next/router";
 import Link from "next/link";
 import SideBar from "../../components/SideBar/index";
 import { parseCookies } from "nookies";
 import { toast } from "react-toastify";
 
-export default function CreateIngredient() {
+export default function CreateBrand() {
   const [name, setName] = useState("");
 
   const handleSubmit = async () => {
     try {
-      await createIngredient(name);
-      toast.success("Ingrediente cadastrado com sucesso!", {
+      await createBrand(name);
+      toast.success("Marca cadastrada com sucesso!", {
         autoClose: 2000,
       });
-      Router.push("/ingredients");
+      Router.push("/brands");
     } catch (err) {
-      if (!email) {
-        toast.error("Nome do ingrediente obrigatório!", {
+      if (!name) {
+        toast.error("O campo Nome é obrigatório!", {
           autoClose: 2000,
         });
       }
@@ -51,13 +51,13 @@ export default function CreateIngredient() {
           p={["6", "8"]}
         >
           <Heading size="lg" fontWeight="700">
-            Criar Ingrediente
+            Criar Marca
           </Heading>
           <Divider my="6" borderColor="gray.700" />
           <VStack spacing={["6", "8"]}>
             <SimpleGrid minChildWidth="248px" spacing={["6", "8"]} w="100%">
               <Input
-                name="ingredient"
+                name="brand"
                 type="text"
                 label="Nome"
                 onChange={(e) => setName(e.target.value)}
@@ -66,7 +66,7 @@ export default function CreateIngredient() {
           </VStack>
           <Flex mt="8" justify="flex-end">
             <HStack spacing="4">
-              <Link href="/ingredients" passHref>
+              <Link href="/brands" passHref>
                 <Button as="a" bg="grey" color="#ffffff">
                   Cancelar
                 </Button>

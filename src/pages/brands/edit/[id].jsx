@@ -7,44 +7,40 @@ import {
   SimpleGrid,
   HStack,
   Button,
-  Icon,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { RiArrowLeftLine } from "react-icons/ri";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 import { Input } from "../../../components/Form/Input";
 import SideBar from "../../../components/SideBar";
 import Router from "next/router";
-import {
-  getCategoryById,
-  updateCategory,
-} from "../../../services/categoryService";
+import { getBrandById, updateBrand } from "../../../services/brandService";
 import { toast } from "react-toastify";
 
-export default function EditCategory({ categoryId }) {
-  const [category, setCategory] = useState({
+export default function EditBrand({ brandId }) {
+  console.log(brandId);
+  const [brand, setBrand] = useState({
     name: "",
   });
 
   useEffect(() => {
-    getCategoryById(categoryId).then(({ name }) => {
-      setCategory({
+    getBrandById(brandId).then(({ name }) => {
+      setBrand({
         name,
       });
     });
   }, []);
-  const handleUpdateCategory = async () => {
+  const handleUpdateBrand = async () => {
     try {
-      await updateCategory(categoryId, category.name);
+      await updateBrand(brandId, brand.name);
 
-      toast.success("Categoria atualizada com sucesso", {
+      toast.success("Marca atualizada com sucesso", {
         autoClose: 2000,
       });
-      Router.push("/categories");
+      Router.push("/brands");
     } catch (err) {
       // console.log(ingredient.name);
-      if (!category.name) {
+      if (!brand.name) {
         toast.error("Nome do ingrediente obrigatório!", {
           autoClose: 2000,
         });
@@ -65,51 +61,29 @@ export default function EditCategory({ categoryId }) {
           bg="#F2F1F1"
           p={["6", "8"]}
         >
-          <Flex mb="8" justify="space-between" align="center">
-            <Heading size="lg" fontWeight="normal">
-              Editar Categoria
-            </Heading>
-            <Link href="/categories" passHref>
-              <Button
-                as="a"
-                size="sm"
-                fontSize="sm"
-                bg="#6FBE5E"
-                colorScheme="#FFFFFF"
-                cursor="pointer"
-                _hover={{ bg: "green.400" }}
-                leftIcon={<Icon as={RiArrowLeftLine} />}
-              >
-                Voltar
-              </Button>
-            </Link>
-          </Flex>
+          <Heading size="lg" fontWeight="700">
+            Editar Marca
+          </Heading>
           <Divider my="6" borderColor="gray.700" />
           <VStack spacing={["6", "8"]}>
             <SimpleGrid minChildWidth="248px" spacing={["6", "8"]} w="100%">
               <Input
-                value={category.name}
-                name="category"
+                value={brand.name}
+                name="brand"
                 type="text"
                 label="Nome"
-                onChange={(e) =>
-                  setCategory({ ...category, name: e.target.value })
-                }
+                onChange={(e) => setBrand({ ...brand, name: e.target.value })}
               />
             </SimpleGrid>
           </VStack>
           <Flex mt="8" justify="flex-end">
             <HStack spacing="4">
-              <Link href="/categories" passHref>
+              <Link href="/brands" passHref>
                 <Button as="a" bg="grey" color="#ffffff">
                   Cancelar
                 </Button>
               </Link>
-              <Button
-                bg="#6FBE5E"
-                color="#ffffff"
-                onClick={handleUpdateCategory}
-              >
+              <Button bg="#6FBE5E" color="#ffffff" onClick={handleUpdateBrand}>
                 Salvar
               </Button>
             </HStack>
@@ -133,10 +107,10 @@ export async function getServerSideProps(context) {
       },
     };
   }
-  console.log(context.query.id);
+
   return {
     props: {
-      categoryId: context.query.id,
+      brandId: context.query.id,
     }, // will be passed to the page component as props
     //sempre tem que passar o componente props, mesmo que seja vazio.
   };

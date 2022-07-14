@@ -15,45 +15,46 @@ import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 import { Input } from "../../../components/Form/Input";
 import SideBar from "../../../components/SideBar";
-import { getUserById, updateUser } from "../../../services/userService";
+import {
+  getFeedbackById,
+  updateFeedback,
+} from "../../../services/feedbackService";
 import { toast } from "react-toastify";
 
-export default function EditUser({ userId }) {
-  const [email, setEmail] = useState("");
-  const [permission, setPermission] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+export default function EditUser({ feedbackId }) {
+  const [contents, setContents] = useState({});
+  const [productId, setProductId] = useState({});
+  const [userId, setUserId] = useState({});
+
   useEffect(() => {
-    getUserById(userId).then((data) => {
-      setEmail(data.email);
-      setPermission(data.permission);
-      setPassword(data.password);
+    getFeedbackById(feedbackId).then((data) => {
+      setContents(data.contents);
+      setProductId(data.product.id);
+      setUserId(data.user.id);
     });
   }, []);
 
-  const handleUpdateUser = async () => {
+  const handleUpdateFeedback = async () => {
+    console.log("userId", userId);
     try {
-      if (confirmPassword === user.password) {
-        await updateUser(userId, user.email, user.password, user.permission);
-      }
+      await updateFeedback(feedbackId, contents, userId, productId);
 
-      toast.success("Usuário atualizado com sucesso", {
+      toast.success("Comentário atualizado com sucesso", {
         autoClose: 2000,
       });
     } catch (err) {
-      console.log(user.password);
-      if (email) {
-        toast.error("Email obrigatório!", {
+      if (!contents) {
+        toast.error("Comentário obrigatório!", {
           autoClose: 2000,
         });
       }
-      if (password) {
-        toast.error("Senha obrigatória!", {
+      if (!productId) {
+        toast.error("ID do PRODUTO obrigatório!", {
           autoClose: 2000,
         });
       }
-      if (password.length > 16) {
-        toast.error("Password deve ter no máximo 16 caracteres!", {
+      if (!userId) {
+        toast.error("ID do USER obrigatória!", {
           autoClose: 2000,
         });
       }
@@ -75,9 +76,9 @@ export default function EditUser({ userId }) {
         >
           <Flex mb="8" justify="space-between" align="center">
             <Heading size="lg" fontWeight="normal">
-              Editar Usuário
+              Editar Comentário
             </Heading>
-            <Link href="/users" passHref>
+            <Link href="/feedbacks" passHref>
               <Button
                 as="a"
                 size="sm"
@@ -96,47 +97,48 @@ export default function EditUser({ userId }) {
           <VStack spacing={["6", "8"]}>
             <SimpleGrid minChildWidth="248px" spacing={["6", "8"]} w="100%">
               <Input
-                value={email}
-                name="email"
-                type="email"
-                label="E-mail"
-                onChange={(e) => setEmail(e.target.value)}
+                value={productId}
+                name="product"
+                type="number"
+                label="Produto ID"
+                disabled
+                onChange={(e) => setProductId(e.target.value)}
               />
               <Input
-                value={permission}
-                name="permission"
-                type="text"
-                label="Permission"
-                onChange={(e) => setPermission(e.target.value)}
+                value={userId}
+                name="user"
+                type="number"
+                label="User ID"
+                disabled
+                onChange={(e) => setUserId(e.target.value)}
               />
             </SimpleGrid>
             <SimpleGrid minChildWidth="248px" spacing={["6", "8"]} w="100%">
               <Input
-                name="password"
-                type="password"
-                label="Senha"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <Input
-                name="passoword_confirmation"
-                type="password"
-                label="Confirmação da senha"
-                // focusBorderColor={error ? "red" : "#6FBE5E"}
-                //  borderColor={error ? "red" : "#6FBE5E"}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                value={contents}
+                name="content"
+                type="text"
+                label="Comentário"
+                onChange={(e) => setContents(e.target.value)}
               />
             </SimpleGrid>
           </VStack>
           <Flex mt="8" justify="flex-end">
             <HStack spacing="4">
-              <Link href="/users" passHref>
+              <Link href="/feedbacks" passHref>
                 <Button as="a" bg="grey" color="#ffffff">
                   Cancelar
                 </Button>
               </Link>
-              <Button bg="#6FBE5E" color="#ffffff" onClick={handleUpdateUser}>
-                Salvar
-              </Button>
+              <Link href="/feedbacks">
+                <Button
+                  bg="#6FBE5E"
+                  color="#ffffff"
+                  onClick={handleUpdateFeedback}
+                >
+                  Salvar
+                </Button>
+              </Link>
             </HStack>
           </Flex>
         </Box>
@@ -158,10 +160,10 @@ export async function getServerSideProps(context) {
       },
     };
   }
-  console.log(context.query.id);
+
   return {
     props: {
-      userId: context.query.id,
+      feedbackId: context.query.id,
     }, // will be passed to the page component as props
     //sempre tem que passar o componente props, mesmo que seja vazio.
   };

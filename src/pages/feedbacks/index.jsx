@@ -23,10 +23,10 @@ import Link from "next/link";
 
 import axios from "../../config/axios";
 import SideBar from "../../components/SideBar/index";
-import { getUsers, deleteUser } from "../../services/userService";
+import { getFeedbacks, deleteFeedback } from "../../services/feedbackService";
+
 export default function FeedbackList(props) {
   const [feedbacks, setFeedbacks] = useState(props.feedbacks);
-
   //breakpoint de responsividade
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -74,32 +74,34 @@ export default function FeedbackList(props) {
           <Table>
             <Thead>
               <Tr>
-                <Th px={["4", "4", "6"]} color="gray" width="32px">
-                  <Checkbox colorScheme="green" />
-                </Th>
-                <Th>Usuário</Th>
-                {isWideVersion && <Th>Permission</Th>}
+                <Th px={["4", "4", "6"]} color="gray" width="32px"></Th>
                 <Th>ID</Th>
+                {isWideVersion && <Th>Comentário</Th>}
+                {isWideVersion && <Th>Usuário</Th>}
+                {isWideVersion && <Th>Produto</Th>}
                 <Th width="1px"></Th>
                 <Th width="1px"></Th>
               </Tr>
             </Thead>
             <Tbody>
-              {/* {feedbacks.map((user) => (
-                <Tr key={'#'}>
-                  <Td px={["4", "4", "6"]}> 
-                    <Checkbox colorScheme="green" />
-                  </Td>
+              {feedbacks.map((feedback) => (
+                <Tr key={feedback.id}>
+                  <Td px={["4", "4", "6"]}></Td>
+                  <Td>{feedback.id}</Td>
+                  {isWideVersion && (
+                    <Td wordBreak="break-word">{feedback.contents}</Td>
+                  )}
                   <Td>
                     <Box>
-                      <Text fontSize="sm">{'#'}</Text>
+                      {isWideVersion && (
+                        <Text fontSize="sm">{feedback.user.email}</Text>
+                      )}
                     </Box>
                   </Td>
-                  {isWideVersion && <Td>{'#'}</Td>}
-                  <Td>{'#'}</Td>
+                  {isWideVersion && <Td>{feedback.product.name}</Td>}
 
                   <Td>
-                    <Link href={`/feedbacks/edit/${'#'}`}>
+                    <Link href={`/feedbacks/edit/${feedback.id}`}>
                       <Button
                         as="a"
                         left="10px"
@@ -124,15 +126,14 @@ export default function FeedbackList(props) {
                       colorScheme="#FFFFFF"
                       cursor="pointer"
                       _hover={{ bg: "green.400" }}
-                      onClick={() => handleDelete(feedbacks.id)}
+                      onClick={() => handleDelete(feedback.id)}
                       leftIcon={<Icon as={RiDeleteBinLine} />}
                     >
                       Excluir
                     </Button>
                   </Td>
                 </Tr>
-              ))} */
-}
+              ))}
             </Tbody>
           </Table>
         </Box>
@@ -143,9 +144,9 @@ export default function FeedbackList(props) {
 //método executado no lado do servidor, quando o user acessar a página;
 //nesse caso o next faz um get na minha api antes de rendezirar a pagina, ou seja
 //antes de aparecer qualquer tipo de interface
-/*export async function getServerSideProps(context) {
+export async function getServerSideProps(context) {
   const cookies = parseCookies(context);
- 
+
   const token = cookies["nextauth.token"];
   //se não existir o token, ele redireciona para a pag index.
   if (!token) {
@@ -157,10 +158,11 @@ export default function FeedbackList(props) {
     };
   }
   const response = await axios.get("/feedbacks");
+
   return {
     props: {
       feedbacks: response.data,
     }, // will be passed to the page component as props
     //sempre tem que passar o componente props, mesmo que seja vazio.
-  }; 
-} */
+  };
+}
