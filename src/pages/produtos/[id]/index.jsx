@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { VStack, HStack, Button, Text, Image, Heading } from '@chakra-ui/react';
-import { ArrowBackIcon, EditIcon } from '@chakra-ui/icons';
+import { useEffect, useState } from "react";
+import { Router, useRouter } from "next/router";
+import { VStack, HStack, Button, Text, Image, Heading } from "@chakra-ui/react";
+import { ArrowBackIcon, EditIcon } from "@chakra-ui/icons";
 
 import { getProductById } from "../../../services/productService";
+import Link from "next/link";
 
 export default function ProductDetails() {
   const [product, setProduct] = useState({});
@@ -19,24 +20,15 @@ export default function ProductDetails() {
 
   return (
     <VStack>
-      <HStack
-        width="100%"
-        justify="space-between"
-        my={2}
-        px={10}
-      >
-        <Button
-          backgroundColor="#fff"
-          border="1px solid #6FBE5E"
-        >
+      <HStack width="100%" justify="space-between" my={2} px={10}>
+        <Button backgroundColor="#fff" border="1px solid #6FBE5E">
           <ArrowBackIcon mr={1} />
-          <Text>Voltar</Text>
+          <Link href="/">
+            <Text>Voltar</Text>
+          </Link>
         </Button>
 
-        <Button
-          backgroundColor="#fff"
-          border="1px solid #6FBE5E"
-        >
+        <Button backgroundColor="#fff" border="1px solid #6FBE5E">
           <EditIcon mr={1} />
           <Text>Editar</Text>
         </Button>
