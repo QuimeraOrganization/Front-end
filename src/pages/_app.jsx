@@ -5,6 +5,7 @@ import NavBar from "../components/NavBar";
 import { useRouter } from "next/router";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import Footer from "../components/Footer";
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   return (
@@ -20,6 +21,7 @@ function MyApp({ Component, pageProps }) {
         )}
         {/* <NavBar /> */}
         <Component {...pageProps} />
+        <Footer/>
         <ToastContainer />
       </ChakraProvider>
     </AuthProvider>
