@@ -4,11 +4,12 @@ async function createUser(email, password, permission) {
   return user.data;
 }
 
-async function createProvider(email, password, permission) {
+async function createProvider(email, password, brandId, permission) {
   const user = await axios.post("/users/provider", {
-    email,
-    password,
-    permission,
+    email: email,
+    password: password,
+    brandId: brandId,
+    permission: permission,
   });
   return user.data;
 }
