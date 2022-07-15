@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react';
 import * as React from 'react';
 import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
+import Link from "../components/Link";
 
 export default function Footer() {
   return (
@@ -38,23 +39,29 @@ export default function Footer() {
           Sua conta
         </Text>
         <Stack spacing="3" shouldWrapChildren>
+        <Link href="/userRegister">
           <Button variant="link" color="white" size="sm" fontWeight="light">
             Cadastre-se
           </Button>
+        </Link>
+        <Link href="/login">
           <Button variant="link" color="white" size="sm" fontWeight="light">
             Entrar
           </Button>
+        </Link>
         </Stack>
       </Stack>
-
+      
       <Stack width="200">
         <Text fontSize="lg" fontWeight="bold">
           Sobre
         </Text>
         <Stack spacing="3" shouldWrapChildren>
-          <Button variant="link" color="white" size="sm" fontWeight="light">
-            Sobre
-          </Button>
+          <Link href="/sobre">
+            <Button variant="link" color="white" size="sm" fontWeight="light">
+              Sobre
+            </Button>
+          </Link>
         </Stack>
       </Stack>
 
@@ -62,24 +69,24 @@ export default function Footer() {
         <Text fontSize="lg" fontWeight="bold">
           Social media
         </Text>
-        <ButtonGroup variant="link">
+        <ButtonGroup variant="link">          
           <IconButton
             as="a"
-            href="#"
+            href="https://www.facebook.com/atlanticos/"
             aria-label="Facebook"
             color="white"
             icon={<FaFacebook fontSize="1.25rem" />}
           />
           <IconButton
             as="a"
-            href="#"
+            href="https://www.instagram.com/iatlantico/"
             color="white"
             aria-label="Instagram"
             icon={<FaInstagram fontSize="1.25rem" />}
           />
           <IconButton
             as="a"
-            href="#"
+            href="https://twitter.com/iatlantico"
             color="white"
             aria-label="Twitter"
             icon={<FaTwitter fontSize="1.25rem" />}
