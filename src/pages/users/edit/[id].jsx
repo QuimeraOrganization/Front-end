@@ -8,55 +8,133 @@ import {
   HStack,
   Button,
   Icon,
+  FormControl,
+  FormLabel,
+  Text,
 } from "@chakra-ui/react";
 import Link from "next/link";
+import { Select } from "chakra-react-select";
 import { RiArrowLeftLine } from "react-icons/ri";
 import { parseCookies } from "nookies";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Input } from "../../../components/Form/Input";
 import SideBar from "../../../components/SideBar";
 import { getUserById, updateUser } from "../../../services/userService";
+import {
+  createIngredient,
+  getAllIngredients,
+} from "../../../services/ingredientService";
 import { toast } from "react-toastify";
+import Router from "next/router";
+
+const chakraStyles = {
+  multiValue: (provided, state) => ({
+    ...provided,
+    backgroundColor: "#6FBE5E",
+    color: "#fff",
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    color: "#253C1F",
+    backgroundColor: "#fff",
+    _active: {
+      backgroundColor: "red",
+    },
+    _hover: {
+      backgroundColor: "#6FBE5E",
+    },
+  }),
+};
 
 export default function EditUser({ userId }) {
   const [email, setEmail] = useState("");
   const [permission, setPermission] = useState("");
   const [password, setPassword] = useState("");
+  const [ingredients, setIngredients] = useState([]);
+  const [allergicIngredients, setAllergicIngredients] = useState();
+  const [ingredientsOptions, setIngredientsOptions] = useState([]);
+  const [isIngredientsError, setIngredientsError] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
+  const ingredientsRef = useRef();
   useEffect(() => {
-    getUserById(userId).then((data) => {
-      setEmail(data.email);
-      setPermission(data.permission);
-      setPassword(data.password);
-    });
+    (async () => {
+      await getUserById(userId).then(async (data) => {
+        setEmail(data.email);
+        setPermission(data.permission);
+        setPassword(data.password);
+        const allergic = await data.IngredientsOnUsersAllergic.map(
+          (ingredient) => {
+            return {
+              label: ingredient.ingredient.name,
+              value: ingredient.ingredient.id,
+            };
+          }
+        );
+        setAllergicIngredients(allergic);
+      });
+
+      const ingredientsResponse = await getAllIngredients();
+      setIngredientsOptions(
+        ingredientsResponse.map((ingredient) => {
+          return {
+            label: ingredient.name,
+            value: ingredient.id,
+          };
+        })
+      );
+    })();
   }, []);
+
+  async function handleCreateIngredient(ingredientName) {
+    const ingredientResponse = await createIngredient(ingredientName);
+    const nweIngredientOption = {
+      label: ingredientResponse.name,
+      value: ingredientResponse.id,
+    };
+
+    setIngredientsOptions((prevState) => {
+      return [...prevState, nweIngredientOption];
+    });
+  }
+
+  async function handleSelectIngredients(ingredients) {
+    const ingredientsId = await ingredients.map((ingredient) => {
+      return ingredient.value;
+    });
+    setIngredients(ingredientsId);
+  }
 
   const handleUpdateUser = async () => {
     try {
-      if (confirmPassword === user.password) {
-        await updateUser(userId, user.email, user.password, user.permission);
-      }
+      const ingredientsId = await ingredientsRef.current.state.selectValue.map(
+        (ingredient) => {
+          return ingredient.value;
+        }
+      );
 
-      toast.success("Usuário atualizado com sucesso", {
-        autoClose: 2000,
-      });
+      if (confirmPassword === password) {
+        await updateUser(userId, email, password, ingredientsId, permission);
+        toast.success("Usuário atualizado com sucesso", {
+          autoClose: 2000,
+        });
+      }
+      Router.push("/users");
     } catch (err) {
-      console.log(user.password);
-      if (email) {
-        toast.error("Email obrigatório!", {
-          autoClose: 2000,
-        });
-      }
-      if (password) {
-        toast.error("Senha obrigatória!", {
-          autoClose: 2000,
-        });
-      }
-      if (password.length > 16) {
-        toast.error("Password deve ter no máximo 16 caracteres!", {
-          autoClose: 2000,
-        });
-      }
+      // if (email) {
+      //   toast.error("Email obrigatório!", {
+      //     autoClose: 2000,
+      //   });
+      // }
+      // if (password) {
+      //   toast.error("Senha obrigatória!", {
+      //     autoClose: 2000,
+      //   });
+      // }
+      // if (password.length > 16) {
+      //   toast.error("Password deve ter no máximo 16 caracteres!", {
+      //     autoClose: 2000,
+      //   });
+      // }
     }
   };
 
@@ -106,9 +184,49 @@ export default function EditUser({ userId }) {
                 value={permission}
                 name="permission"
                 type="text"
-                label="Permission"
+                label="Permissão"
                 onChange={(e) => setPermission(e.target.value)}
               />
+              <FormControl isRequired isInvalid={isIngredientsError}>
+                <FormLabel htmlFor="ingredientsAllergic">
+                  Ingrediente(s)
+                </FormLabel>
+                {allergicIngredients && (
+                  <Select
+                    ref={ingredientsRef}
+                    isMulti
+                    defaultValue={allergicIngredients}
+                    instanceId="ingredientsAllergic"
+                    id="ingredientsAllergic"
+                    placeholder="Selecione um ingrediente"
+                    useBasicStyles
+                    size="sm"
+                    chakraStyles={chakraStyles}
+                    onChange={(e) => handleSelectIngredients(e)}
+                    options={ingredientsOptions}
+                    noOptionsMessage={({ inputValue }) =>
+                      !inputValue ? (
+                        "Sem resultados"
+                      ) : (
+                        <VStack>
+                          <Text>Ingrediente não cadastrado</Text>
+                          <Button
+                            backgroundColor="#253C1F"
+                            color="#fff"
+                            _hover={{ backgroundColor: "#6FBE5E" }}
+                            onClick={() => handleCreateIngredient(inputValue)}
+                          >
+                            Cadastrar ingrediente
+                          </Button>
+                        </VStack>
+                      )
+                    }
+                  />
+                )}
+                {isIngredientsError && (
+                  <FormErrorMessage>Campo obrigatório</FormErrorMessage>
+                )}
+              </FormControl>
             </SimpleGrid>
             <SimpleGrid minChildWidth="248px" spacing={["6", "8"]} w="100%">
               <Input
@@ -158,7 +276,6 @@ export async function getServerSideProps(context) {
       },
     };
   }
-  console.log(context.query.id);
   return {
     props: {
       userId: context.query.id,
