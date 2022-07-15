@@ -16,7 +16,7 @@ import {
   getAllCategories,
   createCategory,
 } from "../../services/categoryService";
-import { getAllIngredients } from "../../services/ingredientService";
+import { getAllIngredients, createIngredient } from "../../services/ingredientService";
 import { createProduct } from "../../services/productService";
 
 import { AuthContext } from "../../context/AuthContext";
@@ -127,6 +127,18 @@ export default function ProductForm() {
     });
   }
 
+  async function handleCreateIngredient(ingredientName) {
+    const ingredientResponse = await createIngredient(ingredientName);
+    const nweIngredientOption = {
+      label: ingredientResponse.name,
+      value: ingredientResponse.id,
+    };
+
+    setIngredientsOptions((prevState) => {
+      return [...prevState, nweIngredientOption];
+    });
+  }
+
   function handleNameChange(e) {
     setProduct((prevState) => {
       return { ...prevState, name: e.target.value };
@@ -192,16 +204,10 @@ export default function ProductForm() {
       : setIngredientsError(false);
 
     if (isValidFields()) {
-      console.log("cadastra");
-
       // Implementar o toast
       const response = await createProduct(product, imageRef);
-
       Router.push("/");
-      console.log(response);
     }
-
-    console.log(product);
   }
 
   return (
@@ -316,7 +322,7 @@ export default function ProductForm() {
                   backgroundColor="#253C1F"
                   color="#fff"
                   _hover={{ backgroundColor: "#6FBE5E" }}
-                  // onClick={() => handleCreateCategory(inputValue)}
+                  onClick={() => handleCreateIngredient(inputValue)}
                 >
                   Cadastrar ingrediente
                 </Button>
@@ -337,7 +343,7 @@ export default function ProductForm() {
           inputProps={{ cursor: "pointer" }}
           inputGroupProps={{ cursor: "pointer" }}
           accept="image/*"
-          onFileChange={(fileList) => {}}
+          onFileChange={(fileList) => { }}
           multipleFiles={false}
           hideClearButton={false}
           ref={imageRef}
