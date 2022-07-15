@@ -47,9 +47,22 @@ export default function NavBar() {
         fontWeight={700}
         spacing={5}
       >
-        <Link href="/">Início</Link>
-        <Link href="/">Sobre</Link>
-        <Link href="/">Categorias</Link>
+        <Link href="/">
+          <Text fontSize="15px" _hover={{ borderBottom: "4px solid green" }}>
+            Ínicio
+          </Text>
+        </Link>
+
+        <Link href="/">
+          <Text fontSize="15px" _hover={{ borderBottom: "4px solid green" }}>
+            Produtos
+          </Text>
+        </Link>
+        <Link href="/">
+          <Text fontSize="15px" _hover={{ borderBottom: "4px solid green" }}>
+            Categorias
+          </Text>
+        </Link>
       </HStack>
 
       <HStack

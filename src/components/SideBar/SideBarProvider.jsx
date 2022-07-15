@@ -11,16 +11,10 @@ export default function SideBar() {
     <Box as="aside" w="64" mr="8">
       <Stack spacing="12" align="flex-start">
         <NavSection>
-          <NavLink icon={RiContactsLine} entidade={"Usuário"} href="/users" />
           <NavLink
             icon={RiProductHuntLine}
             entidade={"Produtos"}
             href="/produtos?page=1"
-          />
-          <NavLink
-            icon={RiProductHuntLine}
-            entidade={"Marcas"}
-            href="/brands"
           />
         </NavSection>
       </Stack>

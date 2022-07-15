@@ -172,7 +172,7 @@ const SignIn = () => {
               lineHeight="70px"
               color="#253C1F"
             >
-              Saiba quias{" "}
+              Saiba quais{" "}
               <>
                 <Text as="span" color="#6FBE5E">
                   ingredientes
