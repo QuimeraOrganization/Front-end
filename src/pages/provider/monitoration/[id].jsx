@@ -15,22 +15,49 @@ import {
   Divider,
   useBreakpointValue,
 } from "@chakra-ui/react";
-
 import { parseCookies } from "nookies";
-import { useEffect, useState } from "react";
+import parseJWT from "../../../utils/parseJWT";
+import { useEffect, useState, useContext } from "react";
 import {
   RiAddLine,
   RiDeleteBinLine,
   RiPencilLine,
   RiFileList2Line,
 } from "react-icons/ri";
-import Link from "next/link";
 
-import axios from "../../config/axios";
-import SideBar from "../../components/SideBar/SideBarProvider";
-import { deleteProduct, getAllProducts } from "../../services/productService";
-export default function UserList(props) {
-  const [products, setProducts] = useState(props.products);
+import Link from "next/link";
+import axios from "../../../config/axios";
+import SideBar from "../../../components/SideBar/SideBarProvider";
+import { AuthContext } from "../../../context/AuthContext";
+import { getUserById, deleteUser } from "../../../services/userService";
+import { getBrandById } from "../../../services/brandService";
+import { deleteProduct } from "../../../services/productService";
+import { toast } from "react-toastify";
+export default function Provider({ userId }) {
+  const [user, setUser] = useState(userId);
+  const [brand, setBrand] = useState({ name: "", id: "" });
+  const [products, setProducts] = useState([]);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  // console.log(brand.id);
+  useEffect(() => {
+    if (!userId) return;
+    (async () => {
+      try {
+        setLoading(true);
+        await getUserById(userId).then(async ({ brand }) => {
+          setBrand(brand);
+          await getBrandById(brand.id).then(({ product }) => {
+            setProducts(product);
+          });
+        });
+      } catch (error) {
+        setError("deu erro");
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [userId]);
 
   //breakpoint de responsividade
   const isWideVersion = useBreakpointValue({
@@ -39,8 +66,17 @@ export default function UserList(props) {
   });
 
   const handleDelete = async (id) => {
-    await deleteProduct(id);
-    setProducts(await getAllProducts());
+    try {
+      await deleteProduct(id);
+      await getBrandById(brand.id).then(({ product }) => {
+        setProducts(product);
+      });
+      toast.success("Produto deletado com sucesso!", {
+        autoClose: 2000,
+      });
+    } catch (err) {
+      toast.error(err.response.data.message);
+    }
   };
 
   return (
@@ -119,23 +155,6 @@ export default function UserList(props) {
                   </Td>
 
                   <Td>
-                    <Link href={`/products/details/${product.id}`}>
-                      <Button
-                        as="a"
-                        left="10px"
-                        size="sm"
-                        fontSize="sm"
-                        bg="#6FBE5E"
-                        colorScheme="#FFFFFF"
-                        cursor="pointer"
-                        _hover={{ bg: "green.400" }}
-                        leftIcon={<Icon as={RiFileList2Line} />}
-                      >
-                        Details
-                      </Button>
-                    </Link>
-                  </Td>
-                  <Td>
                     <Button
                       as="a"
                       size="sm"
@@ -166,7 +185,9 @@ export async function getServerSideProps(context) {
   const cookies = parseCookies(context);
 
   const token = cookies["nextauth.token"];
+
   //se não existir o token, ele redireciona para a pag index.
+
   if (!token) {
     return {
       redirect: {
@@ -175,10 +196,9 @@ export async function getServerSideProps(context) {
       },
     };
   }
-  const response = await axios.get("/products/all");
   return {
     props: {
-      products: response.data,
+      userId: context.query.id,
     }, // will be passed to the page component as props
     //sempre tem que passar o componente props, mesmo que seja vazio.
   };

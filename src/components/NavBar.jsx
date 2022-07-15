@@ -84,7 +84,9 @@ export default function NavBar() {
               )}
               {user.permission === "BRAND" && (
                 <MenuItem>
-                  <NextLink href="/provider">Monitoramento</NextLink>
+                  <NextLink href={`/provider/monitoration/${user.id}`}>
+                    Monitoramento
+                  </NextLink>
                 </MenuItem>
               )}
               <MenuItem

@@ -14,25 +14,86 @@ import {
   Container,
   Icon,
   Divider,
+  FormLabel,
+  VStack,
 } from "@chakra-ui/react";
+import { Select } from "chakra-react-select";
+import FilePicker from "chakra-ui-file-picker";
 import { RiEyeLine, RiEyeOffFill } from "react-icons/ri";
 import { createProvider, createUser } from "../../services/userService";
-import { useState } from "react";
+import { createBrand, getAllBrands } from "../../services/brandService";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { parseCookies } from "nookies";
 import Router from "next/router";
 const Cadastro = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [brand, setBrand] = useState({ brandId: "" });
+  const [brandsOptions, setBrandsOptions] = useState([]);
+  const [isBrandError, setBrandError] = useState(false);
   const [confirmPassowrd, setConfirmPassowrd] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      const brandsResponse = await getAllBrands();
+      setBrandsOptions(
+        brandsResponse.map((brand) => {
+          return {
+            label: brand.name,
+            value: brand.id,
+          };
+        })
+      );
+    })();
+  }, []);
+
+  const chakraStyles = {
+    multiValue: (provided, state) => ({
+      ...provided,
+      backgroundColor: "#6FBE5E",
+      color: "#fff",
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      color: "#253C1F",
+      backgroundColor: "#fff",
+      _active: {
+        backgroundColor: "red",
+      },
+      _hover: {
+        backgroundColor: "#6FBE5E",
+      },
+    }),
+  };
+
+  function handleSelectBrand(brand) {
+    setBrand((prevState) => {
+      return { ...prevState, brandId: brand.value };
+    });
+  }
+  async function handleCreatebrand(brandName) {
+    const brandResponse = await createBrand(brandName);
+    const newBrandOption = {
+      label: brandResponse.name,
+      value: brandResponse.id,
+    };
+
+    setBrandsOptions((prevState) => {
+      return [...prevState, newBrandOption];
+    });
+  }
 
   const handleSubmit = async () => {
     try {
       if (confirmPassowrd === password) {
-        await createProvider(email, password);
+        await createProvider(email, password, brand.brandId);
         toast.success("Usuário cadastrado com sucesso!", {
           autoClose: 2000,
         });
+        setEmail("");
+        setPassword("");
+        setConfirmPassowrd("");
         Router.push("/login");
       } else {
         toast.error("Verifique sua senha e tente novamente!", {
@@ -40,26 +101,28 @@ const Cadastro = () => {
         });
       }
     } catch (err) {
-      if (!email) {
-        toast.error("Email obrigatório!", {
+      if (err) {
+        toast.error(err.response.data.message, {
           autoClose: 2000,
         });
       }
-      if (!password) {
-        toast.error("Senha obrigatória!", {
-          autoClose: 2000,
-        });
-      }
-      if (password.length > 16) {
-        toast.error("Password deve ter no máximo 16 caracteres!", {
-          autoClose: 2000,
-        });
-      }
+      // if (!email) {
+      //   toast.error("Email obrigatório!", {
+      //     autoClose: 2000,
+      //   });
+      // }
+      // if (!password) {
+      //   toast.error("Senha obrigatória!", {
+      //     autoClose: 2000,
+      //   });
+      // }
+      // if (password.length > 16) {
+      //   toast.error("Password deve ter no máximo 16 caracteres!", {
+      //     autoClose: 2000,
+      //   });
+      // }
     }
-
-    setEmail("");
-    setPassword("");
-    setConfirmPassowrd("");
+    console.log(brand.brandId);
   };
   const [showPassword, setShowPassword] = useState(false);
 
@@ -171,6 +234,7 @@ const Cadastro = () => {
                   onChange={(e) => setConfirmPassowrd(e.target.value)}
                   placeholder="Confirme a senha"
                 />
+
                 <InputRightElement mr="170px" width="4.5rem">
                   <Button
                     h="1.75rem"
@@ -190,6 +254,46 @@ const Cadastro = () => {
                   </Button>
                 </InputRightElement>
               </InputGroup>
+              <FormControl
+                w="343px"
+                h="44.74"
+                ml="188px"
+                mr="188px"
+                mt="20px"
+                isRequired
+                isInvalid={isBrandError}
+              >
+                <FormLabel htmlFor="brand">Marca</FormLabel>
+                <Select
+                  id="brand"
+                  placeholder="Selecione uma marca"
+                  useBasicStyles
+                  size="sm"
+                  chakraStyles={chakraStyles}
+                  onChange={(e) => handleSelectBrand(e)}
+                  options={brandsOptions}
+                  noOptionsMessage={({ inputValue }) =>
+                    !inputValue ? (
+                      "Sem resultados"
+                    ) : (
+                      <VStack>
+                        <Text>Marca não cadastrada</Text>
+                        <Button
+                          backgroundColor="#253C1F"
+                          color="#fff"
+                          _hover={{ backgroundColor: "#6FBE5E" }}
+                          onClick={() => handleCreatebrand(inputValue)}
+                        >
+                          Cadastrar marca
+                        </Button>
+                      </VStack>
+                    )
+                  }
+                />
+                {isBrandError && (
+                  <FormErrorMessage>Campo obrigatório</FormErrorMessage>
+                )}
+              </FormControl>
             </FormControl>
 
             <FormControl>

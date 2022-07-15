@@ -20,6 +20,7 @@ import { getAllIngredients } from "../../services/ingredientService";
 import { createProduct } from "../../services/productService";
 
 import { AuthContext } from "../../context/AuthContext";
+import { toast } from "react-toastify";
 
 const initialProduct = {
   name: "",
@@ -196,7 +197,9 @@ export default function ProductForm() {
 
       // Implementar o toast
       const response = await createProduct(product, imageRef);
-
+      toast.success("Produto cadastrado com sucesso!", {
+        autoClose: 2000,
+      });
       Router.push("/");
       console.log(response);
     }

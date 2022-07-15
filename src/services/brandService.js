@@ -46,12 +46,14 @@ async function createBrand(name) {
 
 async function getBrandById(id) {
   const brand = await axios.get(`/brands/${id}`);
-  // .then((response) => {
-  //   return response.data;
-  // })
-  // .catch((error) => {
-  //   console.log(error);
-  // });
+  // await axios
+  //   .get(`/brands/${id}`)
+  //   .then((response) => {
+  //     return response.data;
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //   });
   return brand.data;
 }
 
