@@ -8,10 +8,8 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  Stack,
   Skeleton,
 } from "@chakra-ui/react";
-import { RiLogoutBoxRFill } from "react-icons/ri";
 import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
@@ -48,18 +46,18 @@ export default function NavBar() {
         spacing={5}
       >
         <Link href="/">
-          <Text fontSize="15px" _hover={{ borderBottom: "4px solid green" }}>
+          <Text fontSize="15px" _hover={{ borderBottom: "3px solid #6FBE5E" }}>
             Ínicio
           </Text>
         </Link>
 
         <Link href="/">
-          <Text fontSize="15px" _hover={{ borderBottom: "4px solid green" }}>
+          <Text fontSize="15px" _hover={{ borderBottom: "3px solid #6FBE5E" }}>
             Produtos
           </Text>
         </Link>
         <Link href="/">
-          <Text fontSize="15px" _hover={{ borderBottom: "4px solid green" }}>
+          <Text fontSize="15px" _hover={{ borderBottom: "3px solid #6FBE5E" }}>
             Categorias
           </Text>
         </Link>
@@ -73,7 +71,13 @@ export default function NavBar() {
 
         {isLogged && (
           <Menu>
-            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+            <MenuButton
+              backgroundColor="transparent"
+              _hover={{ backgroundColor: "rgba(111,190,94, .9)", color: "#fff" }}
+              _active={{ backgroundColor: "rgba(111,190,94, .9)", color: "#fff" }}
+              as={Button}
+              rightIcon={<ChevronDownIcon />}
+            >
               {user.email}
             </MenuButton>
             <MenuList>
