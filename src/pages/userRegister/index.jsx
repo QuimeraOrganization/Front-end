@@ -13,24 +13,87 @@ import {
   Center,
   Container,
   Icon,
+  FormLabel,
   Divider,
+  VStack,
 } from "@chakra-ui/react";
+import { Select } from "chakra-react-select";
 import { RiEyeLine, RiEyeOffFill } from "react-icons/ri";
 import { createUser } from "../../services/userService";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { parseCookies } from "nookies";
 import Router from "next/router";
 import Link from "next/link";
+import {
+  createIngredient,
+  getAllIngredients,
+} from "../../services/ingredientService";
+
+const chakraStyles = {
+  multiValue: (provided, state) => ({
+    ...provided,
+    backgroundColor: "#6FBE5E",
+    color: "#fff",
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    color: "#253C1F",
+    backgroundColor: "#fff",
+    _active: {
+      backgroundColor: "red",
+    },
+    _hover: {
+      backgroundColor: "#6FBE5E",
+    },
+  }),
+};
+
 const Cadastro = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassowrd, setConfirmPassowrd] = useState("");
+  const [ingredients, setIngredients] = useState([]);
+  const [ingredientsOptions, setIngredientsOptions] = useState([]);
+  const [isIngredientsError, setIngredientsError] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const ingredientsResponse = await getAllIngredients();
+      setIngredientsOptions(
+        ingredientsResponse.map((ingredient) => {
+          return {
+            label: ingredient.name,
+            value: ingredient.id,
+          };
+        })
+      );
+    })();
+  }, []);
+
+  async function handleCreateIngredient(ingredientName) {
+    const ingredientResponse = await createIngredient(ingredientName);
+    const nweIngredientOption = {
+      label: ingredientResponse.name,
+      value: ingredientResponse.id,
+    };
+
+    setIngredientsOptions((prevState) => {
+      return [...prevState, nweIngredientOption];
+    });
+  }
+
+  async function handleSelectIngredients(ingredients) {
+    const ingredientsId = await ingredients.map((ingredient) => {
+      return ingredient.value;
+    });
+    setIngredients(ingredientsId);
+  }
 
   const handleSubmit = async () => {
     try {
       if (confirmPassowrd === password) {
-        await createUser(email, password);
+        await createUser(email, password, ingredients);
         toast.success("Usuário cadastrado com sucesso!", {
           autoClose: 2000,
         });
@@ -191,6 +254,50 @@ const Cadastro = () => {
                   </Button>
                 </InputRightElement>
               </InputGroup>
+              <FormControl
+                w="343px"
+                h="44.74"
+                ml="188px"
+                mr="188px"
+                mt="20px"
+                isRequired
+                isInvalid={isIngredientsError}
+              >
+                <FormLabel htmlFor="ingredientsAllergic">
+                  Ingrediente(s)
+                </FormLabel>
+                <Select
+                  isMulti
+                  instanceId="ingredientsAllergic"
+                  id="ingredientsAllergic"
+                  placeholder="Selecione um ingrediente"
+                  useBasicStyles
+                  size="sm"
+                  chakraStyles={chakraStyles}
+                  onChange={(e) => handleSelectIngredients(e)}
+                  options={ingredientsOptions}
+                  noOptionsMessage={({ inputValue }) =>
+                    !inputValue ? (
+                      "Sem resultados"
+                    ) : (
+                      <VStack>
+                        <Text>Ingrediente não cadastrado</Text>
+                        <Button
+                          backgroundColor="#253C1F"
+                          color="#fff"
+                          _hover={{ backgroundColor: "#6FBE5E" }}
+                          onClick={() => handleCreateIngredient(inputValue)}
+                        >
+                          Cadastrar ingrediente
+                        </Button>
+                      </VStack>
+                    )
+                  }
+                />
+                {isIngredientsError && (
+                  <FormErrorMessage>Campo obrigatório</FormErrorMessage>
+                )}
+              </FormControl>
             </FormControl>
 
             <FormControl>

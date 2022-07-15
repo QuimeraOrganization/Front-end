@@ -1,10 +1,22 @@
 import axios from "../config/axios";
-async function createUser(email, password, permission) {
-  const user = await axios.post("/users", { email, password, permission });
+async function createUser(email, password, ingredients, permission) {
+  const user = await axios.post("/users", {
+    email,
+    password,
+    ingredients,
+    permission,
+  });
   return user.data;
 }
 
-async function createProvider(email, password, brandId, permission) {
+async function createProvider(
+  email,
+  password,
+  brandId,
+  ingredients,
+  permission
+) {
+  console.log(ingredients);
   const user = await axios.post("/users/provider", {
     email: email,
     password: password,
@@ -23,8 +35,13 @@ async function getUsers() {
   return users.data;
 }
 
-async function updateUser(id, email, password, permission) {
-  const user = await axios.put(`/users/${id}`, { email, password, permission });
+async function updateUser(id, email, password, ingredients, permission) {
+  const user = await axios.put(`/users/${id}`, {
+    email,
+    password,
+    ingredients,
+    permission,
+  });
   return user.data;
 }
 

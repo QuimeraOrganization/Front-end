@@ -26,7 +26,7 @@ import SideBar from "../../components/SideBar/index";
 import { getUsers, deleteUser } from "../../services/userService";
 export default function UserList(props) {
   const [users, setUsers] = useState(props.users);
-
+  console.log(users);
   //breakpoint de responsividade
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -76,8 +76,10 @@ export default function UserList(props) {
               <Tr>
                 <Th px={["4", "4", "6"]} color="gray" width="32px"></Th>
                 <Th>Usuário</Th>
+                {isWideVersion && <Th>Ingredientes Alérgicos</Th>}
                 {isWideVersion && <Th>Permission</Th>}
                 <Th>ID</Th>
+                <Th width="1px"></Th>
                 <Th width="1px"></Th>
                 <Th width="1px"></Th>
               </Tr>
@@ -91,6 +93,16 @@ export default function UserList(props) {
                       <Text fontSize="sm">{user.email}</Text>
                     </Box>
                   </Td>
+                  {isWideVersion && (
+                    <Td>
+                      {user.IngredientsOnUsersAllergic.map((ingredient) => (
+                        <Text>
+                          id: {ingredient.ingredient.id}-
+                          {ingredient.ingredient.name}
+                        </Text>
+                      ))}
+                    </Td>
+                  )}
                   {isWideVersion && <Td>{user.permission}</Td>}
                   <Td>{user.id}</Td>
 
