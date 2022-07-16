@@ -36,9 +36,11 @@ const chakraStyles = {
     backgroundColor: "#6FBE5E",
     color: "#fff",
   }),
+
   option: (provided, state) => ({
     ...provided,
     color: "#253C1F",
+
     backgroundColor: "#fff",
     _active: {
       backgroundColor: "red",
@@ -171,6 +173,8 @@ const Cadastro = () => {
               ml="239px"
               src="Logo.svg"
               alt="Logotipo da empresa"
+              onClick={() => Router.push("/login")}
+              cursor="pointer"
             />
 
             <Box>
@@ -263,14 +267,13 @@ const Cadastro = () => {
                 isRequired
                 isInvalid={isIngredientsError}
               >
-                <FormLabel htmlFor="ingredientsAllergic">
-                  Ingrediente(s)
-                </FormLabel>
+                <FormLabel>Ingrediente(s)</FormLabel>
                 <Select
                   isMulti
                   instanceId="ingredientsAllergic"
                   id="ingredientsAllergic"
                   placeholder="Selecione um ingrediente"
+                  focusBorderColor="green"
                   useBasicStyles
                   size="sm"
                   chakraStyles={chakraStyles}

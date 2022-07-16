@@ -29,7 +29,7 @@ import Link from "next/link";
 import axios from "../../config/axios";
 import SideBar from "../../components/SideBar/index";
 import { deleteProduct, getAllProducts } from "../../services/productService";
-export default function UserList(props) {
+export default function ProductList(props) {
   const [products, setProducts] = useState(props.products);
 
   //breakpoint de responsividade

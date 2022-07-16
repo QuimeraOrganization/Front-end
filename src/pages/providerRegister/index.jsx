@@ -106,21 +106,21 @@ const Cadastro = () => {
           autoClose: 2000,
         });
       }
-      // if (!email) {
-      //   toast.error("Email obrigatório!", {
-      //     autoClose: 2000,
-      //   });
-      // }
-      // if (!password) {
-      //   toast.error("Senha obrigatória!", {
-      //     autoClose: 2000,
-      //   });
-      // }
-      // if (password.length > 16) {
-      //   toast.error("Password deve ter no máximo 16 caracteres!", {
-      //     autoClose: 2000,
-      //   });
-      // }
+      if (!email) {
+        toast.error("Email obrigatório!", {
+          autoClose: 2000,
+        });
+      }
+      if (!password) {
+        toast.error("Senha obrigatória!", {
+          autoClose: 2000,
+        });
+      }
+      if (password?.length > 16) {
+        toast.error("Password deve ter no máximo 16 caracteres!", {
+          autoClose: 2000,
+        });
+      }
     }
     console.log(brand.brandId);
   };
@@ -170,6 +170,8 @@ const Cadastro = () => {
               ml="239px"
               src="Logo.svg"
               alt="Logotipo da empresa"
+              onClick={() => Router.push("/login")}
+              cursor="pointer"
             />
 
             <Box>

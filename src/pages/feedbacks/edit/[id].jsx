@@ -21,7 +21,7 @@ import {
 } from "../../../services/feedbackService";
 import { toast } from "react-toastify";
 
-export default function EditUser({ feedbackId }) {
+export default function EditFeedback({ feedbackId }) {
   const [contents, setContents] = useState({});
   const [productId, setProductId] = useState({});
   const [userId, setUserId] = useState({});
