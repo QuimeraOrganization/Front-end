@@ -1,6 +1,6 @@
 import { HStack, VStack, Image, Heading, Text, Box } from "@chakra-ui/react";
 
-export default function Card({ title, brand, categories, image }) {
+export default function Card({ title, brand, categories, image, ...rest },) {
   return (
     <VStack
       backgroundColor="white"
@@ -9,6 +9,7 @@ export default function Card({ title, brand, categories, image }) {
       borderRadius={15}
       minWidth="20%"
       cursor="pointer"
+      {...rest}
     >
       <Box>
         <Image

@@ -15,18 +15,50 @@ import {
   Divider,
   useBreakpointValue,
 } from "@chakra-ui/react";
-
 import { parseCookies } from "nookies";
-import { useEffect, useState } from "react";
-import { RiAddLine, RiDeleteBinLine, RiPencilLine } from "react-icons/ri";
-import Link from "next/link";
+import parseJWT from "../../../utils/parseJWT";
+import { useEffect, useState, useContext } from "react";
+import {
+  RiAddLine,
+  RiDeleteBinLine,
+  RiPencilLine,
+  RiFileList2Line,
+} from "react-icons/ri";
 
-import axios from "../../config/axios";
-import SideBar from "../../components/SideBar/index";
-import { getUsers, deleteUser } from "../../services/userService";
-export default function UserList(props) {
-  const [users, setUsers] = useState(props.users);
-  console.log(users);
+import Link from "next/link";
+import axios from "../../../config/axios";
+import SideBar from "../../../components/SideBar/SideBarProvider";
+import { AuthContext } from "../../../context/AuthContext";
+import { getUserById, deleteUser } from "../../../services/userService";
+import { getBrandById } from "../../../services/brandService";
+import { deleteProduct } from "../../../services/productService";
+import { toast } from "react-toastify";
+export default function Provider({ userId }) {
+  const [user, setUser] = useState(userId);
+  const [brand, setBrand] = useState({ name: "", id: "" });
+  const [products, setProducts] = useState([]);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  // console.log(brand.id);
+  useEffect(() => {
+    if (!userId) return;
+    (async () => {
+      try {
+        setLoading(true);
+        await getUserById(userId).then(async ({ brand }) => {
+          setBrand(brand);
+          await getBrandById(brand.id).then(({ product }) => {
+            setProducts(product);
+          });
+        });
+      } catch (error) {
+        setError("deu erro");
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [userId]);
+
   //breakpoint de responsividade
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -34,8 +66,17 @@ export default function UserList(props) {
   });
 
   const handleDelete = async (id) => {
-    await deleteUser(id);
-    setUsers(await getUsers());
+    try {
+      await deleteProduct(id);
+      await getBrandById(brand.id).then(({ product }) => {
+        setProducts(product);
+      });
+      toast.success("Produto deletado com sucesso!", {
+        autoClose: 2000,
+      });
+    } catch (err) {
+      toast.error(err.response.data.message);
+    }
   };
 
   return (
@@ -53,9 +94,9 @@ export default function UserList(props) {
         >
           <Flex mb="8" justify="space-between" align="center">
             <Heading size="lg" fontWeight="normal">
-              Usuários
+              Produtos
             </Heading>
-            <Link href="/users/create" passHref>
+            <Link href="/products/create" passHref>
               <Button
                 as="a"
                 size="sm"
@@ -75,9 +116,8 @@ export default function UserList(props) {
             <Thead>
               <Tr>
                 <Th px={["4", "4", "6"]} color="gray" width="32px"></Th>
-                <Th>Usuário</Th>
-                {isWideVersion && <Th>Ingredientes Alérgicos</Th>}
-                {isWideVersion && <Th>Permission</Th>}
+                <Th>Produto</Th>
+                {isWideVersion && <Th>Descrição</Th>}
                 <Th>ID</Th>
                 <Th width="1px"></Th>
                 <Th width="1px"></Th>
@@ -85,29 +125,19 @@ export default function UserList(props) {
               </Tr>
             </Thead>
             <Tbody>
-              {users.map((user) => (
-                <Tr key={user.id}>
+              {products.map((product) => (
+                <Tr key={product.id}>
                   <Td px={["4", "4", "6"]}></Td>
                   <Td>
                     <Box>
-                      <Text fontSize="sm">{user.email}</Text>
+                      <Text fontSize="sm">{product.name}</Text>
                     </Box>
                   </Td>
-                  {isWideVersion && (
-                    <Td>
-                      {user.IngredientsOnUsersAllergic.map((ingredient) => (
-                        <Text>
-                          id: {ingredient.ingredient.id}-
-                          {ingredient.ingredient.name}
-                        </Text>
-                      ))}
-                    </Td>
-                  )}
-                  {isWideVersion && <Td>{user.permission}</Td>}
-                  <Td>{user.id}</Td>
+                  {isWideVersion && <Td>{product.description}</Td>}
+                  <Td>{product.id}</Td>
 
                   <Td>
-                    <Link href={`/users/edit/${user.id}`}>
+                    <Link href={`/products/edit/${product.id}`}>
                       <Button
                         as="a"
                         left="10px"
@@ -123,6 +153,7 @@ export default function UserList(props) {
                       </Button>
                     </Link>
                   </Td>
+
                   <Td>
                     <Button
                       as="a"
@@ -132,7 +163,7 @@ export default function UserList(props) {
                       colorScheme="#FFFFFF"
                       cursor="pointer"
                       _hover={{ bg: "green.400" }}
-                      onClick={() => handleDelete(user.id)}
+                      onClick={() => handleDelete(product.id)}
                       leftIcon={<Icon as={RiDeleteBinLine} />}
                     >
                       Excluir
@@ -154,7 +185,9 @@ export async function getServerSideProps(context) {
   const cookies = parseCookies(context);
 
   const token = cookies["nextauth.token"];
+
   //se não existir o token, ele redireciona para a pag index.
+
   if (!token) {
     return {
       redirect: {
@@ -163,10 +196,9 @@ export async function getServerSideProps(context) {
       },
     };
   }
-  const response = await axios.get("/users");
   return {
     props: {
-      users: response.data,
+      userId: context.query.id,
     }, // will be passed to the page component as props
     //sempre tem que passar o componente props, mesmo que seja vazio.
   };

@@ -18,15 +18,21 @@ import {
 
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
-import { RiAddLine, RiDeleteBinLine, RiPencilLine } from "react-icons/ri";
+import {
+  RiAddLine,
+  RiDeleteBinLine,
+  RiPencilLine,
+  RiFileList2Line,
+} from "react-icons/ri";
 import Link from "next/link";
-
+import Router from "next/router";
 import axios from "../../config/axios";
 import SideBar from "../../components/SideBar/index";
-import { getUsers, deleteUser } from "../../services/userService";
-export default function UserList(props) {
-  const [users, setUsers] = useState(props.users);
-  console.log(users);
+import { getAllBrands, deleteBrand } from "../../services/brandService";
+
+export default function BrandList(props) {
+  const [brands, setBrands] = useState(props.brands);
+
   //breakpoint de responsividade
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -34,8 +40,8 @@ export default function UserList(props) {
   });
 
   const handleDelete = async (id) => {
-    await deleteUser(id);
-    setUsers(await getUsers());
+    await deleteBrand(id);
+    setBrands(await getAllBrands());
   };
 
   return (
@@ -53,9 +59,9 @@ export default function UserList(props) {
         >
           <Flex mb="8" justify="space-between" align="center">
             <Heading size="lg" fontWeight="normal">
-              Usuários
+              Marcas
             </Heading>
-            <Link href="/users/create" passHref>
+            <Link href="/brands/create" passHref>
               <Button
                 as="a"
                 size="sm"
@@ -75,39 +81,36 @@ export default function UserList(props) {
             <Thead>
               <Tr>
                 <Th px={["4", "4", "6"]} color="gray" width="32px"></Th>
-                <Th>Usuário</Th>
-                {isWideVersion && <Th>Ingredientes Alérgicos</Th>}
-                {isWideVersion && <Th>Permission</Th>}
-                <Th>ID</Th>
+                <Th>Marca</Th>
+                {isWideVersion && <Th>ID</Th>}
+
                 <Th width="1px"></Th>
                 <Th width="1px"></Th>
                 <Th width="1px"></Th>
+                {/* <Th width="1px"></Th> */}
               </Tr>
             </Thead>
             <Tbody>
-              {users.map((user) => (
-                <Tr key={user.id}>
+              {brands.map((brand) => (
+                <Tr key={brand.id}>
                   <Td px={["4", "4", "6"]}></Td>
                   <Td>
                     <Box>
-                      <Text fontSize="sm">{user.email}</Text>
+                      <Text fontSize="sm">{brand.name}</Text>
                     </Box>
                   </Td>
-                  {isWideVersion && (
+                  {/* {isWideVersion && (
                     <Td>
-                      {user.IngredientsOnUsersAllergic.map((ingredient) => (
-                        <Text>
-                          id: {ingredient.ingredient.id}-
-                          {ingredient.ingredient.name}
-                        </Text>
-                      ))}
+
+                      {brand.product.map((product) => {
+                        return <span key={product.id}>{product.name}</span>;
+                      })}
                     </Td>
-                  )}
-                  {isWideVersion && <Td>{user.permission}</Td>}
-                  <Td>{user.id}</Td>
+                  )} */}
+                  {isWideVersion && <Td>{brand.id}</Td>}
 
                   <Td>
-                    <Link href={`/users/edit/${user.id}`}>
+                    <Link href={`/brands/edit/${brand.id}`}>
                       <Button
                         as="a"
                         left="10px"
@@ -132,7 +135,22 @@ export default function UserList(props) {
                       colorScheme="#FFFFFF"
                       cursor="pointer"
                       _hover={{ bg: "green.400" }}
-                      onClick={() => handleDelete(user.id)}
+                      onClick={() => Router.push(`/brands/details/${brand.id}`)}
+                      leftIcon={<Icon as={RiFileList2Line} />}
+                    >
+                      Detalhes
+                    </Button>
+                  </Td>
+                  <Td>
+                    <Button
+                      as="a"
+                      size="sm"
+                      fontSize="sm"
+                      bg="#6FBE5E"
+                      colorScheme="#FFFFFF"
+                      cursor="pointer"
+                      _hover={{ bg: "green.400" }}
+                      onClick={() => handleDelete(brand.id)}
                       leftIcon={<Icon as={RiDeleteBinLine} />}
                     >
                       Excluir
@@ -163,10 +181,10 @@ export async function getServerSideProps(context) {
       },
     };
   }
-  const response = await axios.get("/users");
+  const response = await axios.get("/brands");
   return {
     props: {
-      users: response.data,
+      brands: response.data,
     }, // will be passed to the page component as props
     //sempre tem que passar o componente props, mesmo que seja vazio.
   };

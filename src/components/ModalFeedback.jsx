@@ -10,7 +10,9 @@ import { Box, Text, Select, Textarea, FormLabel, FormControl, Input, Stack, Cent
   ModalCloseButton, } from '@chakra-ui/react'
 
 
-export default function Form() {
+export default function ModalFeedback({isVisible}) {
+  console.log('isVisible: ', isVisible);
+
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const [firstName, setFirsName] = useState("Your Name");
@@ -20,7 +22,7 @@ export default function Form() {
 
   return (
     <>
-      <Button onClick={onOpen}>Open Modal</Button>
+      {/* <Button onClick={onOpen}>Open Modal</Button> */}
 
       <Modal size={'5xl'} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

@@ -23,10 +23,13 @@ import Link from "next/link";
 
 import axios from "../../config/axios";
 import SideBar from "../../components/SideBar/index";
-import { getUsers, deleteUser } from "../../services/userService";
-export default function UserList(props) {
-  const [users, setUsers] = useState(props.users);
-  console.log(users);
+import {
+  getAllCategories,
+  deleteCategory,
+} from "../../services/categoryService";
+export default function CategoryList(props) {
+  const [categories, setCategories] = useState(props.categories);
+
   //breakpoint de responsividade
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -34,8 +37,8 @@ export default function UserList(props) {
   });
 
   const handleDelete = async (id) => {
-    await deleteUser(id);
-    setUsers(await getUsers());
+    await deleteCategory(id);
+    setCategories(await getAllCategories());
   };
 
   return (
@@ -53,9 +56,9 @@ export default function UserList(props) {
         >
           <Flex mb="8" justify="space-between" align="center">
             <Heading size="lg" fontWeight="normal">
-              Usuários
+              Categorias
             </Heading>
-            <Link href="/users/create" passHref>
+            <Link href="/categories/create" passHref>
               <Button
                 as="a"
                 size="sm"
@@ -75,39 +78,27 @@ export default function UserList(props) {
             <Thead>
               <Tr>
                 <Th px={["4", "4", "6"]} color="gray" width="32px"></Th>
-                <Th>Usuário</Th>
-                {isWideVersion && <Th>Ingredientes Alérgicos</Th>}
-                {isWideVersion && <Th>Permission</Th>}
+                <Th>Categoria</Th>
+                {isWideVersion && <Th>Data de Cadastro</Th>}
                 <Th>ID</Th>
-                <Th width="1px"></Th>
                 <Th width="1px"></Th>
                 <Th width="1px"></Th>
               </Tr>
             </Thead>
             <Tbody>
-              {users.map((user) => (
-                <Tr key={user.id}>
+              {categories.map((category) => (
+                <Tr key={category.id}>
                   <Td px={["4", "4", "6"]}></Td>
                   <Td>
                     <Box>
-                      <Text fontSize="sm">{user.email}</Text>
+                      <Text fontSize="sm">{category.name}</Text>
                     </Box>
                   </Td>
-                  {isWideVersion && (
-                    <Td>
-                      {user.IngredientsOnUsersAllergic.map((ingredient) => (
-                        <Text>
-                          id: {ingredient.ingredient.id}-
-                          {ingredient.ingredient.name}
-                        </Text>
-                      ))}
-                    </Td>
-                  )}
-                  {isWideVersion && <Td>{user.permission}</Td>}
-                  <Td>{user.id}</Td>
+                  {isWideVersion && <Td>{category.created_at}</Td>}
+                  <Td>{category.id}</Td>
 
                   <Td>
-                    <Link href={`/users/edit/${user.id}`}>
+                    <Link href={`/categories/edit/${category.id}`}>
                       <Button
                         as="a"
                         left="10px"
@@ -132,7 +123,7 @@ export default function UserList(props) {
                       colorScheme="#FFFFFF"
                       cursor="pointer"
                       _hover={{ bg: "green.400" }}
-                      onClick={() => handleDelete(user.id)}
+                      onClick={() => handleDelete(category.id)}
                       leftIcon={<Icon as={RiDeleteBinLine} />}
                     >
                       Excluir
@@ -163,10 +154,10 @@ export async function getServerSideProps(context) {
       },
     };
   }
-  const response = await axios.get("/users");
+  const response = await axios.get("/categories");
   return {
     props: {
-      users: response.data,
+      categories: response.data,
     }, // will be passed to the page component as props
     //sempre tem que passar o componente props, mesmo que seja vazio.
   };

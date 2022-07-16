@@ -18,15 +18,20 @@ import {
 
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
-import { RiAddLine, RiDeleteBinLine, RiPencilLine } from "react-icons/ri";
+import {
+  RiAddLine,
+  RiDeleteBinLine,
+  RiPencilLine,
+  RiFileList2Line,
+} from "react-icons/ri";
 import Link from "next/link";
 
 import axios from "../../config/axios";
 import SideBar from "../../components/SideBar/index";
-import { getUsers, deleteUser } from "../../services/userService";
-export default function UserList(props) {
-  const [users, setUsers] = useState(props.users);
-  console.log(users);
+import { deleteProduct, getAllProducts } from "../../services/productService";
+export default function ProductList(props) {
+  const [products, setProducts] = useState(props.products);
+
   //breakpoint de responsividade
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -34,8 +39,8 @@ export default function UserList(props) {
   });
 
   const handleDelete = async (id) => {
-    await deleteUser(id);
-    setUsers(await getUsers());
+    await deleteProduct(id);
+    setProducts(await getAllProducts());
   };
 
   return (
@@ -53,9 +58,9 @@ export default function UserList(props) {
         >
           <Flex mb="8" justify="space-between" align="center">
             <Heading size="lg" fontWeight="normal">
-              Usuários
+              Produtos
             </Heading>
-            <Link href="/users/create" passHref>
+            <Link href="/products/create" passHref>
               <Button
                 as="a"
                 size="sm"
@@ -75,9 +80,8 @@ export default function UserList(props) {
             <Thead>
               <Tr>
                 <Th px={["4", "4", "6"]} color="gray" width="32px"></Th>
-                <Th>Usuário</Th>
-                {isWideVersion && <Th>Ingredientes Alérgicos</Th>}
-                {isWideVersion && <Th>Permission</Th>}
+                <Th>Produto</Th>
+                {isWideVersion && <Th>Descrição</Th>}
                 <Th>ID</Th>
                 <Th width="1px"></Th>
                 <Th width="1px"></Th>
@@ -85,29 +89,19 @@ export default function UserList(props) {
               </Tr>
             </Thead>
             <Tbody>
-              {users.map((user) => (
-                <Tr key={user.id}>
+              {products.map((product) => (
+                <Tr key={product.id}>
                   <Td px={["4", "4", "6"]}></Td>
                   <Td>
                     <Box>
-                      <Text fontSize="sm">{user.email}</Text>
+                      <Text fontSize="sm">{product.name}</Text>
                     </Box>
                   </Td>
-                  {isWideVersion && (
-                    <Td>
-                      {user.IngredientsOnUsersAllergic.map((ingredient) => (
-                        <Text>
-                          id: {ingredient.ingredient.id}-
-                          {ingredient.ingredient.name}
-                        </Text>
-                      ))}
-                    </Td>
-                  )}
-                  {isWideVersion && <Td>{user.permission}</Td>}
-                  <Td>{user.id}</Td>
+                  {isWideVersion && <Td>{product.description}</Td>}
+                  <Td>{product.id}</Td>
 
                   <Td>
-                    <Link href={`/users/edit/${user.id}`}>
+                    <Link href={`/products/edit/${product.id}`}>
                       <Button
                         as="a"
                         left="10px"
@@ -123,6 +117,24 @@ export default function UserList(props) {
                       </Button>
                     </Link>
                   </Td>
+
+                  <Td>
+                    <Link href={`/products/details/${product.id}`}>
+                      <Button
+                        as="a"
+                        left="10px"
+                        size="sm"
+                        fontSize="sm"
+                        bg="#6FBE5E"
+                        colorScheme="#FFFFFF"
+                        cursor="pointer"
+                        _hover={{ bg: "green.400" }}
+                        leftIcon={<Icon as={RiFileList2Line} />}
+                      >
+                        Details
+                      </Button>
+                    </Link>
+                  </Td>
                   <Td>
                     <Button
                       as="a"
@@ -132,7 +144,7 @@ export default function UserList(props) {
                       colorScheme="#FFFFFF"
                       cursor="pointer"
                       _hover={{ bg: "green.400" }}
-                      onClick={() => handleDelete(user.id)}
+                      onClick={() => handleDelete(product.id)}
                       leftIcon={<Icon as={RiDeleteBinLine} />}
                     >
                       Excluir
@@ -163,10 +175,10 @@ export async function getServerSideProps(context) {
       },
     };
   }
-  const response = await axios.get("/users");
+  const response = await axios.get("/products/all");
   return {
     props: {
-      users: response.data,
+      products: response.data,
     }, // will be passed to the page component as props
     //sempre tem que passar o componente props, mesmo que seja vazio.
   };

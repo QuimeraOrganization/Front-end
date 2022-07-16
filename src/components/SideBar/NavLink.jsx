@@ -19,6 +19,7 @@ export default function NavLink({ icon, entidade, href, ...rest }) {
             border="0.5px solid #6FBE5E"
             textAlign="center"
             padding="10px"
+            _hover={{ textDecoration: "none" }}
             borderRadius="10px"
           >
             {entidade}

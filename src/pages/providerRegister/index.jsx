@@ -13,92 +13,87 @@ import {
   Center,
   Container,
   Icon,
-  FormLabel,
   Divider,
+  FormLabel,
   VStack,
 } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
+import FilePicker from "chakra-ui-file-picker";
 import { RiEyeLine, RiEyeOffFill } from "react-icons/ri";
-import { createUser } from "../../services/userService";
-import { useState, useEffect } from "react";
+import { createProvider, createUser } from "../../services/userService";
+import { createBrand, getAllBrands } from "../../services/brandService";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { parseCookies } from "nookies";
 import Router from "next/router";
-import Link from "next/link";
-import {
-  createIngredient,
-  getAllIngredients,
-} from "../../services/ingredientService";
-
-const chakraStyles = {
-  multiValue: (provided, state) => ({
-    ...provided,
-    backgroundColor: "#6FBE5E",
-    color: "#fff",
-  }),
-
-  option: (provided, state) => ({
-    ...provided,
-    color: "#253C1F",
-
-    backgroundColor: "#fff",
-    _active: {
-      backgroundColor: "red",
-    },
-    _hover: {
-      backgroundColor: "#6FBE5E",
-    },
-  }),
-};
-
 const Cadastro = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [brand, setBrand] = useState({ brandId: "" });
+  const [brandsOptions, setBrandsOptions] = useState([]);
+  const [isBrandError, setBrandError] = useState(false);
   const [confirmPassowrd, setConfirmPassowrd] = useState("");
-  const [ingredients, setIngredients] = useState([]);
-  const [ingredientsOptions, setIngredientsOptions] = useState([]);
-  const [isIngredientsError, setIngredientsError] = useState(false);
 
   useEffect(() => {
     (async () => {
-      const ingredientsResponse = await getAllIngredients();
-      setIngredientsOptions(
-        ingredientsResponse.map((ingredient) => {
+      const brandsResponse = await getAllBrands();
+      setBrandsOptions(
+        brandsResponse.map((brand) => {
           return {
-            label: ingredient.name,
-            value: ingredient.id,
+            label: brand.name,
+            value: brand.id,
           };
         })
       );
     })();
   }, []);
 
-  async function handleCreateIngredient(ingredientName) {
-    const ingredientResponse = await createIngredient(ingredientName);
-    const nweIngredientOption = {
-      label: ingredientResponse.name,
-      value: ingredientResponse.id,
-    };
+  const chakraStyles = {
+    multiValue: (provided, state) => ({
+      ...provided,
+      backgroundColor: "#6FBE5E",
+      color: "#fff",
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      color: "#253C1F",
+      backgroundColor: "#fff",
+      _active: {
+        backgroundColor: "red",
+      },
+      _hover: {
+        backgroundColor: "#6FBE5E",
+      },
+    }),
+  };
 
-    setIngredientsOptions((prevState) => {
-      return [...prevState, nweIngredientOption];
+  function handleSelectBrand(brand) {
+    setBrand((prevState) => {
+      return { ...prevState, brandId: brand.value };
     });
   }
+  async function handleCreatebrand(brandName) {
+    const brandResponse = await createBrand(brandName);
+    const newBrandOption = {
+      label: brandResponse.name,
+      value: brandResponse.id,
+    };
 
-  async function handleSelectIngredients(ingredients) {
-    const ingredientsId = await ingredients.map((ingredient) => {
-      return ingredient.value;
+    setBrandsOptions((prevState) => {
+      return [...prevState, newBrandOption];
     });
-    setIngredients(ingredientsId);
   }
 
   const handleSubmit = async () => {
     try {
       if (confirmPassowrd === password) {
-        await createUser(email, password, ingredients);
+        await createProvider(email, password, brand.brandId);
         toast.success("Usuário cadastrado com sucesso!", {
           autoClose: 2000,
         });
+        setEmail("");
+        setPassword("");
+        setConfirmPassowrd("");
         Router.push("/login");
       } else {
         toast.error("Verifique sua senha e tente novamente!", {
@@ -106,6 +101,11 @@ const Cadastro = () => {
         });
       }
     } catch (err) {
+      if (err) {
+        toast.error(err.response.data.message, {
+          autoClose: 2000,
+        });
+      }
       if (!email) {
         toast.error("Email obrigatório!", {
           autoClose: 2000,
@@ -116,16 +116,13 @@ const Cadastro = () => {
           autoClose: 2000,
         });
       }
-      if (password.length > 16) {
+      if (password?.length > 16) {
         toast.error("Password deve ter no máximo 16 caracteres!", {
           autoClose: 2000,
         });
       }
     }
-
-    setEmail("");
-    setPassword("");
-    setConfirmPassowrd("");
+    console.log(brand.brandId);
   };
   const [showPassword, setShowPassword] = useState(false);
 
@@ -239,6 +236,7 @@ const Cadastro = () => {
                   onChange={(e) => setConfirmPassowrd(e.target.value)}
                   placeholder="Confirme a senha"
                 />
+
                 <InputRightElement mr="170px" width="4.5rem">
                   <Button
                     h="1.75rem"
@@ -265,39 +263,36 @@ const Cadastro = () => {
                 mr="188px"
                 mt="20px"
                 isRequired
-                isInvalid={isIngredientsError}
+                isInvalid={isBrandError}
               >
-                <FormLabel>Ingrediente(s)</FormLabel>
+                <FormLabel htmlFor="brand">Marca</FormLabel>
                 <Select
-                  isMulti
-                  instanceId="ingredientsAllergic"
-                  id="ingredientsAllergic"
-                  placeholder="Selecione um ingrediente"
-                  focusBorderColor="green"
+                  id="brand"
+                  placeholder="Selecione uma marca"
                   useBasicStyles
                   size="sm"
                   chakraStyles={chakraStyles}
-                  onChange={(e) => handleSelectIngredients(e)}
-                  options={ingredientsOptions}
+                  onChange={(e) => handleSelectBrand(e)}
+                  options={brandsOptions}
                   noOptionsMessage={({ inputValue }) =>
                     !inputValue ? (
                       "Sem resultados"
                     ) : (
                       <VStack>
-                        <Text>Ingrediente não cadastrado</Text>
+                        <Text>Marca não cadastrada</Text>
                         <Button
                           backgroundColor="#253C1F"
                           color="#fff"
                           _hover={{ backgroundColor: "#6FBE5E" }}
-                          onClick={() => handleCreateIngredient(inputValue)}
+                          onClick={() => handleCreatebrand(inputValue)}
                         >
-                          Cadastrar ingrediente
+                          Cadastrar marca
                         </Button>
                       </VStack>
                     )
                   }
                 />
-                {isIngredientsError && (
+                {isBrandError && (
                   <FormErrorMessage>Campo obrigatório</FormErrorMessage>
                 )}
               </FormControl>
@@ -319,28 +314,6 @@ const Cadastro = () => {
               >
                 Cadastrar
               </Button>
-              <Divider
-                w="343px"
-                h="44.74"
-                ml="188px"
-                mr="188px"
-                my="6"
-                borderColor="gray.500"
-              />
-              <Link href="/providerRegister">
-                <Text
-                  width="100%"
-                  my="10"
-                  ml="180px"
-                  color="#6FBE5E"
-                  fontWeight="700"
-                  lineHeight="10"
-                  fontSize="25px"
-                  cursor="pointer"
-                >
-                  Cadastre-se como Fornecedor
-                </Text>
-              </Link>
             </FormControl>
           </Stack>
         </Box>

@@ -14,12 +14,17 @@ import {
 } from '@chakra-ui/react'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import '../components/ModalFeedback.jsx'
+import ModalFeedback from '../components/ModalFeedback.jsx';
+
 
 
 export default function HomeAdmin() {
   const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJuYXRoZXJjaWEyQGdtYWlsLmNvbSIsInBlcm1pc3Npb24iOiJBRE1JTiIsImlhdCI6MTY1NzU2MjQ2OSwiZXhwIjoxNjU3NjQ4ODY5fQ.0SrVGxTrz4vw1I2XC7-_X45CUWODO6MdvTWDGyoy0DU"
 
   const [comentarios, setComentarios] = useState([]);
+  const [visibleTable, setVisibleTable] = useState("none");
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
     const buscarComentarios = async () => {
@@ -35,11 +40,11 @@ export default function HomeAdmin() {
 
   return (
     <>
-      <Button backgroundColor="#253C1F" color="#FFF" mr={3} onClick={onClose}>
+      <Button backgroundColor="#253C1F" color="#FFF" mr={3} onClick={() => setVisibleTable(" ")}>
         Comentários
       </Button>
 
-      <TableContainer>
+      <TableContainer style={{display: visibleTable}}>
         <Table size='md'>
           <Thead>
             <Tr>
@@ -53,8 +58,8 @@ export default function HomeAdmin() {
             {comentarios.map((comentario) => {
               return (
                 <Tr key={comentario.id}>
-                  <Td>{comentario.contents}</Td>
-                  <Td>{comentario.id}</Td>
+                  <Td>Comentário: {comentario.contents}</Td>
+                  <Td>id: {comentario.id}</Td>
                   <Td><Button>Editar</Button></Td>
                   <Td><Button>Excluir</Button></Td>
                 </Tr>
@@ -64,6 +69,8 @@ export default function HomeAdmin() {
           </Tbody>
         </Table>
       </TableContainer>
+
+      <ModalFeedback isVisible={isModalVisible}></ModalFeedback>
 
     </>
   )

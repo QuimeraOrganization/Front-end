@@ -23,10 +23,10 @@ import Link from "next/link";
 
 import axios from "../../config/axios";
 import SideBar from "../../components/SideBar/index";
-import { getUsers, deleteUser } from "../../services/userService";
-export default function UserList(props) {
-  const [users, setUsers] = useState(props.users);
-  console.log(users);
+import { getFeedbacks, deleteFeedback } from "../../services/feedbackService";
+
+export default function FeedbackList(props) {
+  const [feedbacks, setFeedbacks] = useState(props.feedbacks);
   //breakpoint de responsividade
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -34,8 +34,8 @@ export default function UserList(props) {
   });
 
   const handleDelete = async (id) => {
-    await deleteUser(id);
-    setUsers(await getUsers());
+    await deleteFeedback(id);
+    setFeedbacks(await getFeedbacks());
   };
 
   return (
@@ -53,9 +53,9 @@ export default function UserList(props) {
         >
           <Flex mb="8" justify="space-between" align="center">
             <Heading size="lg" fontWeight="normal">
-              Usuários
+              Feedbacks
             </Heading>
-            <Link href="/users/create" passHref>
+            <Link href="/feedbacks/create" passHref>
               <Button
                 as="a"
                 size="sm"
@@ -75,39 +75,33 @@ export default function UserList(props) {
             <Thead>
               <Tr>
                 <Th px={["4", "4", "6"]} color="gray" width="32px"></Th>
-                <Th>Usuário</Th>
-                {isWideVersion && <Th>Ingredientes Alérgicos</Th>}
-                {isWideVersion && <Th>Permission</Th>}
                 <Th>ID</Th>
-                <Th width="1px"></Th>
+                {isWideVersion && <Th>Comentário</Th>}
+                {isWideVersion && <Th>Usuário</Th>}
+                {isWideVersion && <Th>Produto</Th>}
                 <Th width="1px"></Th>
                 <Th width="1px"></Th>
               </Tr>
             </Thead>
             <Tbody>
-              {users.map((user) => (
-                <Tr key={user.id}>
+              {feedbacks.map((feedback) => (
+                <Tr key={feedback.id}>
                   <Td px={["4", "4", "6"]}></Td>
+                  <Td>{feedback.id}</Td>
+                  {isWideVersion && (
+                    <Td wordBreak="break-word">{feedback.contents}</Td>
+                  )}
                   <Td>
                     <Box>
-                      <Text fontSize="sm">{user.email}</Text>
+                      {isWideVersion && (
+                        <Text fontSize="sm">{feedback.user.email}</Text>
+                      )}
                     </Box>
                   </Td>
-                  {isWideVersion && (
-                    <Td>
-                      {user.IngredientsOnUsersAllergic.map((ingredient) => (
-                        <Text>
-                          id: {ingredient.ingredient.id}-
-                          {ingredient.ingredient.name}
-                        </Text>
-                      ))}
-                    </Td>
-                  )}
-                  {isWideVersion && <Td>{user.permission}</Td>}
-                  <Td>{user.id}</Td>
+                  {isWideVersion && <Td>{feedback.product.name}</Td>}
 
                   <Td>
-                    <Link href={`/users/edit/${user.id}`}>
+                    <Link href={`/feedbacks/edit/${feedback.id}`}>
                       <Button
                         as="a"
                         left="10px"
@@ -132,7 +126,7 @@ export default function UserList(props) {
                       colorScheme="#FFFFFF"
                       cursor="pointer"
                       _hover={{ bg: "green.400" }}
-                      onClick={() => handleDelete(user.id)}
+                      onClick={() => handleDelete(feedback.id)}
                       leftIcon={<Icon as={RiDeleteBinLine} />}
                     >
                       Excluir
@@ -163,10 +157,11 @@ export async function getServerSideProps(context) {
       },
     };
   }
-  const response = await axios.get("/users");
+  const response = await axios.get("/feedbacks");
+
   return {
     props: {
-      users: response.data,
+      feedbacks: response.data,
     }, // will be passed to the page component as props
     //sempre tem que passar o componente props, mesmo que seja vazio.
   };
