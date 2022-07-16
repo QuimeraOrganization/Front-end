@@ -45,13 +45,13 @@ export default function NavBar() {
         fontWeight={700}
         spacing={5}
       >
-        <Link href="/">
+        <Link href="/inicio">
           <Text fontSize="15px" _hover={{ borderBottom: "3px solid #6FBE5E" }}>
             Ínicio
           </Text>
         </Link>
 
-        <Link href="/">
+        <Link href="/produtos?page=1">
           <Text fontSize="15px" _hover={{ borderBottom: "3px solid #6FBE5E" }}>
             Produtos
           </Text>
@@ -73,8 +73,14 @@ export default function NavBar() {
           <Menu>
             <MenuButton
               backgroundColor="transparent"
-              _hover={{ backgroundColor: "rgba(111,190,94, .9)", color: "#fff" }}
-              _active={{ backgroundColor: "rgba(111,190,94, .9)", color: "#fff" }}
+              _hover={{
+                backgroundColor: "rgba(111,190,94, .9)",
+                color: "#fff",
+              }}
+              _active={{
+                backgroundColor: "rgba(111,190,94, .9)",
+                color: "#fff",
+              }}
               as={Button}
               rightIcon={<ChevronDownIcon />}
             >
