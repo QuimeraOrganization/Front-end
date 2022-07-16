@@ -63,6 +63,7 @@ export default function ProductForm() {
   const [isIngredientsError, setIngredientsError] = useState(false);
 
   const imageRef = useRef();
+  const selectRef = useRef();
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
@@ -169,6 +170,8 @@ export default function ProductForm() {
   }
 
   async function handleSelectIngredients(ingredients) {
+    console.log(selectRef)
+
     const ingredientsId = await ingredients.map((ingredient) => {
       return ingredient.value;
     });
@@ -192,6 +195,7 @@ export default function ProductForm() {
   }
 
   async function handleSubmit() {
+    console.log(selectRef)
     product.name === "" ? setNameError(true) : setNameError(false);
     product.description === ""
       ? setDescriptionError(true)
@@ -318,6 +322,7 @@ export default function ProductForm() {
           chakraStyles={chakraStyles}
           onChange={(e) => handleSelectIngredients(e)}
           options={ingredientsOptions}
+          ref={selectRef}
           noOptionsMessage={({ inputValue }) =>
             !inputValue ? (
               "Sem resultados"
