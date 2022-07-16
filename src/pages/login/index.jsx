@@ -162,7 +162,7 @@ const SignIn = () => {
       </Box>
 
       <Box w="720px" h="1024px" bg="#FFFFFF">
-        <Center mt={302} mr="160px" ml="155px">
+        <Center mt={192} mr="160px" ml="155px">
           <Container>
             <Text
               fontFamily="Nunito Sans"
