@@ -17,19 +17,10 @@ import {
   createCategory,
 } from "../../services/categoryService";
 import { getAllIngredients, createIngredient } from "../../services/ingredientService";
-import { createProduct } from "../../services/productService";
+import { createProduct, updateProduct } from "../../services/productService";
 
 import { AuthContext } from "../../context/AuthContext";
 import { toast } from "react-toastify";
-
-const initialProduct = {
-  name: "",
-  description: "",
-  brandId: null,
-  userId: null,
-  categories: [],
-  ingredients: [],
-};
 
 const chakraStyles = {
   multiValue: (provided, state) => ({
@@ -50,7 +41,49 @@ const chakraStyles = {
   }),
 };
 
-export default function ProductForm() {
+export default function ProductForm({ productProp = null }) {
+  let initialProduct = null;
+  let defaultBrand = null;
+  let defaultCategories = null;
+  let defaultIngredients = null;
+
+  if (productProp === null) {
+    initialProduct = {
+      name: "",
+      description: "",
+      brandId: null,
+      userId: null,
+      categories: [],
+      ingredients: [],
+    };
+  } else {
+    initialProduct = {
+      ...productProp,
+      categories: [],
+      ingredients: [],
+    };
+
+    defaultBrand = {
+      label: productProp.brand.name,
+      value: productProp.brand.id,
+    }
+
+    defaultCategories = productProp.CategoriesOnProducts.map(category => {
+      return {
+        label: category.category.name,
+        value: category.category.id
+      }
+    });
+
+    defaultIngredients = productProp.IngredientsOnProducts.map(ingredient => {
+      return {
+        label: ingredient.ingredient.name,
+        value: ingredient.ingredient.id
+      }
+    });
+
+  }
+
   const [product, setProduct] = useState(initialProduct);
   const [brandsOptions, setBrandsOptions] = useState([]);
   const [categoriesOptions, setCategoriesOptions] = useState([]);
@@ -195,7 +228,7 @@ export default function ProductForm() {
   }
 
   async function handleSubmit() {
-    console.log(selectRef)
+
     product.name === "" ? setNameError(true) : setNameError(false);
     product.description === ""
       ? setDescriptionError(true)
@@ -210,7 +243,12 @@ export default function ProductForm() {
 
     if (isValidFields()) {
       // Implementar o toast
-      const response = await createProduct(product, imageRef);
+      if (productProp === null) {
+        const response = await createProduct(product, imageRef);
+      } else {
+        const response = await updateProduct(product, imageRef);
+      }
+
 
       toast.success("Produto cadastrado com sucesso!", {
         autoClose: 2000,
@@ -255,6 +293,7 @@ export default function ProductForm() {
           size="sm"
           chakraStyles={chakraStyles}
           onChange={(e) => handleSelectBrand(e)}
+          defaultValue={defaultBrand}
           options={brandsOptions}
           noOptionsMessage={({ inputValue }) =>
             !inputValue ? (
@@ -287,6 +326,7 @@ export default function ProductForm() {
           size="sm"
           chakraStyles={chakraStyles}
           onChange={(e) => handleSelectCategories(e)}
+          defaultValue={defaultCategories}
           options={categoriesOptions}
           noOptionsMessage={({ inputValue }) =>
             !inputValue ? (
@@ -321,6 +361,7 @@ export default function ProductForm() {
           size="sm"
           chakraStyles={chakraStyles}
           onChange={(e) => handleSelectIngredients(e)}
+          defaultValue={defaultIngredients}
           options={ingredientsOptions}
           ref={selectRef}
           noOptionsMessage={({ inputValue }) =>

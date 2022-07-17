@@ -22,6 +22,30 @@ async function createProduct(product, imageRef) {
     });
 }
 
+// tem que converter os relacionamentos para array de inteiros
+async function updateProduct(product, imageRef) {
+  const form = new FormData();
+
+  if (imageRef.current.state.files != null) {
+    form.append("image", imageRef.current.state.files[0]);
+  }
+
+  form.append("product", JSON.stringify(product));
+
+  console.log(product);
+
+  // return await axios
+  //   .post(`/products/${product.id}`, form, {
+  //     headers: { "Content-Type": "multipart/form-data" },
+  //   })
+  //   .then((response) => {
+  //     return response;
+  //   })
+  //   .catch((error) => {
+  //     return error.response;
+  //   });
+}
+
 async function getProductsPaged(page) {
   return await axios
     .get(`/products?page=${page}`)

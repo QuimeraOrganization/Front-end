@@ -1,12 +1,14 @@
 import { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { VStack, HStack, Button, Text, Image, Heading, Input, InputRightAddon, InputGroup } from "@chakra-ui/react";
+import { VStack, HStack, Button, Text, Image, Heading, Input, InputRightAddon, InputGroup, useDisclosure, Modal, ModalOverlay, ModalContent, ModalCloseButton, ModalHeader, ModalBody } from "@chakra-ui/react";
 import { ArrowBackIcon, EditIcon } from "@chakra-ui/icons";
 
 import { getProductById } from "../../../services/productService";
 import { createFeedback } from "../../../services/feedbackService";
 import { AuthContext } from "../../../context/AuthContext";
+
+import ProductForm from "../../../components/forms/ProductForm";
 
 export default function ProductDetails() {
   const [product, setProduct] = useState();
@@ -15,6 +17,7 @@ export default function ProductDetails() {
 
   const { user } = useContext(AuthContext);
   const router = useRouter();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     // Evita chamada a api quando o query.page ainda está undefined
@@ -39,6 +42,17 @@ export default function ProductDetails() {
 
   return (
     <VStack>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalCloseButton color="#6FBE5E" />
+          <ModalHeader>Cadastro de produto</ModalHeader>
+          <ModalBody>
+            <ProductForm productProp={product} />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
       <HStack width="100%" justify="space-between" my={2} px={10}>
         <Button backgroundColor="#fff" border="1px solid #6FBE5E">
           <ArrowBackIcon mr={1} />
@@ -47,7 +61,11 @@ export default function ProductDetails() {
           </Link>
         </Button>
 
-        <Button backgroundColor="#fff" border="1px solid #6FBE5E">
+        <Button
+          backgroundColor="#fff"
+          border="1px solid #6FBE5E"
+          onClick={onOpen}
+        >
           <EditIcon mr={1} />
           <Text>Editar</Text>
         </Button>
