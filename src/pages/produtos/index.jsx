@@ -8,10 +8,9 @@ import {
   Input,
   InputGroup,
   InputRightAddon,
-  Select,
   Button,
   Tooltip,
-  useDisclosure,
+  useDisclosure
 } from "@chakra-ui/react";
 import {
   Modal,
@@ -28,9 +27,34 @@ import {
   AddIcon,
 } from "@chakra-ui/icons";
 
+import { Select } from "chakra-react-select";
+
 import Card from "../../components/Card";
 import { getProductsPaged } from "../../services/productService";
 import ProductForm from "../../components/forms/ProductForm";
+
+const chakraStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    minWidth: "200px"
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    color: "#253C1F",
+    backgroundColor: "#fff",
+    _hover: {
+      backgroundColor: "#6FBE5E",
+    },
+  }),
+};
+
+const filterOptions = [
+  {
+    label: "Contém ingredientes",
+    value: "Contém ingredientes"
+  }
+]
+
 
 export default function Home() {
   const router = useRouter();
@@ -120,20 +144,14 @@ export default function Home() {
           </HStack>
 
           {/* Filtro */}
+          {/* <FormControl> */}
           <Select
+            placeholder="Selecione um filtro"
             size="sm"
-            fontSize={{ base: "11px", md: "12px", lg: "13px" }}
-            width="20%"
-            placeholder="Filtrar por"
-            backgroundColor="#fff"
-            border="1px solid"
-            borderColor="#6FBE5E"
-            borderRadius={6}
-          >
-            <option value="option1">Verificado</option>
-            <option value="option2">Nome crescente</option>
-            <option value="option3">Nome decresente</option>
-          </Select>
+            chakraStyles={chakraStyles}
+            options={filterOptions}
+          />
+          {/* </FormControl> */}
         </HStack>
 
         {loading && <Spinner color="#6FBE5E" />}

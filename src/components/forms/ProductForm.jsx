@@ -32,9 +32,6 @@ const chakraStyles = {
     ...provided,
     color: "#253C1F",
     backgroundColor: "#fff",
-    _active: {
-      backgroundColor: "red",
-    },
     _hover: {
       backgroundColor: "#6FBE5E",
     },
