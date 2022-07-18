@@ -26,7 +26,6 @@ import SideBar from "../../components/SideBar/index";
 import { getUsers, deleteUser } from "../../services/userService";
 export default function UserList(props) {
   const [users, setUsers] = useState(props.users);
-  console.log(users);
   //breakpoint de responsividade
   const isWideVersion = useBreakpointValue({
     base: false,
