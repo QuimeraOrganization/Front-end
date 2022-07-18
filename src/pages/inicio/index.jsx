@@ -29,7 +29,7 @@ const Login = () => {
             fontWeight="25"
             fontSize={{ base: "22px", md: "25px", lg: "27px" }}
             lineHeight="30px"
-            Aling="Center"
+            aling="Center"
             justifyContent="center"
             color="#253C1F"
           >
