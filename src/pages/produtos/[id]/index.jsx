@@ -1,7 +1,24 @@
 import { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { VStack, HStack, Button, Text, Image, Heading, Input, InputRightAddon, InputGroup, useDisclosure, Modal, ModalOverlay, ModalContent, ModalCloseButton, ModalHeader, ModalBody } from "@chakra-ui/react";
+import {
+  VStack,
+  HStack,
+  Button,
+  Text,
+  Image,
+  Heading,
+  Input,
+  InputRightAddon,
+  InputGroup,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalCloseButton,
+  ModalHeader,
+  ModalBody,
+} from "@chakra-ui/react";
 import { ArrowBackIcon, EditIcon } from "@chakra-ui/icons";
 
 import { getProductById } from "../../../services/productService";
@@ -33,11 +50,15 @@ export default function ProductDetails() {
   }, [router.query.id]);
 
   async function handleCreateFeedback() {
-    const feedbackResponse = await createFeedback(contentsFeedback, product.id, user.id);
+    const feedbackResponse = await createFeedback(
+      contentsFeedback,
+      product.id,
+      user.id
+    );
     setContentsFeedback("");
-    setFeedbacks(prevState => {
-      return [...prevState, feedbackResponse.feedback]
-    })
+    setFeedbacks((prevState) => {
+      return [...prevState, feedbackResponse.feedback];
+    });
   }
 
   return (
@@ -56,7 +77,7 @@ export default function ProductDetails() {
       <HStack width="100%" justify="space-between" my={2} px={10}>
         <Button backgroundColor="#fff" border="1px solid #6FBE5E">
           <ArrowBackIcon mr={1} />
-          <Link href="/">
+          <Link href="/produtos?page=1">
             <Text>Voltar</Text>
           </Link>
         </Button>
@@ -72,9 +93,7 @@ export default function ProductDetails() {
       </HStack>
 
       {product != null && (
-        <HStack
-          spacing={["20px", "60px", "80px"]}
-        >
+        <HStack spacing={["20px", "60px", "80px"]}>
           <Image
             src={product.image}
             objectFit="scale-down"
@@ -84,14 +103,10 @@ export default function ProductDetails() {
             boxShadow="5px 5px 5px rgba(128,128,128, .3)"
           />
 
-          <VStack
-            mx={5}
-          >
+          <VStack mx={5}>
             <Heading>{product.name}</Heading>
 
-            <VStack
-              align="flex-start"
-            >
+            <VStack align="flex-start">
               <Text>{product.description}</Text>
 
               <HStack>
@@ -101,7 +116,7 @@ export default function ProductDetails() {
 
               <HStack>
                 <Text as="b">Categoria(s): </Text>
-                {product.CategoriesOnProducts.map(category => (
+                {product.CategoriesOnProducts.map((category) => (
                   <Text
                     key={category.id}
                     backgroundColor="#253C1F"
@@ -116,7 +131,7 @@ export default function ProductDetails() {
 
               <HStack>
                 <Text as="b">Ingredientes(s): </Text>
-                {product.IngredientsOnProducts.map(ingredient => (
+                {product.IngredientsOnProducts.map((ingredient) => (
                   <Text
                     key={ingredient.id}
                     backgroundColor="#fff"
@@ -131,8 +146,11 @@ export default function ProductDetails() {
 
               <InputGroup border="0px solid #6FBE5E">
                 <Input
-                  placeholder='Deixe um comentário'
-                  _focusVisible={{ borderColor: "#6FBE5E", boxShadow: "0 0 0 1px #6FBE5E" }}
+                  placeholder="Deixe um comentário"
+                  _focusVisible={{
+                    borderColor: "#6FBE5E",
+                    boxShadow: "0 0 0 1px #6FBE5E",
+                  }}
                   value={contentsFeedback}
                   onChange={(e) => setContentsFeedback(e.target.value)}
                 />
@@ -153,15 +171,14 @@ export default function ProductDetails() {
                 />
               </InputGroup>
 
-              {feedbacks.length > 0 && feedbacks.map((feedback) => (
-                <>
-                  <Text as="b">{feedback.user.email}</Text>
-                  <Text>{feedback.contents}</Text>
-                </>
-              ))}
+              {feedbacks.length > 0 &&
+                feedbacks.map((feedback) => (
+                  <>
+                    <Text as="b">{feedback.user.email}</Text>
+                    <Text>{feedback.contents}</Text>
+                  </>
+                ))}
             </VStack>
-
-
           </VStack>
         </HStack>
       )}
