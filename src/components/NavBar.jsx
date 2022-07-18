@@ -9,11 +9,13 @@ import {
   MenuList,
   MenuItem,
   Skeleton,
+  Icon,
 } from "@chakra-ui/react";
+import { RiLoginBoxLine, RiMenuLine } from "react-icons/ri";
 import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-
+import { AiFillControl } from "react-icons/ai";
 import Link from "../components/Link";
 import NextLink from "next/link";
 
@@ -89,13 +91,14 @@ export default function NavBar() {
             <MenuList>
               {user.permission === "ADMIN" && (
                 <MenuItem>
-                  <NextLink href="/users">Monitoramento</NextLink>
+                  <NextLink href="/users">Gerenciamento</NextLink>
+                  <Icon as={RiMenuLine} ml="105px"></Icon>
                 </MenuItem>
               )}
               {user.permission === "BRAND" && (
-                <MenuItem>
+                <MenuItem icon={RiLoginBoxLine}>
                   <NextLink href={`/provider/monitoration/${user.id}`}>
-                    Monitoramento
+                    Gerenciamento
                   </NextLink>
                 </MenuItem>
               )}
@@ -105,6 +108,7 @@ export default function NavBar() {
                 }}
               >
                 Logout
+                <Icon as={RiLoginBoxLine} ml="155px"></Icon>
               </MenuItem>
             </MenuList>
           </Menu>

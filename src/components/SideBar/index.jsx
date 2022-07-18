@@ -5,6 +5,10 @@ import {
   RiProductHuntLine,
   RiDashboardLine,
 } from "react-icons/ri";
+import { BiCommentDetail, BiCategory } from "react-icons/bi";
+import { BsJournalBookmark } from "react-icons/bs";
+import { MdOutlineFoodBank } from "react-icons/md";
+
 import NavLink from "./NavLink";
 import NavSection from "./NavSection";
 
@@ -13,29 +17,29 @@ export default function SideBar() {
     <Box as="aside" w="64" mr="8">
       <Stack spacing="12" align="flex-start">
         <NavSection>
-          <NavLink icon={RiContactsLine} entidade={"Usuário"} href="/users" />
+          <NavLink icon={RiContactsLine} entidade={"Usuários"} href="/users" />
           <NavLink
             icon={RiProductHuntLine}
             entidade={"Produtos"}
             href="/products"
           />
           <NavLink
-            icon={RiProductHuntLine}
+            icon={MdOutlineFoodBank}
             entidade={"Ingredientes"}
             href="/ingredients"
           />
           <NavLink
-            icon={RiProductHuntLine}
+            icon={BsJournalBookmark}
             entidade={"Marcas"}
             href="/brands"
           />
           <NavLink
-            icon={RiDashboardLine}
+            icon={BiCategory}
             entidade={"Categorias"}
             href="/categories"
           />
           <NavLink
-            icon={RiDashboardLine}
+            icon={BiCommentDetail}
             entidade={"Feedbacks"}
             href="/feedbacks"
           />

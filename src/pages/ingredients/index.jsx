@@ -19,6 +19,7 @@ import {
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 import { RiAddLine, RiDeleteBinLine, RiPencilLine } from "react-icons/ri";
+import moment from "moment";
 import Link from "next/link";
 
 import axios from "../../config/axios";
@@ -29,7 +30,7 @@ import {
 } from "../../services/ingredientService";
 export default function IngredientList(props) {
   const [ingredients, setIngredients] = useState(props.ingredients);
-
+  console.log(moment());
   //breakpoint de responsividade
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -94,7 +95,11 @@ export default function IngredientList(props) {
                       <Text fontSize="sm">{ingredient.name}</Text>
                     </Box>
                   </Td>
-                  {isWideVersion && <Td>{ingredient.created_at}</Td>}
+                  {isWideVersion && (
+                    <Td>
+                      {moment(ingredient.created_at).format("DD/MM/YYYY")}
+                    </Td>
+                  )}
                   <Td>{ingredient.id}</Td>
 
                   <Td>
