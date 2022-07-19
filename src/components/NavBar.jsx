@@ -29,7 +29,7 @@ export default function NavBar() {
     <Flex justify="space-between" px={10} py={5}>
       <HStack>
         <Link href="/">
-          <Image src="Logo.svg" />
+          <Image src="/Logo.svg" />
           <HStack>
             <Text
               fontSize={{ base: "12px", md: "16px", lg: "18px" }}

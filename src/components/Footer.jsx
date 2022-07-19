@@ -24,7 +24,7 @@ export default function Footer() {
     >
       <Stack justify="space-between" width="200">
         <Stack align="center">
-          <Image src="Logo-white.svg" alt="" mb="4" />
+          <Image src="/Logo-white.svg" alt="" mb="4" />
           <Text color="muted" fontSize="sm" fontWeight="bold">
             © Copyright 2022
           </Text>
