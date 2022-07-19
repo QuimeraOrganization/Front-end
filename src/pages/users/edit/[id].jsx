@@ -61,7 +61,7 @@ export default function EditUser({ userId }) {
       await getUserById(userId).then(async (data) => {
         setEmail(data.email);
         setPermission(data.permission);
-        setPassword(data.password);
+
         const allergic = await data.IngredientsOnUsersAllergic.map(
           (ingredient) => {
             return {
@@ -111,7 +111,7 @@ export default function EditUser({ userId }) {
           return ingredient.value;
         }
       );
-
+      console.log(password);
       if (confirmPassword === password) {
         await updateUser(userId, email, password, ingredientsId, permission);
         toast.success("Usuário atualizado com sucesso", {
@@ -120,21 +120,21 @@ export default function EditUser({ userId }) {
       }
       Router.push("/users");
     } catch (err) {
-      // if (email) {
-      //   toast.error("Email obrigatório!", {
-      //     autoClose: 2000,
-      //   });
-      // }
-      // if (password) {
-      //   toast.error("Senha obrigatória!", {
-      //     autoClose: 2000,
-      //   });
-      // }
-      // if (password.length > 16) {
-      //   toast.error("Password deve ter no máximo 16 caracteres!", {
-      //     autoClose: 2000,
-      //   });
-      // }
+      if (!email) {
+        toast.error("Email obrigatório!", {
+          autoClose: 2000,
+        });
+      }
+      if (!password) {
+        toast.error("Senha obrigatória!", {
+          autoClose: 2000,
+        });
+      }
+      if (password.length > 16) {
+        toast.error("Password deve ter no máximo 16 caracteres!", {
+          autoClose: 2000,
+        });
+      }
     }
   };
 
@@ -187,7 +187,7 @@ export default function EditUser({ userId }) {
                 label="Permissão"
                 onChange={(e) => setPermission(e.target.value)}
               />
-              <FormControl isRequired isInvalid={isIngredientsError}>
+              <FormControl isInvalid={isIngredientsError}>
                 <FormLabel htmlFor="ingredientsAllergic">
                   Ingrediente(s)
                 </FormLabel>

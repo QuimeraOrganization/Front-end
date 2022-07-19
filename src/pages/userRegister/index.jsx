@@ -264,10 +264,10 @@ const Cadastro = () => {
                 ml="188px"
                 mr="188px"
                 mt="20px"
-                isRequired
+                // isRequired
                 isInvalid={isIngredientsError}
               >
-                <FormLabel>Ingrediente(s)</FormLabel>
+                <FormLabel>Ingrediente(s) Alérgicos</FormLabel>
                 <Select
                   isMulti
                   instanceId="ingredientsAllergic"

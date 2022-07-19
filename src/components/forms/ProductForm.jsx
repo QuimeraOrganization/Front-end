@@ -16,7 +16,10 @@ import {
   getAllCategories,
   createCategory,
 } from "../../services/categoryService";
-import { getAllIngredients, createIngredient } from "../../services/ingredientService";
+import {
+  getAllIngredients,
+  createIngredient,
+} from "../../services/ingredientService";
 import { createProduct, updateProduct } from "../../services/productService";
 
 import { AuthContext } from "../../context/AuthContext";
@@ -63,22 +66,21 @@ export default function ProductForm({ productProp = null }) {
     defaultBrand = {
       label: productProp.brand.name,
       value: productProp.brand.id,
-    }
+    };
 
-    defaultCategories = productProp.CategoriesOnProducts.map(category => {
+    defaultCategories = productProp.CategoriesOnProducts.map((category) => {
       return {
         label: category.category.name,
-        value: category.category.id
-      }
+        value: category.category.id,
+      };
     });
 
-    defaultIngredients = productProp.IngredientsOnProducts.map(ingredient => {
+    defaultIngredients = productProp.IngredientsOnProducts.map((ingredient) => {
       return {
         label: ingredient.ingredient.name,
-        value: ingredient.ingredient.id
-      }
+        value: ingredient.ingredient.id,
+      };
     });
-
   }
 
   const [product, setProduct] = useState(initialProduct);
@@ -128,10 +130,13 @@ export default function ProductForm({ productProp = null }) {
           };
         })
       );
-
-      setProduct((prevState) => {
-        return { ...prevState, userId: user.id };
-      });
+      if (!user) {
+        Router.push("/userRegister");
+      } else {
+        setProduct((prevState) => {
+          return { ...prevState, userId: user.id };
+        });
+      }
     })();
   }, []);
 
@@ -223,7 +228,6 @@ export default function ProductForm({ productProp = null }) {
   }
 
   async function handleSubmit() {
-
     product.name === "" ? setNameError(true) : setNameError(false);
     product.description === ""
       ? setDescriptionError(true)
@@ -243,7 +247,6 @@ export default function ProductForm({ productProp = null }) {
       } else {
         const response = await updateProduct(product, imageRef);
       }
-
 
       toast.success("Produto cadastrado com sucesso!", {
         autoClose: 2000,
