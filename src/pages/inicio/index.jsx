@@ -9,6 +9,7 @@ import {
   Text,
   Center,
   Container,
+  Stack
 } from "@chakra-ui/react";
 
 
@@ -18,25 +19,29 @@ const Login = () => {
 
   return (
     <Flex
+    
       flexDirection="column"
-      display={{md: 'flex' }}
       width="full"
       height="full"
       justifyContent="center"
       alignItems="center"
       
      >
-       <Flex my='10' 
-        display={{md: 'flex' }}
+       <Flex 
+       mr='120px'
+       ml='120px'
+       my='10' 
+       display={{md: 'flex' }}
+       
       >        
       <Box 
-       w='720px'
-       ml="30px"
+       w={{ base: 'full', md: 'full', lg: 'full' }}
+       mr='30px'
        >
             
                        
         <Text                                     
-           
+          
           fontFamily='Nunito Sans' 
           fontStyle='Bold'
           fontWeight='25'                                  
@@ -77,12 +82,15 @@ const Login = () => {
       </Box>
       
       <Box 
-        w='720px'
+        w={{ base: 'full', md: 'full', lg: 'full' }}
+        h='370px'
+        
          >  
                                                                            
                         
-            <Image
-              ml="30px"                                       
+            <Image 
+            w='full'
+                h='full'                                    
               src="e.jpg" 
               alt='Logotipo da empresa'  
               borderRadius='10'
@@ -96,19 +104,30 @@ const Login = () => {
       </Flex> 
 
       <Divider
-        w="full"
+      display={{md: 'flex' }}
+        w={{ base: 'full', md:'full', lg: 'full' }}
+       
         my="1"
         borderColor="#6FBE5E"
       />                       
 
-<Flex
-        my='5' 
-        display={{md: 'flex' }}
-      >
+
+        
+      
+        <Flex
+        
+      
+       mr='120px'
+       ml='120px'
+       my='5' 
+       display={{md: 'flex' }}
+        >
       <Box 
-       ml="110px"
-       w='500px' 
-       h='210px'
+      
+       mr='50px'
+       w={{ base: 'full', md: 'full', lg: 'full' }}
+       h='full'
+       mb='3'
        boxShadow='dark-lg'   
        borderRadius='10'
       >
@@ -129,7 +148,8 @@ const Login = () => {
 
           <Text 
           ml='4'
-          mr='4'                                                                     
+          mr='4' 
+                                                                              
             fontFamily='Nunito Sans' 
             fontStyle='normal'
             fontWeight='20'                     
@@ -141,12 +161,13 @@ const Login = () => {
           </Text> 
         
       </Box>
-      <Spacer />
+     
 
       <Box 
-       ml="110px" 
-       w='500px' 
-       h='210px'
+      mr='50px'
+       w={{ base: 'full', md: 'full', lg: 'full' }} 
+       h='full'
+       mb='3'
        boxShadow='dark-lg'   
        borderRadius='10'
        >
@@ -177,11 +198,12 @@ const Login = () => {
           </Text> 
         
       </Box>
-      <Spacer />
+    
       <Box 
-      ml="110px"
-      w='500px' 
-      h='210px'
+      
+     
+      w={{ base: 'full', md: 'full', lg: 'full' }}
+      h='full'
       boxShadow='dark-lg'   
       borderRadius='10' 
       >
@@ -213,8 +235,8 @@ const Login = () => {
        
       </Box>
 
-
-      </Flex> 
+      </Flex>
+      
 
 
 

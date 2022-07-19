@@ -47,43 +47,69 @@ const SignIn = () => {
     <Flex
       flexDirection="column, row"
       display={{ md: "flex" }}
-      width="100wh"
+      width="full"
       height="full"
       justifyContent="center"
       alignItems="center"
     >
-      <Box w="720px" h="1024px" bg="#F9F9F9">
+      <Flex 
+       mr='90px'
+       ml='120px'
+       h='81vh'
+       display={{md: 'flex' }}
+       
+      >        
+      <Box 
+       w={{ base: 'full', md: 'full', lg: 'full' }}
+       mt='20px'
+       bg="#F9F9F9">
         <Box>
           <Stack spacing={67}>
+           
+            
+            
             <Image
-              mt={130}
-              mr="239px"
-              ml="239px"
+            
+            alignItems="center"
+            mr="60px"
+            ml="60px"
               src="Logo.svg"
               alt="Logotipo da empresa"
             />
-
-            <Box>
+             
+            <Box
+            w={{ base: "full", md: "full", lg: "full" }}
+            alignItems="center"
+            >
+              <Center>
               <Heading
-                mr="285px"
-                ml="284px"
+              
+              
+                mr="50px"
+                ml="50px"
                 fontFamily="Nunito Sans"
                 fontStyle="Bold"
-                fontSize={{ base: "46px", md: "48px", lg: "50px" }}
+                fontSize={{ base: "30px", md: "60px", lg: "62px" }}
                 lineHeight="20px"
-                aling="Center"
+                alignItems="center"
                 color="#253C1F"
               >
                 Login
               </Heading>
+              </Center>
             </Box>
 
             <FormControl as="form" onSubmit={handleSubmit}>
-              <InputGroup>
+              <InputGroup
+             
+              >
                 <Input
+                mr="60px"
+                ml="60px"
+                 
                   w="343px"
                   h="44.74"
-                  ml="188px"
+                  
                   mb="25px"
                   borderRadius={10}
                   borderColor="#6FBE5E"
@@ -93,11 +119,16 @@ const SignIn = () => {
                   placeholder="E-mail"
                 />
               </InputGroup>
-              <InputGroup>
+              <InputGroup
+              
+              >
                 <Input
+                mr="60px"
+                ml="60px"
+                
                   w="343px"
                   h="44.74"
-                  ml="188px"
+                  
                   borderRadius={10}
                   borderColor="#6FBE5E"
                   focusBorderColor="#6FBE5E"
@@ -106,7 +137,7 @@ const SignIn = () => {
                   placeholder="Senha"
                 />
 
-                <InputRightElement mr="170px" width="4.5rem">
+                <InputRightElement mr="45px" width="4.5rem">
                   <Button
                     h="1.75rem"
                     size="sm"
@@ -125,10 +156,13 @@ const SignIn = () => {
                   </Button>
                 </InputRightElement>
               </InputGroup>
+              
               <FormControl>
-                <Button
+              <Flex 
+              mr="60px"
+              ml="60px" >
+                <Button                
                   type="submit"
-                  ml="188px"
                   w="343px"
                   h="44.74"
                   mt="40px"
@@ -140,7 +174,9 @@ const SignIn = () => {
                 >
                   Entrar
                 </Button>
+                </Flex>
               </FormControl>
+              
             </FormControl>
 
             {/*<FormHelperText 
@@ -151,25 +187,44 @@ const SignIn = () => {
               </FormHelperText>
               */}
           </Stack>
-
-          <Box w="343px" h="44.74" ml="210px" mt={4}>
+          <Flex mr="60px"
+              ml="60px">
+          <Box w="343px" h="44.74"  mr='' mt={4}>
             Não tem uma conta ainda?{" "}
             <Link color="#6FBE5E" href="/userRegister">
               Cadastre-se
             </Link>
           </Box>
+          </Flex>
         </Box>
-      </Box>
 
-      <Box w="720px" h="1024px" bg="#FFFFFF">
-        <Center mt={192} mr="160px" ml="155px">
+      </Box>
+      </Flex>
+
+      
+      <Flex 
+        mr='120px'
+         ml='120px'
+         h='81vh'
+         
+        display={{md: 'flex' }}
+
+
+      bg="#FFFFFF"
+      >
+      <Box w={{ base: 'full', md: 'full', lg: 'full' }} h="" 
+      >
+        <Center my='px'>
           <Container>
             <Text
+            mt='190px'
+            mr="60px"
+            ml="60px"
               fontFamily="Nunito Sans"
               fontStyle="normal"
               fontWeight="700"
-              fontSize={{ base: "62px", md: "63px", lg: "65px" }}
-              lineHeight="70px"
+              fontSize={{ base: "35px", md: "55px", lg: "65px" }}
+              lineHeight={{ base: "35px", md: "65px", lg: "70px" }}
               color="#253C1F"
             >
               Saiba quais{" "}
@@ -190,6 +245,7 @@ const SignIn = () => {
           </Container>
         </Center>
       </Box>
+      </Flex>
     </Flex>
   );
 };

@@ -16,6 +16,7 @@ import {
   FormLabel,
   Divider,
   VStack,
+  FormErrorMessage
 } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
 import { RiEyeLine, RiEyeOffFill } from "react-icons/ri";
@@ -135,20 +136,33 @@ const Cadastro = () => {
     <Flex
       flexDirection="column, row"
       display={{ md: "flex" }}
-      width="100wh"
+      width="full"
       height="full"
       justifyContent="center"
       alignItems="center"
     >
-      <Box w="720px" h="1024px" bg="#FFFFFF">
-        <Center mt={302} mr="160px" ml="155px">
-          <Container>
+
+<Flex
+        mr='130px'
+         ml='130px'
+         h='80vh'
+         w='40vw'
+        display={{md: 'flex' }}
+       bg="#FFFFFF">
+
+      <Box w={{ base: 'full', md: 'full', lg: 'full' }} h="" 
+      >
+        <Center my='px' >
+          
             <Text
+             mt='220px'
+             mr="60px"
+             ml="60px"
               fontFamily="Nunito Sans"
               fontStyle="normal"
               fontWeight="700"
-              fontSize={{ base: "63px", md: "64px", lg: "66px" }}
-              lineHeight="70px"
+              fontSize={{ base: "25px", md: "60px", lg: "70px" }}
+              lineHeight={{ base: "40px", md: "55px", lg: "70px" }}
               color="#253C1F"
             >
               Venha fazer parte desta{" "}
@@ -160,36 +174,51 @@ const Cadastro = () => {
               </>{" "}
               você também!
             </Text>
-          </Container>
+         
         </Center>
       </Box>
+      </Flex>
 
-      <Box w="720px" h="1024px" bg="#F9F9F9">
+
+      <Flex
+         mr='120px'
+         ml='90px'
+         h='81vh'
+         display={{md: 'flex' }}
+         bg="#F9F9F9">
+
+      <Box w={{ base: 'full', md: 'full', lg: 'full' }} h="" 
+      >
+
+     
         <Box>
-          <Stack spacing={45}>
+          <Stack spacing={8}>
+           
             <Image
-              mt={130}
-              mr="239px"
-              ml="239px"
+              mt={5}
+              mr="100px"
+              ml="100px"
               src="Logo.svg"
               alt="Logotipo da empresa"
               onClick={() => Router.push("/login")}
               cursor="pointer"
             />
-
+            
             <Box>
+              <Center>
               <Heading
-                mr="224px"
-                ml="225px"
+                mr="60px"
+                ml="60px"
                 fontFamily="Nunito Sans"
                 fontStyle="Bold"
-                fontSize={{ base: "46px", md: "49px", lg: "50px" }}
+                fontSize={{ base: "25px", md: "40px", lg: "45px" }}
                 lineHeight="35px"
                 aling="Center"
                 color="#253C1F"
               >
                 Cadastre-se
               </Heading>
+              </Center>
             </Box>
 
             <FormControl as="form">
@@ -197,8 +226,8 @@ const Cadastro = () => {
                 <Input
                   w="343px"
                   h="44.74"
-                  ml="188px"
-                  mr="188px"
+                  ml="60px"
+                  mr="60px"
                   value={email}
                   borderRadius={10}
                   borderColor="#6FBE5E"
@@ -213,8 +242,8 @@ const Cadastro = () => {
                 <Input
                   w="343px"
                   h="44.74"
-                  ml="188px"
-                  mr="188px"
+                  ml="60px"
+                  mr="60px"
                   value={password}
                   borderRadius={10}
                   borderColor="#6FBE5E"
@@ -229,8 +258,9 @@ const Cadastro = () => {
                 <Input
                   w="343px"
                   h="44.74"
-                  ml="188px"
-                  mr="188px"
+                  ml="60px"
+                  mr="60px"
+                  fontSize={{ base: "11px", md: "17px", lg: "17px" }}
                   value={confirmPassowrd}
                   borderRadius={10}
                   borderColor="#6FBE5E"
@@ -239,7 +269,7 @@ const Cadastro = () => {
                   onChange={(e) => setConfirmPassowrd(e.target.value)}
                   placeholder="Confirme a senha"
                 />
-                <InputRightElement mr="170px" width="4.5rem">
+                <InputRightElement mr="53px" width="4.5rem">
                   <Button
                     h="1.75rem"
                     size="sm"
@@ -258,16 +288,20 @@ const Cadastro = () => {
                   </Button>
                 </InputRightElement>
               </InputGroup>
+              <Flex
+              mr="60px"
+              ml="60px" >
               <FormControl
                 w="343px"
                 h="44.74"
-                ml="188px"
-                mr="188px"
+               
                 mt="20px"
                 isRequired
                 isInvalid={isIngredientsError}
               >
+                
                 <FormLabel>Ingrediente(s)</FormLabel>
+                
                 <Select
                   isMulti
                   instanceId="ingredientsAllergic"
@@ -301,14 +335,17 @@ const Cadastro = () => {
                   <FormErrorMessage>Campo obrigatório</FormErrorMessage>
                 )}
               </FormControl>
+              </Flex>
             </FormControl>
-
+            
             <FormControl>
+            <Flex
+              mr="60px"
+              ml="60px" >
               <Button
                 type="submit"
                 onClick={handleSubmit}
-                ml="188px"
-                mr="188px"
+                
                 w="343px"
                 h="44.74"
                 borderRadius={10}
@@ -319,23 +356,28 @@ const Cadastro = () => {
               >
                 Cadastrar
               </Button>
+              </Flex>
+
               <Divider
-                w="343px"
-                h="44.74"
-                ml="188px"
-                mr="188px"
-                my="6"
-                borderColor="gray.500"
+               ml="60px"
+               mr="80px"
+                display={{md: 'flex' }}
+                w=''
+               
+                my="5"
+                borderColor="#6FBE5E"
+                
               />
               <Link href="/providerRegister">
                 <Text
-                  width="100%"
-                  my="10"
-                  ml="180px"
+                  
+                  my="5"
+                  ml="60px"
+                  mr="60px"
                   color="#6FBE5E"
                   fontWeight="700"
                   lineHeight="10"
-                  fontSize="25px"
+                  fontSize={{ base: '20', md: '25', lg: '25' }}
                   cursor="pointer"
                 >
                   Cadastre-se como Fornecedor
@@ -345,6 +387,7 @@ const Cadastro = () => {
           </Stack>
         </Box>
       </Box>
+      </Flex>
     </Flex>
   );
 };
