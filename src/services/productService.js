@@ -69,6 +69,14 @@ async function getProductById(id) {
   return product;
 }
 
+async function getProductsContainingIngredients(url) {
+  return await axios.get(url).then((response) => {
+    return response.data;
+  }).catch((error) => {
+    return error.response;
+  });
+}
+
 async function getAllProducts() {
   const products = await axios.get("/products/all");
   return products.data;
@@ -79,9 +87,10 @@ async function deleteProduct(id) {
 }
 
 export {
-  getProductsPaged,
   createProduct,
+  getProductsPaged,
   getAllProducts,
+  getProductsContainingIngredients,
   getProductById,
   deleteProduct,
 };

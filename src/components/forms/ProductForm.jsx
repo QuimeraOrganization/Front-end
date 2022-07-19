@@ -200,8 +200,6 @@ export default function ProductForm({ productProp = null }) {
   }
 
   async function handleSelectIngredients(ingredients) {
-    console.log(selectRef)
-
     const ingredientsId = await ingredients.map((ingredient) => {
       return ingredient.value;
     });

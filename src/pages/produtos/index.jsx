@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
 import {
   Flex,
@@ -9,6 +9,7 @@ import {
   InputGroup,
   InputRightAddon,
   Button,
+  Text,
   Tooltip,
   useDisclosure
 } from "@chakra-ui/react";
@@ -30,13 +31,32 @@ import {
 import { Select } from "chakra-react-select";
 
 import Card from "../../components/Card";
-import { getProductsPaged } from "../../services/productService";
+
+import { getProductsPaged, getProductsContainingIngredients } from "../../services/productService";
 import ProductForm from "../../components/forms/ProductForm";
+import { getAllIngredients, createIngredient } from "../../services/ingredientService";
+import { AuthContext } from "../../context/AuthContext";
 
 const chakraStyles = {
+  multiValue: (provided, state) => ({
+    ...provided,
+    backgroundColor: "#6FBE5E",
+    color: "#fff",
+  }),
   control: (provided, state) => ({
     ...provided,
-    minWidth: "200px"
+    _hover: {
+      border: "1.5px solid #6FBE5E"
+    },
+    _focusVisible: {
+      border: "1.5px solid #6FBE5E"
+    }
+  }),
+  container: (provided, state) => ({
+    ...provided,
+    minWidth: "250px",
+    maxWidth: "250px",
+    border: "0px solid #6FBE5E",
   }),
   option: (provided, state) => ({
     ...provided,
@@ -46,6 +66,14 @@ const chakraStyles = {
       backgroundColor: "#6FBE5E",
     },
   }),
+  placeholder: (provided, state) => ({
+    ...provided,
+    color: "#253C1F"
+  }),
+  downChevron: (provided, state) => ({
+    ...provided,
+    color: "#6FBE5E"
+  })
 };
 
 const filterOptions = [
@@ -55,14 +83,22 @@ const filterOptions = [
   }
 ]
 
+const initialFilter = {
+  label: "Selecione um filtro",
+  value: null
+}
 
 export default function Home() {
   const router = useRouter();
   const [pageProducts, setPageProducts] = useState({});
   const [currentPage, setCurrentPage] = useState(parseInt(router.query.page));
   const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState(initialFilter);
+  const [ingredientsOptions, setIngredientsOptions] = useState([]);
+  const [ingredientsSelected, setIngredientsSelected] = useState([]);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isAuthenticated } = useContext(AuthContext);
 
   useEffect(() => {
     // Evita chamada a api quando o query.page ainda está undefined
@@ -92,6 +128,70 @@ export default function Home() {
     router.push(`produtos/${productId}`);
   }
 
+  async function handleSelectFilter(filter) {
+    if (filter.label === "Contém ingredientes") {
+      const ingredientsResponse = await getAllIngredients();
+
+      setIngredientsOptions(ingredientsResponse.map((ingredient) => {
+        return {
+          label: ingredient.name,
+          value: ingredient.id,
+        }
+      }));
+    }
+    setFilter(filter);
+  }
+
+  async function handleClearFilters() {
+    setLoading(true);
+    setFilter(initialFilter);
+
+    const productsData = await getProductsPaged(parseInt(router.query.page));
+    setCurrentPage(parseInt(router.query.page));
+    setPageProducts(productsData);
+    setLoading(false);
+
+    router.back();
+  }
+
+  async function handleCreateIngredient(ingredientName) {
+    const ingredientResponse = await createIngredient(ingredientName);
+    const nweIngredientOption = {
+      label: ingredientResponse.name,
+      value: ingredientResponse.id,
+    };
+
+    setIngredientsOptions((prevState) => {
+      return [...prevState, nweIngredientOption];
+    });
+  }
+
+  async function handleSelectIngredients(ingredients) {
+    const ingredientsId = await ingredients.map((ingredient) => {
+      return ingredient.value;
+    });
+
+    setIngredientsSelected(ingredientsId);
+  }
+
+  async function handleSearchWithFilter() {
+    setLoading(true);
+
+    let urlFront = `/produtos/?page=1`;
+
+    ingredientsSelected.forEach((ingredientId) => {
+      urlFront += `&contains_ingredients[]=${ingredientId}`;
+    });
+
+    router.push(urlFront);
+
+    let urlBack = urlFront.replace("produtos", "products");
+    const searchResponse = await getProductsContainingIngredients(urlBack);
+
+    setPageProducts(searchResponse);
+    setLoading(false);
+  }
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -106,14 +206,20 @@ export default function Home() {
       </Modal>
 
       <VStack px={10} mt={4}>
-        <HStack width="100%" justify="space-between" mb={4}>
-          <HStack width="100%">
+        <HStack
+          width="100%"
+          justify="space-between"
+          alignItems="flex-start"
+          mb={4}>
+          <HStack>
             {/* Barra de busca */}
-            <InputGroup size="sm" width="30%" border="0px solid #6FBE5E">
+            <InputGroup size="sm" border="0px solid #6FBE5E">
               <Input
                 focusBorderColor="#6FBE5E"
                 placeholder="Busque por um produto..."
                 fontSize={{ base: "11px", md: "12px", lg: "13px" }}
+                minWidth="150px"
+                maxWidth="200px"
                 borderRadius={200}
               />
               <InputRightAddon
@@ -124,34 +230,91 @@ export default function Home() {
               />
             </InputGroup>
 
-            <Tooltip
-              hasArrow
-              label="Cadastrar produto"
-              backgroundColor="#6FBE5E"
-              fontSize={["11px", "12px", "13px"]}
-            >
-              <Button
-                minWidth="auto"
-                width={["30px", "33px", "35px"]}
-                height={["30px", "33px", "35px"]}
-                borderRadius="100%"
+            {isAuthenticated && (
+              <Tooltip
+                hasArrow
+                label="Cadastrar produto"
                 backgroundColor="#6FBE5E"
-                onClick={onOpen}
+                fontSize={["11px", "12px", "13px"]}
               >
-                <AddIcon color="#fff" />
-              </Button>
-            </Tooltip>
+                <Button
+                  minWidth="auto"
+                  width={["30px", "33px", "35px"]}
+                  height={["30px", "33px", "35px"]}
+                  borderRadius="100%"
+                  backgroundColor="#6FBE5E"
+                  onClick={onOpen}
+                >
+                  <AddIcon color="#fff" />
+                </Button>
+              </Tooltip>
+            )}
           </HStack>
 
-          {/* Filtro */}
-          {/* <FormControl> */}
-          <Select
-            placeholder="Selecione um filtro"
-            size="sm"
-            chakraStyles={chakraStyles}
-            options={filterOptions}
-          />
-          {/* </FormControl> */}
+          {/* Filtros */}
+          <HStack>
+            <VStack>
+              <Select
+                useBasicStyles
+                size="sm"
+                placeholder="Selecione um filtro"
+                chakraStyles={chakraStyles}
+                options={filterOptions}
+                value={filter}
+                onChange={(e) => handleSelectFilter(e)}
+              />
+
+              {filter.label === "Contém ingredientes" && (
+                <>
+                  <Select
+                    isMulti
+                    useBasicStyles
+                    size="sm"
+                    id="ingredients"
+                    placeholder="Selecione os ingredientes"
+                    chakraStyles={chakraStyles}
+                    onChange={(e) => handleSelectIngredients(e)}
+                    options={ingredientsOptions}
+                    noOptionsMessage={({ inputValue }) =>
+                      !inputValue ? (
+                        "Sem resultados"
+                      ) : (
+                        <VStack>
+                          <Text>Ingrediente não cadastrado</Text>
+                          <Button
+                            backgroundColor="#253C1F"
+                            color="#fff"
+                            _hover={{ backgroundColor: "#6FBE5E" }}
+                            onClick={() => handleCreateIngredient(inputValue)}
+                          >
+                            Cadastrar ingrediente
+                          </Button>
+                        </VStack>
+                      )
+                    }
+                  />
+                </>
+              )}
+            </VStack>
+            {filter.label === "Contém ingredientes" && (
+              <VStack>
+                <Button
+                  width="100%"
+                  size="sm"
+                  onClick={handleClearFilters}
+                >
+                  Limpar filtros
+                </Button>
+                <Button
+                  width="100%"
+                  size="sm"
+                  onClick={handleSearchWithFilter}
+                >
+                  Buscar
+                </Button>
+              </VStack>
+            )}
+          </HStack>
         </HStack>
 
         {loading && <Spinner color="#6FBE5E" />}
@@ -203,7 +366,7 @@ export default function Home() {
           </Button>
 
           <Button
-            disabled={currentPage + 1 > pageProducts.totalPages ? true : false}
+            disabled={currentPage + 1 > pageProducts?.totalPages ? true : false}
             size="sm"
             my={2}
             backgroundColor="#fff"

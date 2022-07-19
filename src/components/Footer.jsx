@@ -39,19 +39,19 @@ export default function Footer() {
           Sua conta
         </Text>
         <Stack spacing="3" shouldWrapChildren>
-        <Link href="/userRegister">
-          <Button variant="link" color="white" size="sm" fontWeight="light">
-            Cadastre-se
-          </Button>
-        </Link>
-        <Link href="/login">
-          <Button variant="link" color="white" size="sm" fontWeight="light">
-            Entrar
-          </Button>
-        </Link>
+          <Link href="/userRegister">
+            <Button variant="link" color="white" size="sm" fontWeight="light">
+              Cadastre-se
+            </Button>
+          </Link>
+          <Link href="/login">
+            <Button variant="link" color="white" size="sm" fontWeight="light">
+              Entrar
+            </Button>
+          </Link>
         </Stack>
       </Stack>
-      
+
       <Stack width="200">
         <Text fontSize="lg" fontWeight="bold">
           Sobre
@@ -69,7 +69,7 @@ export default function Footer() {
         <Text fontSize="lg" fontWeight="bold">
           Social media
         </Text>
-        <ButtonGroup variant="link">          
+        <ButtonGroup variant="link">
           <IconButton
             as="a"
             href="https://www.facebook.com/atlanticos/"
