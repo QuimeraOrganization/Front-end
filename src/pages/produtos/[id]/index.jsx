@@ -62,7 +62,7 @@ export default function ProductDetails() {
   }
 
   return (
-    <VStack>
+    <VStack minH="100vh">
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -94,14 +94,27 @@ export default function ProductDetails() {
 
       {product != null && (
         <HStack spacing={["20px", "60px", "80px"]}>
-          <Image
-            src={product.image}
-            objectFit="scale-down"
-            width={["200px", "220px", "240px"]}
-            height={["200px", "220px", "240px"]}
-            border="1px solid rgba(128,128,128, .1)"
-            boxShadow="5px 5px 5px rgba(128,128,128, .3)"
-          />
+
+          {product.image ? (
+            <Image
+              src={product.image}
+              objectFit="scale-down"
+              width={["200px", "220px", "240px"]}
+              height={["200px", "220px", "240px"]}
+              border="1px solid rgba(128,128,128, .1)"
+              boxShadow="5px 5px 5px rgba(128,128,128, .3)"
+            />
+          ) : (
+            <Image
+              src="/Sem-imagem.jpeg"
+              objectFit="scale-down"
+              width={["200px", "220px", "240px"]}
+              height={["200px", "220px", "240px"]}
+              border="1px solid rgba(128,128,128, .1)"
+              boxShadow="5px 5px 5px rgba(128,128,128, .3)"
+            />
+          )}
+
 
           <VStack mx={5}>
             <Heading>{product.name}</Heading>

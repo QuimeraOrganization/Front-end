@@ -7,10 +7,13 @@ import {
   Text,
   Input,
   Button,
+  Tag,
+  TagCloseButton,
+  Avatar
 } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
 import FilePicker from "chakra-ui-file-picker";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { getAllBrands, createBrand } from "../../services/brandService";
 import {
   getAllCategories,
@@ -20,7 +23,7 @@ import {
   getAllIngredients,
   createIngredient,
 } from "../../services/ingredientService";
-import { createProduct, updateProduct } from "../../services/productService";
+import { createProduct, updateProduct, deleteProductImage } from "../../services/productService";
 
 import { AuthContext } from "../../context/AuthContext";
 import { toast } from "react-toastify";
@@ -91,12 +94,12 @@ export default function ProductForm({ productProp = null }) {
   const [isNameError, setNameError] = useState(false);
   const [isDescriptionError, setDescriptionError] = useState(false);
   const [isBrandError, setBrandError] = useState(false);
-  const [isCategoriesError, setCategoriesError] = useState(false);
-  const [isIngredientsError, setIngredientsError] = useState(false);
+  const [isDeleteImage, setDeleteImage] = useState(false);
 
   const imageRef = useRef();
   const selectRef = useRef();
   const { user } = useContext(AuthContext);
+  const router = useRouter();
 
   useEffect(() => {
     (async () => {
@@ -130,8 +133,29 @@ export default function ProductForm({ productProp = null }) {
           };
         })
       );
+
+      if (defaultCategories) {
+        const categoriesId = await defaultCategories.map((category) => {
+          return category.value;
+        });
+
+        setProduct((prevState) => {
+          return { ...prevState, categories: categoriesId };
+        });
+      }
+
+      if (defaultIngredients) {
+        const ingredientsId = await defaultIngredients.map((ingredient) => {
+          return ingredient.value;
+        });
+
+        setProduct((prevState) => {
+          return { ...prevState, ingredients: ingredientsId };
+        });
+      }
+
       if (!user) {
-        Router.push("/userRegister");
+        router.push("/userRegister");
       } else {
         setProduct((prevState) => {
           return { ...prevState, userId: user.id };
@@ -218,9 +242,7 @@ export default function ProductForm({ productProp = null }) {
     if (
       product.name != "" &&
       product.description != "" &&
-      product.brandId != null &&
-      product.categories.length != 0 &&
-      product.ingredients.length != 0
+      product.brandId != null
     ) {
       return true;
     }
@@ -233,31 +255,44 @@ export default function ProductForm({ productProp = null }) {
       ? setDescriptionError(true)
       : setDescriptionError(false);
     product.brandId === null ? setBrandError(true) : setBrandError(false);
-    product.categories.length === 0
-      ? setCategoriesError(true)
-      : setCategoriesError(false);
-    product.ingredients.length === 0
-      ? setIngredientsError(true)
-      : setIngredientsError(false);
 
     if (isValidFields()) {
-      // Implementar o toast
       if (productProp === null) {
+        // Cadastra
+
         const response = await createProduct(product, imageRef);
+
+        if (response.status === 200) {
+          toast.success("Produto cadastrado com sucesso!", {
+            autoClose: 2000,
+          });
+        }
+
       } else {
+        // Edita
+
+        if (isDeleteImage) {
+          console.log("Entrou")
+          // Requisição para deletar imagem
+          await deleteProductImage(product.id);
+        }
+
         const response = await updateProduct(product, imageRef);
+
+        if (response.status === 200) {
+          toast.success("Produto atualizado com sucesso!", {
+            autoClose: 2000,
+          });
+        }
       }
 
-      toast.success("Produto cadastrado com sucesso!", {
-        autoClose: 2000,
-      });
-
-      Router.push("/");
+      // router.push(`/produtos/${product.id}`);
+      router.reload();
     }
   }
 
   return (
-    <VStack>
+    <VStack spacing={4}>
       <FormControl isRequired isInvalid={isNameError}>
         <FormLabel htmlFor="name">Nome</FormLabel>
         <Input
@@ -314,7 +349,7 @@ export default function ProductForm({ productProp = null }) {
         {isBrandError && <FormErrorMessage>Campo obrigatório</FormErrorMessage>}
       </FormControl>
 
-      <FormControl isRequired isInvalid={isCategoriesError}>
+      <FormControl>
         <FormLabel htmlFor="categories">Categoria(s)</FormLabel>
         <Select
           isMulti
@@ -344,12 +379,9 @@ export default function ProductForm({ productProp = null }) {
             )
           }
         />
-        {isCategoriesError && (
-          <FormErrorMessage>Campo obrigatório</FormErrorMessage>
-        )}
       </FormControl>
 
-      <FormControl isRequired isInvalid={isIngredientsError}>
+      <FormControl>
         <FormLabel htmlFor="ingredients">Ingrediente(s)</FormLabel>
         <Select
           isMulti
@@ -380,25 +412,50 @@ export default function ProductForm({ productProp = null }) {
             )
           }
         />
-        {isIngredientsError && (
-          <FormErrorMessage>Campo obrigatório</FormErrorMessage>
-        )}
       </FormControl>
 
-      <FormControl>
-        <FormLabel htmlFor="image">Imagem</FormLabel>
-        <FilePicker
-          placeholder="Selecione uma imagem"
-          clearButtonLabel="Remover"
-          inputProps={{ cursor: "pointer" }}
-          inputGroupProps={{ cursor: "pointer" }}
-          accept="image/*"
-          onFileChange={(fileList) => { }}
-          multipleFiles={false}
-          hideClearButton={false}
-          ref={imageRef}
-        />
-      </FormControl>
+      {product.image ? (
+        <FormControl>
+          <FormLabel htmlFor="image">Imagem</FormLabel>
+          <Tag
+            size='lg'
+            borderRadius='full'
+            backgroundColor="transparent"
+          >
+            <Avatar
+              src={product.image}
+              size='lg'
+              name='Segun Adebayo'
+              backgroundColor="transparent"
+            />
+            <TagCloseButton
+              color="red"
+              onClick={() => setProduct(prevState => {
+                setDeleteImage(true);
+                return { ...prevState, image: "" };
+              })}
+            />
+          </Tag>
+        </FormControl>
+      )
+        :
+        (
+          <FormControl>
+            <FormLabel htmlFor="image">Imagem</FormLabel>
+            <FilePicker
+              placeholder="Selecione uma imagem"
+              clearButtonLabel="Remover"
+              inputProps={{ cursor: "pointer" }}
+              inputGroupProps={{ cursor: "pointer" }}
+              accept="image/*"
+              onFileChange={(fileList) => { }}
+              multipleFiles={false}
+              hideClearButton={false}
+              ref={imageRef}
+            />
+          </FormControl>
+        )
+      }
 
       <Button
         backgroundColor="#253C1F"
@@ -406,7 +463,7 @@ export default function ProductForm({ productProp = null }) {
         _hover={{ backgroundColor: "#6FBE5E" }}
         onClick={handleSubmit}
       >
-        Cadastrar
+        {productProp ? "Salvar" : "Cadastrar"}
       </Button>
     </VStack>
   );

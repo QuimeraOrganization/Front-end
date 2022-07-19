@@ -193,7 +193,7 @@ export default function Home() {
   }
 
   return (
-    <>
+    <VStack minH="100vh" alignItems="space-between">
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -378,6 +378,6 @@ export default function Home() {
           </Button>
         </HStack>
       </VStack>
-    </>
+    </VStack>
   );
 }
