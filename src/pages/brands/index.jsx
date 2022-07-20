@@ -45,7 +45,7 @@ export default function BrandList(props) {
   };
 
   return (
-    <Box>
+    <Box minHeight="100vh">
       <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
         <SideBar />
         <Box

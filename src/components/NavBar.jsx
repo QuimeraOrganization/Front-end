@@ -58,11 +58,11 @@ export default function NavBar() {
             Produtos
           </Text>
         </Link>
-        <Link href="/">
+        {/* <Link href="/">
           <Text fontSize="15px" _hover={{ borderBottom: "3px solid #6FBE5E" }}>
             Categorias
           </Text>
-        </Link>
+        </Link> */}
       </HStack>
 
       <HStack
