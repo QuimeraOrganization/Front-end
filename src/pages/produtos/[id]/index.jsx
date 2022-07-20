@@ -117,7 +117,6 @@ export default function ProductDetails() {
             />
           )}
 
-
           <VStack mx={5}>
             <Heading>{product.name}</Heading>
 
@@ -177,7 +176,7 @@ export default function ProductDetails() {
                     <Button
                       backgroundColor="#253C1F"
                       color="#fff"
-                      _hover="none"
+                      _hover={{}}
                       height="100%"
                     >
                       Publicar
@@ -187,11 +186,11 @@ export default function ProductDetails() {
               </InputGroup>
 
               {feedbacks.length > 0 &&
-                feedbacks.map((feedback) => (
-                  <>
+                feedbacks.map((feedback, index) => (
+                  <VStack key={index}>
                     <Text as="b">{feedback.user.email}</Text>
                     <Text>{feedback.contents}</Text>
-                  </>
+                  </VStack>
                 ))}
             </VStack>
           </VStack>

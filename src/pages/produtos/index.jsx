@@ -314,6 +314,8 @@ export default function Home() {
               <Select
                 useBasicStyles
                 isSearchable={false}
+                id="SelectFilter"
+                instanceId="SelectFilter"
                 size="sm"
                 placeholder="Selecione um filtro"
                 chakraStyles={chakraStyles}
@@ -326,8 +328,9 @@ export default function Home() {
                 <Select
                   isMulti
                   useBasicStyles
+                  id="SelectIngredients"
+                  instanceId="SelectIngredients"
                   size="sm"
-                  id="ingredients"
                   placeholder="Selecione os ingredientes"
                   chakraStyles={chakraStyles}
                   onChange={(e) => handleSelectIngredients(e)}
@@ -347,9 +350,10 @@ export default function Home() {
               {filter.label === "Categorias" && (
                 <Select
                   isMulti
-                  id="categories"
-                  placeholder="Selecione uma Categoria"
                   useBasicStyles
+                  id="SelectCategories"
+                  instanceId="SelectCategories"
+                  placeholder="Selecione uma Categoria"
                   size="sm"
                   chakraStyles={chakraStyles}
                   onChange={(e) => handleSelectCategories(e)}
