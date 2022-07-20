@@ -31,11 +31,12 @@ import {
 import { Select } from "chakra-react-select";
 
 import Card from "../../components/Card";
+import ProductForm from "../../components/forms/ProductForm";
+import { AuthContext } from "../../context/AuthContext";
 
 import { getProductsPaged, getProductsWithFilter } from "../../services/productService";
-import ProductForm from "../../components/forms/ProductForm";
 import { getAllIngredients, createIngredient } from "../../services/ingredientService";
-import { AuthContext } from "../../context/AuthContext";
+import { getAllCategories } from "../../services/categoryService";
 
 const chakraStyles = {
   multiValue: (provided, state) => ({
@@ -89,6 +90,10 @@ const filterOptions = [
   {
     label: "Não contém ingredientes",
     value: "Não contém ingredientes"
+  },
+  {
+    label: "Categorias",
+    value: "Categorias"
   }
 ]
 
@@ -105,6 +110,8 @@ export default function Home() {
   const [filter, setFilter] = useState(initialFilter);
   const [ingredientsOptions, setIngredientsOptions] = useState([]);
   const [ingredientsSelected, setIngredientsSelected] = useState([]);
+  const [categoriesOptions, setCategoriesOptions] = useState([]);
+  const [categoriesSelected, setCategoriesSelected] = useState([]);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isAuthenticated } = useContext(AuthContext);
@@ -138,16 +145,31 @@ export default function Home() {
   }
 
   async function handleSelectFilter(filter) {
-    const ingredientsResponse = await getAllIngredients();
 
     if (filter.label === "Contém ingredientes" || filter.label === "Não contém ingredientes") {
-      setIngredientsOptions(ingredientsResponse.map((ingredient) => {
-        return {
-          label: ingredient.name,
-          value: ingredient.id,
-        }
-      }));
+      const ingredientsResponse = await getAllIngredients();
+
+      setIngredientsOptions(
+        ingredientsResponse.map((ingredient) => {
+          return {
+            label: ingredient.name,
+            value: ingredient.id,
+          }
+        }));
     }
+
+    if (filter.label === "Categorias") {
+      const categoriesResponse = await getAllCategories();
+
+      setCategoriesOptions(
+        categoriesResponse.map((category) => {
+          return {
+            label: category.name,
+            value: category.id,
+          }
+        }));
+    }
+
     setFilter(filter);
   }
 
@@ -187,6 +209,14 @@ export default function Home() {
     setIngredientsSelected(ingredientsId);
   }
 
+  async function handleSelectCategories(categories) {
+    const categoriesId = await categories.map((category) => {
+      return category.value;
+    });
+
+    setCategoriesSelected(categoriesId);
+  }
+
   async function handleSearchWithFilter() {
     setLoading(true);
 
@@ -204,6 +234,12 @@ export default function Home() {
       });
     }
 
+    if (filter.label === "Categorias") {
+      categoriesSelected.forEach((categoryId) => {
+        urlFront += `&categories[]=${categoryId}`;
+      });
+    }
+
     router.push(urlFront);
 
     let urlBack = urlFront.replace("produtos", "products");
@@ -211,7 +247,6 @@ export default function Home() {
 
     setPageProducts(searchResponse);
     setLoading(false);
-
   }
 
   return (
@@ -288,38 +323,50 @@ export default function Home() {
               />
 
               {(filter.label === "Contém ingredientes" || filter.label === "Não contém ingredientes") && (
-                <>
-                  <Select
-                    isMulti
-                    useBasicStyles
-                    size="sm"
-                    id="ingredients"
-                    placeholder="Selecione os ingredientes"
-                    chakraStyles={chakraStyles}
-                    onChange={(e) => handleSelectIngredients(e)}
-                    options={ingredientsOptions}
-                    noOptionsMessage={({ inputValue }) =>
-                      !inputValue ? (
-                        "Sem resultados"
-                      ) : (
-                        <VStack>
-                          <Text>Ingrediente não cadastrado</Text>
-                          <Button
-                            backgroundColor="#253C1F"
-                            color="#fff"
-                            _hover={{ backgroundColor: "#6FBE5E" }}
-                            onClick={() => handleCreateIngredient(inputValue)}
-                          >
-                            Cadastrar ingrediente
-                          </Button>
-                        </VStack>
-                      )
-                    }
-                  />
-                </>
+                <Select
+                  isMulti
+                  useBasicStyles
+                  size="sm"
+                  id="ingredients"
+                  placeholder="Selecione os ingredientes"
+                  chakraStyles={chakraStyles}
+                  onChange={(e) => handleSelectIngredients(e)}
+                  options={ingredientsOptions}
+                  noOptionsMessage={({ inputValue }) =>
+                    !inputValue ? (
+                      "Sem resultados"
+                    ) : (
+                      <VStack>
+                        <Text>Ingrediente não cadastrado</Text>
+                      </VStack>
+                    )
+                  }
+                />
+              )}
+
+              {filter.label === "Categorias" && (
+                <Select
+                  isMulti
+                  id="categories"
+                  placeholder="Selecione uma Categoria"
+                  useBasicStyles
+                  size="sm"
+                  chakraStyles={chakraStyles}
+                  onChange={(e) => handleSelectCategories(e)}
+                  options={categoriesOptions}
+                  noOptionsMessage={({ inputValue }) =>
+                    !inputValue ? (
+                      "Sem resultados"
+                    ) : (
+                      <VStack>
+                        <Text>Categoria não cadastrada</Text>
+                      </VStack>
+                    )
+                  }
+                />
               )}
             </VStack>
-            {(filter.label === "Contém ingredientes" || filter.label === "Não contém ingredientes") && (
+            {filter.label != "Selecione um filtro" && (
               <VStack>
                 <Button
                   width="100%"
