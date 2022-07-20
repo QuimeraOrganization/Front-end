@@ -62,7 +62,7 @@ export default function ProductDetails() {
   }
 
   return (
-    <VStack minH="73vh">
+    <VStack minH="74.1vh">
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
