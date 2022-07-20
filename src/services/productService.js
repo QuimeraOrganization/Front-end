@@ -69,13 +69,15 @@ async function getProductById(id) {
   return product;
 }
 
-async function getProductsContainingIngredients(url) {
+async function getProductsWithFilter(url) {
   return await axios.get(url).then((response) => {
     return response.data;
   }).catch((error) => {
     return error.response;
   });
 }
+
+
 
 async function getAllProducts() {
   const products = await axios.get("/products/all");
@@ -94,7 +96,7 @@ export {
   createProduct,
   getProductsPaged,
   getAllProducts,
-  getProductsContainingIngredients,
+  getProductsWithFilter,
   getProductById,
   updateProduct,
   deleteProduct,

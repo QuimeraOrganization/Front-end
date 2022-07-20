@@ -32,7 +32,7 @@ import { Select } from "chakra-react-select";
 
 import Card from "../../components/Card";
 
-import { getProductsPaged, getProductsContainingIngredients } from "../../services/productService";
+import { getProductsPaged, getProductsWithFilter } from "../../services/productService";
 import ProductForm from "../../components/forms/ProductForm";
 import { getAllIngredients, createIngredient } from "../../services/ingredientService";
 import { AuthContext } from "../../context/AuthContext";
@@ -45,6 +45,7 @@ const chakraStyles = {
   }),
   control: (provided, state) => ({
     ...provided,
+    cursor: "pointer",
     _hover: {
       border: "1.5px solid #6FBE5E"
     },
@@ -57,6 +58,10 @@ const chakraStyles = {
     minWidth: "250px",
     maxWidth: "250px",
     border: "0px solid #6FBE5E",
+  }),
+  clearIndicator: (provided, state) => ({
+    ...provided,
+    color: "red"
   }),
   option: (provided, state) => ({
     ...provided,
@@ -80,6 +85,10 @@ const filterOptions = [
   {
     label: "Contém ingredientes",
     value: "Contém ingredientes"
+  },
+  {
+    label: "Não contém ingredientes",
+    value: "Não contém ingredientes"
   }
 ]
 
@@ -129,9 +138,9 @@ export default function Home() {
   }
 
   async function handleSelectFilter(filter) {
-    if (filter.label === "Contém ingredientes") {
-      const ingredientsResponse = await getAllIngredients();
+    const ingredientsResponse = await getAllIngredients();
 
+    if (filter.label === "Contém ingredientes" || filter.label === "Não contém ingredientes") {
       setIngredientsOptions(ingredientsResponse.map((ingredient) => {
         return {
           label: ingredient.name,
@@ -151,7 +160,11 @@ export default function Home() {
     setPageProducts(productsData);
     setLoading(false);
 
-    router.back();
+    if (router.asPath.startsWith(`/produtos?page=${router.query.page}&`)) {
+      router.back();
+    } else {
+      router.push("/produtos?page=1");
+    }
   }
 
   async function handleCreateIngredient(ingredientName) {
@@ -179,17 +192,26 @@ export default function Home() {
 
     let urlFront = `/produtos/?page=1`;
 
-    ingredientsSelected.forEach((ingredientId) => {
-      urlFront += `&contains_ingredients[]=${ingredientId}`;
-    });
+    if (filter.label === "Contém ingredientes") {
+      ingredientsSelected.forEach((ingredientId) => {
+        urlFront += `&contains_ingredients[]=${ingredientId}`;
+      });
+    }
+
+    if (filter.label === "Não contém ingredientes") {
+      ingredientsSelected.forEach((ingredientId) => {
+        urlFront += `&no_contains_ingredients[]=${ingredientId}`;
+      });
+    }
 
     router.push(urlFront);
 
     let urlBack = urlFront.replace("produtos", "products");
-    const searchResponse = await getProductsContainingIngredients(urlBack);
+    const searchResponse = await getProductsWithFilter(urlBack);
 
     setPageProducts(searchResponse);
     setLoading(false);
+
   }
 
   return (
@@ -256,6 +278,7 @@ export default function Home() {
             <VStack>
               <Select
                 useBasicStyles
+                isSearchable={false}
                 size="sm"
                 placeholder="Selecione um filtro"
                 chakraStyles={chakraStyles}
@@ -264,7 +287,7 @@ export default function Home() {
                 onChange={(e) => handleSelectFilter(e)}
               />
 
-              {filter.label === "Contém ingredientes" && (
+              {(filter.label === "Contém ingredientes" || filter.label === "Não contém ingredientes") && (
                 <>
                   <Select
                     isMulti
@@ -296,11 +319,14 @@ export default function Home() {
                 </>
               )}
             </VStack>
-            {filter.label === "Contém ingredientes" && (
+            {(filter.label === "Contém ingredientes" || filter.label === "Não contém ingredientes") && (
               <VStack>
                 <Button
                   width="100%"
                   size="sm"
+                  backgroundColor="#253C1F"
+                  color="#fff"
+                  _hover={{ filter: "brightness(0.5)" }}
                   onClick={handleClearFilters}
                 >
                   Limpar filtros
@@ -308,6 +334,9 @@ export default function Home() {
                 <Button
                   width="100%"
                   size="sm"
+                  backgroundColor="#6FBE5E"
+                  color="#fff"
+                  _hover={{ filter: "brightness(0.8)" }}
                   onClick={handleSearchWithFilter}
                 >
                   Buscar

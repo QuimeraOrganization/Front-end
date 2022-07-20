@@ -32,7 +32,7 @@ export default function ProductDetails() {
   const [feedbacks, setFeedbacks] = useState([]);
   const [contentsFeedback, setContentsFeedback] = useState("");
 
-  const { user } = useContext(AuthContext);
+  const { user, isAuthenticated } = useContext(AuthContext);
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -82,14 +82,16 @@ export default function ProductDetails() {
           </Link>
         </Button>
 
-        <Button
-          backgroundColor="#fff"
-          border="1px solid #6FBE5E"
-          onClick={onOpen}
-        >
-          <EditIcon mr={1} />
-          <Text>Editar</Text>
-        </Button>
+        {isAuthenticated && (
+          <Button
+            backgroundColor="#fff"
+            border="1px solid #6FBE5E"
+            onClick={onOpen}
+          >
+            <EditIcon mr={1} />
+            <Text>Editar</Text>
+          </Button>
+        )}
       </HStack>
 
       {product != null && (
