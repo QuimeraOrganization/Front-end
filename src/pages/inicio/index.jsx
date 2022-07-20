@@ -5,7 +5,7 @@ import {
   Box,
   Divider,
   Image,
-  Spacer, 
+  Spacer,
   Text,
   Center,
   Container,
@@ -14,12 +14,12 @@ import {
 
 
 const Login = () => {
-  
-  
+
+
 
   return (
     <Flex
-    
+
       flexDirection="column"
       width="full"
       height="full"
@@ -237,7 +237,141 @@ const Login = () => {
       </Box>
 
       </Flex>
-      
+
+      <Divider
+        display={{ md: 'flex' }}
+        w={{ base: 'full', md: 'full', lg: 'full' }}
+
+        my="1"
+        borderColor="#6FBE5E"
+      />
+
+
+
+
+      <Flex
+
+
+        mr='120px'
+        ml='120px'
+        my='5'
+        display={{ md: 'flex' }}
+      >
+        <Box
+
+          mr='50px'
+          w={{ base: 'full', md: 'full', lg: 'full' }}
+          h='full'
+          mb='3'
+          boxShadow='dark-lg'
+          borderRadius='10'
+        >
+          <Center>
+            <Heading
+
+              fontFamily='Nunito Sans'
+              fontStyle='normal'
+              fontSize={{ base: '30px', md: '32px', lg: '34px' }}
+              lineHeight='50px'
+              aling='Center'
+              justifyContent="center"
+              color="#6FBE5E"
+            >
+              Missão
+            </Heading>
+          </Center>
+
+          <Text
+            ml='4'
+            mr='4'
+
+            fontFamily='Nunito Sans'
+            fontStyle='normal'
+            fontWeight='20'
+            fontSize={{ base: '18px', md: '20px', lg: '22px' }}
+            lineHeight='30px'
+            color='#253C1F'>
+
+            Proporcionar aos nossos clientes informações e uma vida livre de alergia.
+          </Text>
+
+        </Box>
+
+
+        <Box
+          mr='50px'
+          w={{ base: 'full', md: 'full', lg: 'full' }}
+          h='full'
+          mb='3'
+          boxShadow='dark-lg'
+          borderRadius='10'
+        >
+          <Center>
+            <Heading
+              fontFamily='Nunito Sans'
+              fontStyle='Bold'
+              fontSize={{ base: '30px', md: '32px', lg: '34px' }}
+              lineHeight='50px'
+              aling='Center'
+              justifyContent="center"
+              color="#6FBE5E"
+            >
+
+              Visão
+            </Heading>
+          </Center>
+          <Text
+            ml='4'
+            mr='4'
+            fontFamily='Nunito Sans'
+            fontStyle='normal'
+            fontWeight='20'
+            fontSize={{ base: '18px', md: '20px', lg: '22px' }}
+            lineHeight='30px'
+            color='#253C1F'>
+            Que o Sistema seja sinônimo de informações de confiança, preocupado com a saúde e futuro das pessoas.
+          </Text>
+
+        </Box>
+
+        <Box
+
+
+          w={{ base: 'full', md: 'full', lg: 'full' }}
+          h='full'
+          boxShadow='dark-lg'
+          borderRadius='10'
+        >
+          <Center>
+            <Heading
+              fontFamily='Nunito Sans'
+              fontStyle='normal'
+              fontSize={{ base: '30px', md: '32px', lg: '34px' }}
+              lineHeight='50px'
+              aling='Center'
+              justifyContent="center"
+              color="#6FBE5E"
+            >
+
+              Valores
+            </Heading>
+          </Center>
+          <Text
+            ml='4'
+            mr='4'
+            fontFamily='Nunito Sans'
+            fontStyle='normal'
+            fontWeight='10'
+            fontSize={{ base: '18px', md: '20px', lg: '22px' }}
+            lineHeight='30px'
+            color='#253C1F'>
+            Embasamento Técnico e Científico, Transparência, Inovação, Valorização do ser humano, Ambiente acolhedor e de ajuda mútua, Preocupação com o futuro das pessoas.
+          </Text>
+
+        </Box>
+
+      </Flex>
+
 
 
 

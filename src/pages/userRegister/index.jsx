@@ -163,15 +163,15 @@ const Cadastro = () => {
           >
              Venha fazer{<br/>} parte desta{" "}
               <>
-              {<br/>} <Text as="span" color="#6FBE5E">
+                {<br />} <Text as="span" color="#6FBE5E">
                   comunidade
                 </Text>
                 <br />
               </>{" "}
               você também!
-          </Text>
-          
-        </Center>
+            </Text>
+
+          </Center>
         </Box>
       </Flex>
 
@@ -327,51 +327,54 @@ const Cadastro = () => {
               </Flex>
             </FormControl>
 
-            <FormControl>
-              <Flex
-                mr="60px"
-                ml="60px" 
-                my='6'>
-              <Button
-                type="submit"
-                onClick={handleSubmit}
-                w="343px"
-                h="44.74"
-                borderRadius={10}
-                variant="solid"
-                _hover={{ bg: "green.400" }}
-                colorScheme="teal"
-                backgroundColor="#253C1F"
-              >
-                Cadastrar
-              </Button>
-              </Flex>
-              <Divider
-                ml="60px"
-                mr="80px"
-                display={{md: 'flex' }}
-                w=''
-                my="5"
-                borderColor="#6FBE5E"
-              />
-              <Link href="/providerRegister">
-                <Text                  
-                  my="5"
-                  ml="60px"
+            
+
+              
+              <FormControl>
+                <Flex
                   mr="60px"
-                  color="#6FBE5E"
-                  fontWeight="700"
-                  lineHeight="10"
-                  fontSize={{ base: '20', md: '25', lg: '25' }}
-                  cursor="pointer"
-                >
-                  Cadastre-se como Fornecedor
-                </Text>
-              </Link>
-            </FormControl>
-          </Stack>
+                  ml="60px"
+                  my='6'>
+                  <Button
+                    type="submit"
+                    onClick={handleSubmit}
+                    w="343px"
+                    h="44.74"
+                    borderRadius={10}
+                    variant="solid"
+                    _hover={{ bg: "green.400" }}
+                    colorScheme="teal"
+                    backgroundColor="#253C1F"
+                  >
+                    Cadastrar
+                  </Button>
+                </Flex>
+                <Divider
+                  ml="60px"
+                  mr="80px"
+                  display={{ md: 'flex' }}
+                  w=''
+                  my="5"
+                  borderColor="#6FBE5E"
+                />
+                <Link href="/providerRegister">
+                  <Text
+                    my="5"
+                    ml="60px"
+                    mr="60px"
+                    color="#6FBE5E"
+                    fontWeight="700"
+                    lineHeight="10"
+                    fontSize={{ base: '20', md: '25', lg: '25' }}
+                    cursor="pointer"
+                  >
+                    Cadastre-se como Fornecedor
+                  </Text>
+                </Link>
+              </FormControl>
+            </Stack>
+          </Box>
         </Box>
-      </Box>
       </Flex>
     </Flex>
   );
