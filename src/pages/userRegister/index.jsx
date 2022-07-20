@@ -142,23 +142,23 @@ const Cadastro = () => {
       alignItems="center"
     >
       <Flex
-        mr='130px'
-        ml='130px'
-        h='83.4vh'
-        w='40vw'
+        mr='100px'
+        ml='180px'
+        
+        w='30vw'
         display={{md: 'flex' }}
-        bg="#FFFFFF">
+        >
         <Box w={{ base: 'full', md: 'full', lg: 'full' }} h="" >
         <Center my='px'>
           <Text
-            mt='220px'
+           textShadow='2px 2px #6FBE5E' m='6'
             mr="60px"
             ml="60px"
             fontFamily="Nunito Sans"
             fontStyle="normal"
             fontWeight="700"
-            fontSize={{ base: "25px", md: "66px", lg: "85px" }}
-            lineHeight={{ base: "40px", md: "65px", lg: "95px" }}
+            fontSize={{ base: "50px", md: "70px", lg: "85px" }}
+            lineHeight={{ base: "50px", md: "80px", lg: "95px" }}
             color="#253C1F"
           >
              Venha fazer{<br/>} parte desta{" "}
@@ -177,9 +177,9 @@ const Cadastro = () => {
 
 
       <Flex
-         mr='120px'
+         mr='130px'
          ml='90px'
-         h='81vh'
+       
          display={{md: 'flex' }}
          bg="#F9F9F9">
 
@@ -187,7 +187,7 @@ const Cadastro = () => {
         <Box>
           <Stack spacing={8}>
             <Image
-              mt={5}
+              mt={3.5}
               mr="100px"
               ml="100px"
               src="Logo.svg"

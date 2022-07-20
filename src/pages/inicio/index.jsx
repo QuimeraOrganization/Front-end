@@ -30,22 +30,25 @@ const Login = () => {
        <Flex 
        mr='120px'
        ml='120px'
-       my='10' 
+       my='7'
+
        display={{md: 'flex' }}
        
       >        
       <Box 
        w={{ base: 'full', md: 'full', lg: 'full' }}
        mr='30px'
+       
+       
        >
             
                        
         <Text                                     
-          
+           
           fontFamily='Nunito Sans' 
           fontStyle='Bold'
           fontWeight='25'                                  
-          fontSize={{ base: '22px', md: '25px', lg: '27px' }}
+          fontSize={{ base: '20px', md: '20px', lg: '25px' }}
           lineHeight='30px'
           Aling='Center' 
           justifyContent="center"               
@@ -53,7 +56,7 @@ const Login = () => {
           >                                           
           {" "}
               <>
-                <Text as="span" color="#6FBE5E" fontSize='6xl'>
+                <Text as="span" color="#6FBE5E" fontSize='7xl' textShadow='3px 2px #253C1F' m='2' >
                   S
                 </Text>
                
@@ -61,18 +64,17 @@ const Login = () => {
         </Text>     
         <Text
           my='5' 
-         
           fontFamily='Nunito Sans' 
           fontStyle='Bold'
           fontWeight='20'                                 
-          fontSize={{ base: '22px', md: '25px', lg: '27px' }}
+          fontSize={{ base: '20px', md: '20px', lg: '25px' }}
           lineHeight='30px'
           Aling='Center' 
           justifyContent="center" 
           color="#253C1F" >
            {" "}
               <>
-                <Text as="span" color="#6FBE5E" fontSize='6xl' >
+                <Text as="span" color="#6FBE5E" fontSize='7xl' textShadow='3px 2px #253C1F' m='2'>
                   E
                 </Text>
                
@@ -83,14 +85,14 @@ const Login = () => {
       
       <Box 
         w={{ base: 'full', md: 'full', lg: 'full' }}
-        h='370px'
+       
         
          >  
                                                                            
                         
             <Image 
-            w='full'
-                h='full'                                    
+              w='full'
+              h='340px'                                    
               src="e.jpg" 
               alt='Logotipo da empresa'  
               borderRadius='10'
@@ -104,22 +106,19 @@ const Login = () => {
       </Flex> 
 
       <Divider
-      display={{md: 'flex' }}
+        display={{md: 'flex' }}
         w={{ base: 'full', md:'full', lg: 'full' }}
-       
-        my="1"
+        my="7"
         borderColor="#6FBE5E"
       />                       
 
 
         
       
-        <Flex
-        
-      
+      <Flex
        mr='120px'
        ml='120px'
-       my='5' 
+       my='8' 
        display={{md: 'flex' }}
         >
       <Box 
@@ -133,10 +132,10 @@ const Login = () => {
       >
         <Center>
         <Heading
-          
+          textShadow='2px 1px #253C1F' m=''
           fontFamily='Nunito Sans' 
-          fontStyle='normal'                                 
-          fontSize={{ base: '30px', md: '32px', lg: '34px' }}
+          fontStyle='Bold'                                 
+          fontSize={{ base: '30px', md: '32px', lg: '35px' }}
           lineHeight='50px'
           Aling='Center' 
           justifyContent="center"               
@@ -153,7 +152,7 @@ const Login = () => {
             fontFamily='Nunito Sans' 
             fontStyle='normal'
             fontWeight='20'                     
-            fontSize={{ base: '18px', md: '20px', lg: '22px' }}
+            fontSize={{ base: '18px', md: '20px', lg: '25px' }}
             lineHeight='30px'
             color='#253C1F'>                             
 
@@ -173,9 +172,10 @@ const Login = () => {
        >
         <Center>
         <Heading 
+          textShadow='2px 1px #253C1F' m=''
           fontFamily='Nunito Sans' 
           fontStyle='Bold'                                 
-          fontSize={{ base: '30px', md: '32px', lg: '34px' }}
+          fontSize={{ base: '30px', md: '32px', lg: '35px' }}
           lineHeight='50px'
           Aling='Center' 
           justifyContent="center"               
@@ -191,7 +191,7 @@ const Login = () => {
             fontFamily='Nunito Sans' 
             fontStyle='normal'
             fontWeight='20'                     
-            fontSize={{ base: '18px', md: '20px', lg: '22px' }}
+            fontSize={{ base: '18px', md: '20px', lg: '25px' }}
             lineHeight='30px'
             color='#253C1F'>                             
             Que o Sistema seja sinônimo de informações de confiança, preocupado com a saúde e futuro das pessoas.
@@ -209,9 +209,10 @@ const Login = () => {
       >
         <Center>
         <Heading 
+          textShadow='2px 1px #253C1F' m=''
           fontFamily='Nunito Sans' 
           fontStyle='normal'                                 
-          fontSize={{ base: '30px', md: '32px', lg: '34px' }}
+          fontSize={{ base: '30px', md: '32px', lg: '35px' }}
           lineHeight='50px'
           Aling='Center' 
           justifyContent="center"               
@@ -227,7 +228,7 @@ const Login = () => {
             fontFamily='Nunito Sans' 
             fontStyle='normal'
             fontWeight='10'                     
-            fontSize={{ base: '18px', md: '20px', lg: '22px' }}
+            fontSize={{ base: '18px', md: '20px', lg: '25px' }}
             lineHeight='30px'
             color='#253C1F'>                             
              Embasamento Técnico e Científico, Transparência, Inovação, Valorização do ser humano, Ambiente acolhedor e de ajuda mútua, Preocupação com o futuro das pessoas.

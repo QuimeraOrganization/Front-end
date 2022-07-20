@@ -14,6 +14,7 @@ import {
   Center,
   Container,
   Icon,
+  Spacer,
 } from "@chakra-ui/react";
 import { RiEyeLine, RiEyeOffFill } from "react-icons/ri";
 import { parseCookies } from "nookies";
@@ -55,17 +56,21 @@ const SignIn = () => {
       <Flex 
        mr='90px'
        ml='120px'
-       h='81vh'
        display={{md: 'flex' }}
+       my='10'
+      
        
       >        
       <Box 
        w={{ base: 'full', md: 'full', lg: 'full' }}
        mt='20px'
-       bg="#F9F9F9">
+       bg="#F9F9F9"
+  
+       >
         <Box>
-          <Stack spacing={67}>
+          <Stack spacing={66}>
             <Image
+            
               alignItems="center"
               mr="60px"
               ml="60px"
@@ -185,26 +190,34 @@ const SignIn = () => {
       </Box>
       </Flex>
 
-
+   
 
       <Flex 
         mr='120px'
         ml='120px'
-        h='83.4vh'
         display={{md: 'flex' }}
-        bg="#FFFFFF">
-      <Box w={{ base: 'full', md: 'full', lg: 'full' }} h="" >
+       
+        
+        >
+
+      <Box
+       w={{ base: 'full', md: 'full', lg: 'full' }} 
+       
+      
+       >
+       
         <Center my='px'>
           <Container>
             <Text
-              mt='190px'
+            textShadow='2px 2px #6FBE5E' m='6'
+              mt='5px'
               mr="60px"
               ml="60px"
               fontFamily="Nunito Sans"
-              fontStyle="normal"
+              fontStyle="Bold"
               fontWeight="700"
-              fontSize={{ base: "35px", md: "55px", lg: "65px" }}
-              lineHeight={{ base: "35px", md: "65px", lg: "70px" }}
+              fontSize={{ base: "35px", md: "55px", lg: "75px" }}
+              lineHeight={{ base: "35px", md: "65px", lg: "80px" }}
               color="#253C1F"
             >
               Saiba quais{" "}
