@@ -11,7 +11,7 @@ import {
   Button,
   Text,
   Tooltip,
-  useDisclosure
+  useDisclosure,
 } from "@chakra-ui/react";
 import {
   Modal,
@@ -34,8 +34,14 @@ import Card from "../../components/Card";
 import ProductForm from "../../components/forms/ProductForm";
 import { AuthContext } from "../../context/AuthContext";
 
-import { getProductsPaged, getProductsWithFilter } from "../../services/productService";
-import { getAllIngredients, createIngredient } from "../../services/ingredientService";
+import {
+  getProductsPaged,
+  getProductsWithFilter,
+} from "../../services/productService";
+import {
+  getAllIngredients,
+  createIngredient,
+} from "../../services/ingredientService";
 import { getAllCategories } from "../../services/categoryService";
 
 const chakraStyles = {
@@ -48,11 +54,11 @@ const chakraStyles = {
     ...provided,
     cursor: "pointer",
     _hover: {
-      border: "1.5px solid #6FBE5E"
+      border: "1.5px solid #6FBE5E",
     },
     _focusVisible: {
-      border: "1.5px solid #6FBE5E"
-    }
+      border: "1.5px solid #6FBE5E",
+    },
   }),
   container: (provided, state) => ({
     ...provided,
@@ -62,7 +68,7 @@ const chakraStyles = {
   }),
   clearIndicator: (provided, state) => ({
     ...provided,
-    color: "red"
+    color: "red",
   }),
   option: (provided, state) => ({
     ...provided,
@@ -74,33 +80,33 @@ const chakraStyles = {
   }),
   placeholder: (provided, state) => ({
     ...provided,
-    color: "#253C1F"
+    color: "#253C1F",
   }),
   downChevron: (provided, state) => ({
     ...provided,
-    color: "#6FBE5E"
-  })
+    color: "#6FBE5E",
+  }),
 };
 
 const filterOptions = [
   {
     label: "Contém ingredientes",
-    value: "Contém ingredientes"
+    value: "Contém ingredientes",
   },
   {
     label: "Não contém ingredientes",
-    value: "Não contém ingredientes"
+    value: "Não contém ingredientes",
   },
   {
     label: "Categorias",
-    value: "Categorias"
-  }
-]
+    value: "Categorias",
+  },
+];
 
 const initialFilter = {
   label: "Selecione um filtro",
-  value: null
-}
+  value: null,
+};
 
 export default function Home() {
   const router = useRouter();
@@ -145,8 +151,10 @@ export default function Home() {
   }
 
   async function handleSelectFilter(filter) {
-
-    if (filter.label === "Contém ingredientes" || filter.label === "Não contém ingredientes") {
+    if (
+      filter.label === "Contém ingredientes" ||
+      filter.label === "Não contém ingredientes"
+    ) {
       const ingredientsResponse = await getAllIngredients();
 
       setIngredientsOptions(
@@ -154,8 +162,9 @@ export default function Home() {
           return {
             label: ingredient.name,
             value: ingredient.id,
-          }
-        }));
+          };
+        })
+      );
     }
 
     if (filter.label === "Categorias") {
@@ -166,8 +175,9 @@ export default function Home() {
           return {
             label: category.name,
             value: category.id,
-          }
-        }));
+          };
+        })
+      );
     }
 
     setFilter(filter);
@@ -250,7 +260,7 @@ export default function Home() {
   }
 
   return (
-    <VStack minH="100vh" alignItems="space-between">
+    <VStack minH="73vh" alignItems="space-between">
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -267,7 +277,8 @@ export default function Home() {
           width="100%"
           justify="space-between"
           alignItems="flex-start"
-          mb={4}>
+          mb={4}
+        >
           <HStack>
             {/* Barra de busca */}
             <InputGroup size="sm" border="0px solid #6FBE5E">
@@ -324,7 +335,8 @@ export default function Home() {
                 onChange={(e) => handleSelectFilter(e)}
               />
 
-              {(filter.label === "Contém ingredientes" || filter.label === "Não contém ingredientes") && (
+              {(filter.label === "Contém ingredientes" ||
+                filter.label === "Não contém ingredientes") && (
                 <Select
                   isMulti
                   useBasicStyles
@@ -404,18 +416,16 @@ export default function Home() {
             {pageProducts != null &&
               pageProducts.data != null &&
               !loading &&
-              pageProducts.data.map((product) => {
-                return (
-                  <Card
-                    key={product.id}
-                    image={product.image}
-                    title={product.name}
-                    brand={product.brand.name}
-                    categories={product.CategoriesOnProducts}
-                    onClick={(e) => handleCardClick(product.id)}
-                  />
-                );
-              })}
+              pageProducts.data.map((product) => (
+                <Card
+                  key={product.id}
+                  image={product.image}
+                  title={product.name}
+                  brand={product.brand.name}
+                  categories={product.CategoriesOnProducts}
+                  onClick={(e) => handleCardClick(product.id)}
+                />
+              ))}
           </Flex>
         </HStack>
 
