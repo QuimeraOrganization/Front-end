@@ -62,7 +62,7 @@ export default function ProductDetails() {
   }
 
   return (
-    <VStack minH="100vh">
+    <VStack minH="73vh">
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -96,7 +96,6 @@ export default function ProductDetails() {
 
       {product != null && (
         <HStack spacing={["20px", "60px", "80px"]}>
-
           {product.image ? (
             <Image
               src={product.image}
