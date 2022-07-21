@@ -16,7 +16,7 @@ import {
   FormLabel,
   Divider,
   VStack,
-  FormErrorMessage
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
 import { RiEyeLine, RiEyeOffFill } from "react-icons/ri";
@@ -138,35 +138,28 @@ const Cadastro = () => {
       display={{ md: "flex" }}
       width="full"
       height="full"
+      minHeight="calc(100vh - 173px)"
       justifyContent="center"
       alignItems="center"
     >
-
-<Flex
-        mr='130px'
-         ml='130px'
-         h='80vh'
-         w='40vw'
-        display={{md: 'flex' }}
-       bg="#FFFFFF">
-
-      <Box w={{ base: 'full', md: 'full', lg: 'full' }} h="" 
-      >
-        <Center my='px' >
-          
+      <Flex mr="100px" ml="180px" w="30vw" display={{ md: "flex" }}>
+        <Box w={{ base: "full", md: "full", lg: "full" }} h="">
+          <Center my="px">
             <Text
-             mt='220px'
-             mr="60px"
-             ml="60px"
+              textShadow="2px 2px #6FBE5E"
+              m="6"
+              mr="60px"
+              ml="60px"
               fontFamily="Nunito Sans"
               fontStyle="normal"
               fontWeight="700"
-              fontSize={{ base: "25px", md: "60px", lg: "70px" }}
-              lineHeight={{ base: "40px", md: "55px", lg: "70px" }}
+              fontSize={{ base: "50px", md: "70px", lg: "85px" }}
+              lineHeight={{ base: "50px", md: "80px", lg: "95px" }}
               color="#253C1F"
             >
-              Venha fazer parte desta{" "}
+              Venha fazer{<br />} parte desta{" "}
               <>
+                {<br />}{" "}
                 <Text as="span" color="#6FBE5E">
                   comunidade
                 </Text>
@@ -174,219 +167,195 @@ const Cadastro = () => {
               </>{" "}
               você também!
             </Text>
-         
-        </Center>
-      </Box>
+          </Center>
+        </Box>
       </Flex>
 
-
-      <Flex
-         mr='120px'
-         ml='90px'
-         h='81vh'
-         display={{md: 'flex' }}
-         bg="#F9F9F9">
-
-      <Box w={{ base: 'full', md: 'full', lg: 'full' }} h="" 
-      >
-
-     
-        <Box>
-          <Stack spacing={8}>
-           
-            <Image
-              mt={5}
-              mr="100px"
-              ml="100px"
-              src="Logo.svg"
-              alt="Logotipo da empresa"
-              onClick={() => Router.push("/login")}
-              cursor="pointer"
-            />
-            
-            <Box>
-              <Center>
-              <Heading
-                mr="60px"
-                ml="60px"
-                fontFamily="Nunito Sans"
-                fontStyle="Bold"
-                fontSize={{ base: "25px", md: "40px", lg: "45px" }}
-                lineHeight="35px"
-                aling="Center"
-                color="#253C1F"
-              >
-                Cadastre-se
-              </Heading>
-              </Center>
-            </Box>
-
-            <FormControl as="form">
-              <InputGroup mb={5}>
-                <Input
-                  w="343px"
-                  h="44.74"
-                  ml="60px"
-                  mr="60px"
-                  value={email}
-                  borderRadius={10}
-                  borderColor="#6FBE5E"
-                  type="email"
-                  focusBorderColor="#6FBE5E"
-                  placeholder="E-mail"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </InputGroup>
-
-              <InputGroup>
-                <Input
-                  w="343px"
-                  h="44.74"
-                  ml="60px"
-                  mr="60px"
-                  value={password}
-                  borderRadius={10}
-                  borderColor="#6FBE5E"
-                  focusBorderColor="#6FBE5E"
-                  onChange={(e) => setPassword(e.target.value)}
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Senha"
-                />
-              </InputGroup>
-
-              <InputGroup mt={5}>
-                <Input
-                  w="343px"
-                  h="44.74"
-                  ml="60px"
-                  mr="60px"
-                  fontSize={{ base: "11px", md: "17px", lg: "17px" }}
-                  value={confirmPassowrd}
-                  borderRadius={10}
-                  borderColor="#6FBE5E"
-                  focusBorderColor="#6FBE5E"
-                  type={showPassword ? "text" : "password"}
-                  onChange={(e) => setConfirmPassowrd(e.target.value)}
-                  placeholder="Confirme a senha"
-                />
-                <InputRightElement mr="53px" width="4.5rem">
-                  <Button
-                    h="1.75rem"
-                    size="sm"
-                    onClick={handleShowClick}
-                    bg="none"
-                    _hover={{ bg: "none" }}
-                    leftIcon={
-                      showPassword ? (
-                        <Icon as={RiEyeLine} />
-                      ) : (
-                        <Icon as={RiEyeOffFill} />
-                      )
-                    }
-                  >
-                    {/* {showPassword ? "Esconder" : "Mostrar"} */}
-                  </Button>
-                </InputRightElement>
-              </InputGroup>
-              <Flex
-              mr="60px"
-              ml="60px" >
-              <FormControl
-                w="343px"
-                h="44.74"
-               
-                mt="20px"
-                isRequired
-                isInvalid={isIngredientsError}
-              >
-                
-                <FormLabel>Ingrediente(s)</FormLabel>
-                
-                <Select
-                  isMulti
-                  instanceId="ingredientsAllergic"
-                  id="ingredientsAllergic"
-                  placeholder="Selecione um ingrediente"
-                  focusBorderColor="green"
-                  useBasicStyles
-                  size="sm"
-                  chakraStyles={chakraStyles}
-                  onChange={(e) => handleSelectIngredients(e)}
-                  options={ingredientsOptions}
-                  noOptionsMessage={({ inputValue }) =>
-                    !inputValue ? (
-                      "Sem resultados"
-                    ) : (
-                      <VStack>
-                        <Text>Ingrediente não cadastrado</Text>
-                        <Button
-                          backgroundColor="#253C1F"
-                          color="#fff"
-                          _hover={{ backgroundColor: "#6FBE5E" }}
-                          onClick={() => handleCreateIngredient(inputValue)}
-                        >
-                          Cadastrar ingrediente
-                        </Button>
-                      </VStack>
-                    )
-                  }
-                />
-                {isIngredientsError && (
-                  <FormErrorMessage>Campo obrigatório</FormErrorMessage>
-                )}
-              </FormControl>
-              </Flex>
-            </FormControl>
-            
-            <FormControl>
-            <Flex
-              mr="60px"
-              ml="60px" >
-              <Button
-                type="submit"
-                onClick={handleSubmit}
-                
-                w="343px"
-                h="44.74"
-                borderRadius={10}
-                variant="solid"
-                _hover={{ bg: "green.400" }}
-                colorScheme="teal"
-                backgroundColor="#253C1F"
-              >
-                Cadastrar
-              </Button>
-              </Flex>
-
-              <Divider
-               ml="60px"
-               mr="80px"
-                display={{md: 'flex' }}
-                w=''
-               
-                my="5"
-                borderColor="#6FBE5E"
-                
+      <Flex mr="130px" ml="90px" display={{ md: "flex" }} bg="#F9F9F9">
+        <Box w={{ base: "full", md: "full", lg: "full" }} h="">
+          <Box>
+            <Stack spacing={8}>
+              <Image
+                mt={3.5}
+                mr="100px"
+                ml="100px"
+                src="Logo.svg"
+                alt="Logotipo da empresa"
+                onClick={() => Router.push("/login")}
+                cursor="pointer"
               />
-              <Link href="/providerRegister">
-                <Text
-                  
-                  my="5"
+
+              <Box>
+                <Center>
+                  <Heading
+                    mr="60px"
+                    ml="60px"
+                    fontFamily="Nunito Sans"
+                    fontStyle="Bold"
+                    fontSize={{ base: "25px", md: "40px", lg: "45px" }}
+                    lineHeight="35px"
+                    aling="Center"
+                    color="#253C1F"
+                  >
+                    Cadastre-se
+                  </Heading>
+                </Center>
+              </Box>
+
+              <FormControl as="form">
+                <InputGroup mb={5}>
+                  <Input
+                    w="343px"
+                    h="44.74"
+                    ml="60px"
+                    mr="60px"
+                    value={email}
+                    borderRadius={10}
+                    borderColor="#6FBE5E"
+                    type="email"
+                    focusBorderColor="#6FBE5E"
+                    placeholder="E-mail"
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </InputGroup>
+
+                <InputGroup>
+                  <Input
+                    w="343px"
+                    h="44.74"
+                    ml="60px"
+                    mr="60px"
+                    value={password}
+                    borderRadius={10}
+                    borderColor="#6FBE5E"
+                    focusBorderColor="#6FBE5E"
+                    onChange={(e) => setPassword(e.target.value)}
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Senha"
+                  />
+                </InputGroup>
+
+                <InputGroup mt={5}>
+                  <Input
+                    w="343px"
+                    h="44.74"
+                    ml="60px"
+                    mr="60px"
+                    fontSize={{ base: "11px", md: "17px", lg: "17px" }}
+                    value={confirmPassowrd}
+                    borderRadius={10}
+                    borderColor="#6FBE5E"
+                    focusBorderColor="#6FBE5E"
+                    type={showPassword ? "text" : "password"}
+                    onChange={(e) => setConfirmPassowrd(e.target.value)}
+                    placeholder="Confirme a senha"
+                  />
+                  <InputRightElement mr="53px" width="4.5rem">
+                    <Button
+                      h="1.75rem"
+                      size="sm"
+                      onClick={handleShowClick}
+                      bg="none"
+                      _hover={{ bg: "none" }}
+                      leftIcon={
+                        showPassword ? (
+                          <Icon as={RiEyeLine} />
+                        ) : (
+                          <Icon as={RiEyeOffFill} />
+                        )
+                      }
+                    >
+                      {/* {showPassword ? "Esconder" : "Mostrar"} */}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+                <Flex mr="60px" ml="60px">
+                  <FormControl
+                    w="343px"
+                    h="44.74"
+                    mt="20px"
+                    // isRequired
+                    isInvalid={isIngredientsError}
+                  >
+                    <FormLabel>Ingrediente(s) Alérgicos</FormLabel>
+                    <Select
+                      isMulti
+                      instanceId="ingredientsAllergic"
+                      id="ingredientsAllergic"
+                      placeholder="Selecione um ingrediente"
+                      focusBorderColor="green"
+                      useBasicStyles
+                      size="sm"
+                      chakraStyles={chakraStyles}
+                      onChange={(e) => handleSelectIngredients(e)}
+                      options={ingredientsOptions}
+                      noOptionsMessage={({ inputValue }) =>
+                        !inputValue ? (
+                          "Sem resultados"
+                        ) : (
+                          <VStack>
+                            <Text>Ingrediente não cadastrado</Text>
+                            <Button
+                              backgroundColor="#253C1F"
+                              color="#fff"
+                              _hover={{ backgroundColor: "#6FBE5E" }}
+                              onClick={() => handleCreateIngredient(inputValue)}
+                            >
+                              Cadastrar ingrediente
+                            </Button>
+                          </VStack>
+                        )
+                      }
+                    />
+                    {isIngredientsError && (
+                      <FormErrorMessage>Campo obrigatório</FormErrorMessage>
+                    )}
+                  </FormControl>
+                </Flex>
+              </FormControl>
+
+              <FormControl>
+                <Flex mr="60px" ml="60px" my="6">
+                  <Button
+                    type="submit"
+                    onClick={handleSubmit}
+                    w="343px"
+                    h="44.74"
+                    borderRadius={10}
+                    variant="solid"
+                    _hover={{ bg: "green.400" }}
+                    colorScheme="teal"
+                    backgroundColor="#253C1F"
+                  >
+                    Cadastrar
+                  </Button>
+                </Flex>
+                <Divider
                   ml="60px"
-                  mr="60px"
-                  color="#6FBE5E"
-                  fontWeight="700"
-                  lineHeight="10"
-                  fontSize={{ base: '20', md: '25', lg: '25' }}
-                  cursor="pointer"
-                >
-                  Cadastre-se como Fornecedor
-                </Text>
-              </Link>
-            </FormControl>
-          </Stack>
+                  mr="80px"
+                  display={{ md: "flex" }}
+                  w=""
+                  my="5"
+                  borderColor="#6FBE5E"
+                />
+                <Link href="/providerRegister">
+                  <Text
+                    my="5"
+                    ml="60px"
+                    mr="60px"
+                    color="#6FBE5E"
+                    fontWeight="700"
+                    lineHeight="10"
+                    fontSize={{ base: "20", md: "25", lg: "25" }}
+                    cursor="pointer"
+                  >
+                    Cadastre-se como Fornecedor
+                  </Text>
+                </Link>
+              </FormControl>
+            </Stack>
+          </Box>
         </Box>
-      </Box>
       </Flex>
     </Flex>
   );

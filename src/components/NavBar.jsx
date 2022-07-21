@@ -9,11 +9,13 @@ import {
   MenuList,
   MenuItem,
   Skeleton,
+  Icon,
 } from "@chakra-ui/react";
+import { RiLoginBoxLine, RiMenuLine } from "react-icons/ri";
 import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-
+import { AiFillControl } from "react-icons/ai";
 import Link from "../components/Link";
 import NextLink from "next/link";
 
@@ -27,7 +29,7 @@ export default function NavBar() {
     <Flex justify="space-between" px={10} py={5}>
       <HStack>
         <Link href="/">
-          <Image src="Logo.svg" />
+          <Image src="/Logo.svg" />
           <HStack>
             <Text
               fontSize={{ base: "12px", md: "16px", lg: "18px" }}
@@ -47,7 +49,7 @@ export default function NavBar() {
       >
         <Link href="/inicio">
           <Text fontSize="15px" _hover={{ borderBottom: "3px solid #6FBE5E" }}>
-            Ínicio
+            Início
           </Text>
         </Link>
 
@@ -56,11 +58,11 @@ export default function NavBar() {
             Produtos
           </Text>
         </Link>
-        <Link href="/">
+        {/* <Link href="/">
           <Text fontSize="15px" _hover={{ borderBottom: "3px solid #6FBE5E" }}>
             Categorias
           </Text>
-        </Link>
+        </Link> */}
       </HStack>
 
       <HStack
@@ -89,14 +91,17 @@ export default function NavBar() {
             <MenuList>
               {user.permission === "ADMIN" && (
                 <MenuItem>
-                  <NextLink href="/users">Monitoramento</NextLink>
+                  <NextLink href="/users">Gerenciamento</NextLink>
+                  <Icon as={RiMenuLine} ml="105px"></Icon>
                 </MenuItem>
               )}
+
               {user.permission === "BRAND" && (
                 <MenuItem>
                   <NextLink href={`/provider/monitoration/${user.id}`}>
-                    Monitoramento
+                    Gerenciamento
                   </NextLink>
+                  <Icon as={RiMenuLine} ml="105px"></Icon>
                 </MenuItem>
               )}
               <MenuItem
@@ -105,6 +110,7 @@ export default function NavBar() {
                 }}
               >
                 Logout
+                <Icon as={RiLoginBoxLine} ml="155px"></Icon>
               </MenuItem>
             </MenuList>
           </Menu>

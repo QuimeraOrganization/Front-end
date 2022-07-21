@@ -6,9 +6,9 @@ import {
   Image,
   Stack,
   Text,
-} from '@chakra-ui/react';
-import * as React from 'react';
-import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
+} from "@chakra-ui/react";
+import * as React from "react";
+import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 import Link from "../components/Link";
 
 export default function Footer() {
@@ -24,7 +24,7 @@ export default function Footer() {
     >
       <Stack justify="space-between" width="200">
         <Stack align="center">
-          <Image src="Logo-white.svg" alt="" mb="4" />
+          <Image src="/Logo-white.svg" alt="" mb="4" />
           <Text color="muted" fontSize="sm" fontWeight="bold">
             © Copyright 2022
           </Text>
@@ -39,27 +39,27 @@ export default function Footer() {
           Sua conta
         </Text>
         <Stack spacing="3" shouldWrapChildren>
-        <Link href="/userRegister">
-          <Button variant="link" color="white" size="sm" fontWeight="light">
-            Cadastre-se
-          </Button>
-        </Link>
-        <Link href="/login">
-          <Button variant="link" color="white" size="sm" fontWeight="light">
-            Entrar
-          </Button>
-        </Link>
+          <Link href="/userRegister">
+            <Button variant="link" color="white" size="sm" fontWeight="light">
+              Cadastre-se
+            </Button>
+          </Link>
+          <Link href="/login">
+            <Button variant="link" color="white" size="sm" fontWeight="light">
+              Entrar
+            </Button>
+          </Link>
         </Stack>
       </Stack>
-      
+
       <Stack width="200">
         <Text fontSize="lg" fontWeight="bold">
-          Sobre
+          Início
         </Text>
         <Stack spacing="3" shouldWrapChildren>
-          <Link href="/sobre">
+          <Link href="/inicio">
             <Button variant="link" color="white" size="sm" fontWeight="light">
-              Sobre
+              Início
             </Button>
           </Link>
         </Stack>
@@ -69,7 +69,7 @@ export default function Footer() {
         <Text fontSize="lg" fontWeight="bold">
           Social media
         </Text>
-        <ButtonGroup variant="link">          
+        <ButtonGroup variant="link">
           <IconButton
             as="a"
             href="https://www.facebook.com/atlanticos/"

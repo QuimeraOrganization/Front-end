@@ -39,7 +39,7 @@ export default function FeedbackList(props) {
   };
 
   return (
-    <Box>
+    <Box minHeight="calc(100vh - 90px - 183px)">
       <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
         <SideBar />
         <Box

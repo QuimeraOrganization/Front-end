@@ -27,6 +27,7 @@ import {
   getAllCategories,
   deleteCategory,
 } from "../../services/categoryService";
+import moment from "moment";
 export default function CategoryList(props) {
   const [categories, setCategories] = useState(props.categories);
 
@@ -42,7 +43,7 @@ export default function CategoryList(props) {
   };
 
   return (
-    <Box>
+    <Box minHeight="calc(100vh - 90px - 183px)">
       <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
         <SideBar />
         <Box
@@ -94,7 +95,9 @@ export default function CategoryList(props) {
                       <Text fontSize="sm">{category.name}</Text>
                     </Box>
                   </Td>
-                  {isWideVersion && <Td>{category.created_at}</Td>}
+                  {isWideVersion && (
+                    <Td>{moment(category.created_at).format("DD/MM/YYYY")}</Td>
+                  )}
                   <Td>{category.id}</Td>
 
                   <Td>

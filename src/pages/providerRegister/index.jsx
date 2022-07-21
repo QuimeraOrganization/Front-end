@@ -134,6 +134,7 @@ const Cadastro = () => {
       display={{ md: "flex" }}
       width="100wh"
       height="full"
+      minHeight="calc(100vh - 173px)"
       justifyContent="center"
       alignItems="center"
     >
@@ -332,7 +333,7 @@ export async function getServerSideProps(context) {
   if (token) {
     return {
       redirect: {
-        destination: "/produtos?page=1",
+        destination: "/inicio",
         permanent: false,
       },
     };

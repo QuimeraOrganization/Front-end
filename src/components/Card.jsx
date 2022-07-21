@@ -13,7 +13,7 @@ export default function Card({ title, brand, categories, image, ...rest },) {
     >
       <Box>
         <Image
-          src={image}
+          src={image || "/Sem-imagem.jpeg"}
           objectFit="scale-down"
           width={["80px", "90px", "100px"]}
           height={["80px", "90px", "100px"]}

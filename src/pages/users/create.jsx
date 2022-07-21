@@ -8,7 +8,6 @@ import {
   HStack,
   Button,
 } from "@chakra-ui/react";
-import { useState } from "react";
 import { Input } from "../../components/Form/Input";
 import { createUser } from "../../services/userService";
 import Router from "next/router";
@@ -16,18 +15,89 @@ import Link from "next/link";
 import SideBar from "../../components/SideBar/index";
 import { parseCookies } from "nookies";
 import { toast } from "react-toastify";
+import {
+  FormControl,
+  Text,
+  FormLabel,
+  FormErrorMessage,
+} from "@chakra-ui/react";
+import { Select } from "chakra-react-select";
 
-export default function UserList() {
+import { useState, useEffect } from "react";
+
+import {
+  createIngredient,
+  getAllIngredients,
+} from "../../services/ingredientService";
+
+const chakraStyles = {
+  multiValue: (provided, state) => ({
+    ...provided,
+    backgroundColor: "#6FBE5E",
+    color: "#fff",
+  }),
+
+  option: (provided, state) => ({
+    ...provided,
+    color: "#253C1F",
+
+    backgroundColor: "#fff",
+    _active: {
+      backgroundColor: "red",
+    },
+    _hover: {
+      backgroundColor: "#6FBE5E",
+    },
+  }),
+};
+
+export default function CreateUser() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [permission, setPermission] = useState("");
   const [confirmPassowrd, setConfirmPassowrd] = useState("");
   const [error, setError] = useState(false);
+  const [ingredients, setIngredients] = useState([]);
+  const [ingredientsOptions, setIngredientsOptions] = useState([]);
+  const [isIngredientsError, setIngredientsError] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const ingredientsResponse = await getAllIngredients();
+      setIngredientsOptions(
+        ingredientsResponse.map((ingredient) => {
+          return {
+            label: ingredient.name,
+            value: ingredient.id,
+          };
+        })
+      );
+    })();
+  }, []);
+
+  async function handleCreateIngredient(ingredientName) {
+    const ingredientResponse = await createIngredient(ingredientName);
+    const nweIngredientOption = {
+      label: ingredientResponse.name,
+      value: ingredientResponse.id,
+    };
+
+    setIngredientsOptions((prevState) => {
+      return [...prevState, nweIngredientOption];
+    });
+  }
+
+  async function handleSelectIngredients(ingredients) {
+    const ingredientsId = await ingredients.map((ingredient) => {
+      return ingredient.value;
+    });
+    setIngredients(ingredientsId);
+  }
 
   const handleSubmit = async () => {
     try {
       if (confirmPassowrd === password) {
-        await createUser(email, password, permission);
+        await createUser(email, password, ingredients, permission);
         toast.success("Usuário cadastrado com sucesso!", {
           autoClose: 2000,
         });
@@ -39,29 +109,30 @@ export default function UserList() {
         setError(true);
       }
     } catch (err) {
-      if (!email) {
-        toast.error("Email obrigatório!", {
-          autoClose: 2000,
-        });
-      }
-      if (!password) {
-        toast.error("Senha obrigatória!", {
-          autoClose: 2000,
-        });
-      }
-      if (password.length > 16) {
-        toast.error("Password deve ter no máximo 16 caracteres!", {
-          autoClose: 2000,
-        });
-      }
+      //   console.log(email);
+      //   if (!email) {
+      //     toast.error("Email obrigatório!", {
+      //       autoClose: 2000,
+      //     });
+      //   }
+      //   if (!password) {
+      //     toast.error("Senha obrigatória!", {
+      //       autoClose: 2000,
+      //     });
+      //   }
+      //   if (password.length > 16) {
+      //     toast.error("Password deve ter no máximo 16 caracteres!", {
+      //       autoClose: 2000,
+      //     });
+      //   }
+      // }
     }
-
     setError(false);
     setEmail("");
     setPassword("");
   };
   return (
-    <Box>
+    <Box minHeight="calc(100vh - 90px - 183px)">
       <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
         <SideBar />
         <Box
@@ -91,6 +162,45 @@ export default function UserList() {
                 label="Permission"
                 onChange={(e) => setPermission(e.target.value)}
               />
+
+              <FormControl
+                // isRequired
+                isInvalid={isIngredientsError}
+              >
+                <FormLabel>Ingrediente(s) Alérgicos</FormLabel>
+                <Select
+                  isMulti
+                  instanceId="ingredientsAllergic"
+                  id="ingredientsAllergic"
+                  placeholder="Selecione um ingrediente"
+                  focusBorderColor="green"
+                  useBasicStyles
+                  size="sm"
+                  chakraStyles={chakraStyles}
+                  onChange={(e) => handleSelectIngredients(e)}
+                  options={ingredientsOptions}
+                  noOptionsMessage={({ inputValue }) =>
+                    !inputValue ? (
+                      "Sem resultados"
+                    ) : (
+                      <VStack>
+                        <Text>Ingrediente não cadastrado</Text>
+                        <Button
+                          backgroundColor="#253C1F"
+                          color="#fff"
+                          _hover={{ backgroundColor: "#6FBE5E" }}
+                          onClick={() => handleCreateIngredient(inputValue)}
+                        >
+                          Cadastrar ingrediente
+                        </Button>
+                      </VStack>
+                    )
+                  }
+                />
+                {isIngredientsError && (
+                  <FormErrorMessage>Campo obrigatório</FormErrorMessage>
+                )}
+              </FormControl>
             </SimpleGrid>
             <SimpleGrid minChildWidth="248px" spacing={["6", "8"]} w="100%">
               <Input
@@ -108,6 +218,7 @@ export default function UserList() {
                 onChange={(e) => setConfirmPassowrd(e.target.value)}
               />
             </SimpleGrid>
+
             {error ? <p>"Verifique a senha!"</p> : ""}
           </VStack>
           <Flex mt="8" justify="flex-end">

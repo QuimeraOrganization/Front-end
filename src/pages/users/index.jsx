@@ -26,7 +26,6 @@ import SideBar from "../../components/SideBar/index";
 import { getUsers, deleteUser } from "../../services/userService";
 export default function UserList(props) {
   const [users, setUsers] = useState(props.users);
-  console.log(users);
   //breakpoint de responsividade
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -39,7 +38,7 @@ export default function UserList(props) {
   };
 
   return (
-    <Box>
+    <Box minHeight="calc(100vh - 90px - 183px)">
       <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
         <SideBar />
         <Box
@@ -78,10 +77,10 @@ export default function UserList(props) {
                 <Th>Usuário</Th>
                 {isWideVersion && <Th>Ingredientes Alérgicos</Th>}
                 {isWideVersion && <Th>Permission</Th>}
-                <Th>ID</Th>
+                {/* <Th>ID</Th> */}
                 <Th width="1px"></Th>
                 <Th width="1px"></Th>
-                <Th width="1px"></Th>
+                {/* <Th width="1px"></Th> */}
               </Tr>
             </Thead>
             <Tbody>
@@ -104,7 +103,7 @@ export default function UserList(props) {
                     </Td>
                   )}
                   {isWideVersion && <Td>{user.permission}</Td>}
-                  <Td>{user.id}</Td>
+                  {/* <Td>{user.id}</Td> */}
 
                   <Td>
                     <Link href={`/users/edit/${user.id}`}>

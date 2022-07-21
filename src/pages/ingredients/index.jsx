@@ -19,6 +19,7 @@ import {
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 import { RiAddLine, RiDeleteBinLine, RiPencilLine } from "react-icons/ri";
+import moment from "moment";
 import Link from "next/link";
 
 import axios from "../../config/axios";
@@ -42,7 +43,7 @@ export default function IngredientList(props) {
   };
 
   return (
-    <Box>
+    <Box minHeight="calc(100vh - 90px - 183px)">
       <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
         <SideBar />
         <Box
@@ -94,7 +95,11 @@ export default function IngredientList(props) {
                       <Text fontSize="sm">{ingredient.name}</Text>
                     </Box>
                   </Td>
-                  {isWideVersion && <Td>{ingredient.created_at}</Td>}
+                  {isWideVersion && (
+                    <Td>
+                      {moment(ingredient.created_at).format("DD/MM/YYYY")}
+                    </Td>
+                  )}
                   <Td>{ingredient.id}</Td>
 
                   <Td>
