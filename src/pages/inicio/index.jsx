@@ -14,7 +14,7 @@ const Login = () => {
       flexDirection="column"
       width="full"
       height="full"
-      minHeight="calc(100vh - 90px - 183px)"
+      minHeight="calc(100vh - 60px - 183px)"
       justifyContent="center"
       alignItems="center"
     >

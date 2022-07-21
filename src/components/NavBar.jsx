@@ -49,7 +49,7 @@ export default function NavBar() {
       >
         <Link href="/inicio">
           <Text fontSize="15px" _hover={{ borderBottom: "3px solid #6FBE5E" }}>
-            Ínicio
+            Início
           </Text>
         </Link>
 
