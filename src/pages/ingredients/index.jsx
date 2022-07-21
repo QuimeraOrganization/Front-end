@@ -30,7 +30,7 @@ import {
 } from "../../services/ingredientService";
 export default function IngredientList(props) {
   const [ingredients, setIngredients] = useState(props.ingredients);
-  console.log(moment());
+
   //breakpoint de responsividade
   const isWideVersion = useBreakpointValue({
     base: false,

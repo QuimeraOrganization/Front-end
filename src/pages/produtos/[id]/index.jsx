@@ -18,7 +18,7 @@ import {
   ModalCloseButton,
   ModalHeader,
   ModalBody,
-  Avatar
+  Avatar,
 } from "@chakra-ui/react";
 import { ArrowBackIcon, EditIcon } from "@chakra-ui/icons";
 
@@ -64,13 +64,22 @@ export default function ProductDetails() {
 
   function formatDate(dateString) {
     let date = new Date(dateString);
-    let dateFormatted = ((date.getDate()) + "/" + ((date.getMonth() + 1)) + "/" + date.getFullYear() + " " + (date.getHours()) + ":" + (date.getMinutes()))
+    let dateFormatted =
+      date.getDate() +
+      "/" +
+      (date.getMonth() + 1) +
+      "/" +
+      date.getFullYear() +
+      " " +
+      date.getHours() +
+      ":" +
+      date.getMinutes();
 
     return dateFormatted;
   }
 
   return (
-    <VStack minH="74.1vh">
+    <VStack minHeight="calc(100vh - 80px - 173px)">
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -125,10 +134,7 @@ export default function ProductDetails() {
           )}
 
           <VStack mx={5}>
-            <VStack
-              align="flex-start"
-              spacing={10}
-            >
+            <VStack align="flex-start" spacing={10}>
               <Heading>{product.name}</Heading>
 
               <VStack align="flex-start" spacing={4}>
@@ -170,15 +176,9 @@ export default function ProductDetails() {
                 </HStack>
               </VStack>
 
-              <VStack
-                align="flex-start"
-                spacing={8}
-                maxWidth="30vw"
-              >
+              <VStack align="flex-start" spacing={8} maxWidth="30vw">
                 {isAuthenticated && (
-                  <InputGroup
-                    border="0px solid #6FBE5E"
-                  >
+                  <InputGroup border="0px solid #6FBE5E">
                     <Input
                       placeholder="Deixe um comentário"
                       _focusVisible={{
@@ -208,17 +208,10 @@ export default function ProductDetails() {
 
                 {feedbacks.length > 0 &&
                   feedbacks.map((feedback, index) => (
-                    <VStack
-                      key={index}
-                      align="flex-start"
-                    >
+                    <VStack key={index} align="flex-start">
                       <HStack align="flex-start">
-
                         <HStack>
-                          <Avatar
-                            size="sm"
-                            name={feedback.user.email}
-                          />
+                          <Avatar size="sm" name={feedback.user.email} />
                         </HStack>
 
                         <VStack align="flex-start">
@@ -228,7 +221,6 @@ export default function ProductDetails() {
                           </HStack>
                           <Text>{feedback.contents}</Text>
                         </VStack>
-
                       </HStack>
                     </VStack>
                   ))}
@@ -236,8 +228,7 @@ export default function ProductDetails() {
             </VStack>
           </VStack>
         </HStack>
-      )
-      }
-    </VStack >
+      )}
+    </VStack>
   );
 }

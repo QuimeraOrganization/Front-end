@@ -5,7 +5,7 @@ import {
   Divider,
   Image,
   Text,
-  Center
+  Center,
 } from "@chakra-ui/react";
 
 const Login = () => {
@@ -14,6 +14,7 @@ const Login = () => {
       flexDirection="column"
       width="full"
       height="full"
+      minHeight="calc(100vh - 90px - 183px)"
       justifyContent="center"
       alignItems="center"
     >

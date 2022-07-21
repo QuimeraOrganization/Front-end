@@ -50,22 +50,16 @@ const SignIn = () => {
       display={{ md: "flex" }}
       width="full"
       height="full"
+      minHeight="calc(100vh - 90px - 183px)"
       justifyContent="center"
       alignItems="center"
-     >
-      <Flex 
-       mr='90px'
-       ml='120px'
-       display={{md: 'flex' }}
-       my='10'
-       >        
-      
-
-      
+    >
+      <Flex mr="90px" ml="120px" display={{ md: "flex" }} my="10">
         <Box
-          w={{ base: 'full', md: 'full', lg: 'full' }}
-          mt='20px'
-          bg="#F9F9F9">
+          w={{ base: "full", md: "full", lg: "full" }}
+          mt="20px"
+          bg="#F9F9F9"
+        >
           <Box>
             <Stack spacing={67}>
               <Image
@@ -79,7 +73,7 @@ const SignIn = () => {
               <Box
                 w={{ base: "full", md: "full", lg: "full" }}
                 alignItems="center"
-               >
+              >
                 <Center>
                   <Heading
                     mr="50px"
@@ -148,9 +142,7 @@ const SignIn = () => {
                   </InputRightElement>
                 </InputGroup>
                 <FormControl>
-                  <Flex
-                    mr="60px"
-                    ml="60px" >
+                  <Flex mr="60px" ml="60px">
                     <Button
                       type="submit"
                       w="343px"
@@ -176,9 +168,7 @@ const SignIn = () => {
               </FormHelperText>
               */}
             </Stack>
-            <Flex
-              mr="60px"
-              ml="60px">
+            <Flex mr="60px" ml="60px">
               <Box w="343px" h="44.74" mt={4}>
                 Não tem uma conta ainda?{" "}
                 <Link color="#6FBE5E" href="/userRegister">
@@ -190,54 +180,41 @@ const SignIn = () => {
         </Box>
       </Flex>
 
-   
-
-      <Flex
-        mr='120px'
-        ml='120px'
-        display={{md: 'flex' }}
-       
-        
-        >
-
-       <Box
-       w={{ base: 'full', md: 'full', lg: 'full' }} 
-       
-      
-       >
-       
-        <Center my='px'>
-          <Container>
-            <Text
-            textShadow='2px 2px #6FBE5E' m='6'
-              mt='5px'
-              mr="60px"
-              ml="60px"
-              fontFamily="Nunito Sans"
-              fontStyle="Bold"
-              fontWeight="700"
-              fontSize={{ base: "35px", md: "55px", lg: "75px" }}
-              lineHeight={{ base: "35px", md: "65px", lg: "80px" }}
-              color="#253C1F"
-            >
-              Saiba quais{" "}
-              <>
-                <Text as="span" color="#6FBE5E">
-                  ingredientes
-                </Text>
-                <br />
-              </>
-              tem em cada alimento e consuma com{" "}
-              <>
-                <Text as="span" color="#6FBE5E">
-                  segurança
-                </Text>
-              </>
-              .
-            </Text>
-          </Container>
-        </Center>
-      </Box>
+      <Flex mr="120px" ml="120px" display={{ md: "flex" }}>
+        <Box w={{ base: "full", md: "full", lg: "full" }}>
+          <Center my="px">
+            <Container>
+              <Text
+                textShadow="2px 2px #6FBE5E"
+                m="6"
+                mt="5px"
+                mr="60px"
+                ml="60px"
+                fontFamily="Nunito Sans"
+                fontStyle="Bold"
+                fontWeight="700"
+                fontSize={{ base: "35px", md: "55px", lg: "75px" }}
+                lineHeight={{ base: "35px", md: "65px", lg: "80px" }}
+                color="#253C1F"
+              >
+                Saiba quais{" "}
+                <>
+                  <Text as="span" color="#6FBE5E">
+                    ingredientes
+                  </Text>
+                  <br />
+                </>
+                tem em cada alimento e consuma com{" "}
+                <>
+                  <Text as="span" color="#6FBE5E">
+                    segurança
+                  </Text>
+                </>
+                .
+              </Text>
+            </Container>
+          </Center>
+        </Box>
       </Flex>
     </Flex>
   );

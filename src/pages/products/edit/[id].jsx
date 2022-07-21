@@ -52,7 +52,7 @@ export default function EditProduct({ productId }) {
   }, [productId]);
 
   return (
-    <VStack minH="100vh">
+    <VStack minHeight="calc(100vh - 90px - 183px)">
       {product && <ProductEdit productProp={product} />}
     </VStack>
   );
