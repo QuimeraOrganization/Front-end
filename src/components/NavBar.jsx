@@ -95,11 +95,13 @@ export default function NavBar() {
                   <Icon as={RiMenuLine} ml="105px"></Icon>
                 </MenuItem>
               )}
+
               {user.permission === "BRAND" && (
-                <MenuItem icon={RiLoginBoxLine}>
+                <MenuItem>
                   <NextLink href={`/provider/monitoration/${user.id}`}>
                     Gerenciamento
                   </NextLink>
+                  <Icon as={RiMenuLine} ml="105px"></Icon>
                 </MenuItem>
               )}
               <MenuItem
