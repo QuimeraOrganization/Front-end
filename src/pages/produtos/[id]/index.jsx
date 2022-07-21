@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import {
@@ -18,13 +18,15 @@ import {
   ModalCloseButton,
   ModalHeader,
   ModalBody,
-  Avatar
+  Avatar,
+  Box
 } from "@chakra-ui/react";
 import { ArrowBackIcon, EditIcon } from "@chakra-ui/icons";
 
 import { getProductById } from "../../../services/productService";
 import { createFeedback } from "../../../services/feedbackService";
 import { AuthContext } from "../../../context/AuthContext";
+import { getUserById } from "../../../services/userService";
 
 import ProductForm from "../../../components/forms/ProductForm";
 
@@ -32,10 +34,14 @@ export default function ProductDetails() {
   const [product, setProduct] = useState();
   const [feedbacks, setFeedbacks] = useState([]);
   const [contentsFeedback, setContentsFeedback] = useState("");
+  const [userAllergicIngredients, setUserAllergicIngredients] = useState([]);
+  const [listIngredientsAllergic, setListIngredientsAllergic] = useState([]);
+  const [listIngredientsNonAllergic, setListIngredientsNonAllergic] = useState([]);
 
   const { user, isAuthenticated } = useContext(AuthContext);
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const containerRef = useRef();
 
   useEffect(() => {
     // Evita chamada a api quando o query.page ainda está undefined
@@ -47,8 +53,27 @@ export default function ProductDetails() {
       const productResponse = await getProductById(router.query.id);
       setProduct(productResponse);
       setFeedbacks(productResponse.feedbacks);
+
+      const userResponse = await getUserById(user.id);
+      setUserAllergicIngredients(userResponse.IngredientsOnUsersAllergic);
+
+      let ingredientsAllergic = [];
+      let ingredientsNonAllergic = [];
+
+      productResponse.IngredientsOnProducts.forEach((ingredient) => {
+        if (isAllergic(ingredient)) {
+          ingredientsAllergic.push(ingredient);
+        } else {
+          ingredientsNonAllergic.push(ingredient);
+        }
+      });
+
+      setListIngredientsAllergic(ingredientsAllergic);
+      setListIngredientsNonAllergic(ingredientsNonAllergic);
+
     })();
   }, [router.query.id]);
+
 
   async function handleCreateFeedback() {
     const feedbackResponse = await createFeedback(
@@ -69,8 +94,24 @@ export default function ProductDetails() {
     return dateFormatted;
   }
 
+  function isAllergic(seekerIngredient) {
+    let allergic = false;
+
+    userAllergicIngredients.forEach(ingredient => {
+      if (ingredient.ingredient.id === seekerIngredient.ingredient.id) {
+        allergic = true;
+      }
+    });
+
+    if (allergic) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   return (
-    <VStack minH="74.1vh">
+    <VStack minHeight="calc(100vh - 80px - 173px)">
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -82,7 +123,12 @@ export default function ProductDetails() {
         </ModalContent>
       </Modal>
 
-      <HStack width="100%" justify="space-between" my={2} px={10}>
+      <HStack
+        width="100%"
+        justify="space-between"
+        my={2}
+        px={10}
+      >
         <Button backgroundColor="#fff" border="1px solid #6FBE5E">
           <ArrowBackIcon mr={1} />
           <Link href="/produtos?page=1">
@@ -103,16 +149,28 @@ export default function ProductDetails() {
       </HStack>
 
       {product != null && (
-        <HStack spacing={["20px", "60px", "80px"]}>
+        <HStack
+          alignItems="flex-start"
+          spacing={["20px", "40px", "60px", "80px", "120px"]}
+          wrap="wrap"
+          pb="20px"
+          ref={containerRef}
+        >
           {product.image ? (
-            <Image
-              src={product.image}
-              objectFit="scale-down"
-              width={["200px", "220px", "240px"]}
-              height={["200px", "220px", "240px"]}
-              border="1px solid rgba(128,128,128, .1)"
-              boxShadow="5px 5px 5px rgba(128,128,128, .3)"
-            />
+            console.log(containerRef),
+
+            <Box minHeight={containerRef?.current?.scrollHeight}>
+              <Image
+                src={product.image}
+                position="sticky"
+                top="100px"
+                objectFit="scale-down"
+                width={["400px", "420px", "440px"]}
+                height={["400px", "420px", "440px"]}
+                border="1px solid rgba(128,128,128, .1)"
+                boxShadow="5px 5px 5px rgba(128,128,128, .3)"
+              />
+            </Box>
           ) : (
             <Image
               src="/Sem-imagem.jpeg"
@@ -124,14 +182,14 @@ export default function ProductDetails() {
             />
           )}
 
-          <VStack mx={5}>
+          <VStack mx={5} minHeight="40vh">
             <VStack
               align="flex-start"
               spacing={10}
             >
-              <Heading>{product.name}</Heading>
 
               <VStack align="flex-start" spacing={4}>
+                <Heading>{product.name}</Heading>
                 <Text>{product.description}</Text>
 
                 <HStack>
@@ -154,9 +212,9 @@ export default function ProductDetails() {
                   ))}
                 </HStack>
 
-                <HStack>
+                <HStack wrap="wrap">
                   <Text as="b">Ingredientes(s): </Text>
-                  {product.IngredientsOnProducts.map((ingredient) => (
+                  {listIngredientsNonAllergic.map((ingredient) => (
                     <Text
                       key={ingredient.id}
                       backgroundColor="#fff"
@@ -167,6 +225,26 @@ export default function ProductDetails() {
                       {ingredient.ingredient.name}
                     </Text>
                   ))}
+                </HStack>
+
+                <HStack wrap="wrap">
+                  <Text as="b">Ingredientes(s) alergico(s): </Text>
+                  {listIngredientsAllergic.map((ingredient) => (
+                    <Text
+                      key={ingredient.id}
+                      backgroundColor="#fff"
+                      border="1px solid red"
+                      borderRadius={200}
+                      px="5px"
+                    >
+                      {ingredient.ingredient.name}
+                    </Text>
+                  ))}
+                </HStack>
+
+                <HStack>
+                  <Text as="b">Publicado por: </Text>
+                  <Text>{product.user.email}</Text>
                 </HStack>
               </VStack>
 
@@ -181,6 +259,7 @@ export default function ProductDetails() {
                   >
                     <Input
                       placeholder="Deixe um comentário"
+                      minWidth="200px"
                       _focusVisible={{
                         borderColor: "#6FBE5E",
                         boxShadow: "0 0 0 1px #6FBE5E",
@@ -222,9 +301,12 @@ export default function ProductDetails() {
                         </HStack>
 
                         <VStack align="flex-start">
-                          <HStack>
+                          <HStack
+                            pt={1}
+                            wrap="wrap"
+                          >
                             <Text as="b">{feedback.user.email}</Text>
-                            <Text>- {formatDate(feedback.created_at)}</Text>
+                            <Text>{formatDate(feedback.created_at)}</Text>
                           </HStack>
                           <Text>{feedback.contents}</Text>
                         </VStack>
