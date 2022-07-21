@@ -3,13 +3,14 @@ import { setCookie, parseCookies, destroyCookie } from "nookies";
 import axios from "../config/axios";
 import parseJwt from "../utils/parseJWT";
 import { singOut } from "../utils/singOut";
-import Router from "next/router";
+import { useRouter } from "next/router";
 const AuthContext = createContext({});
 
 function AuthProvider({ children }) {
   const [user, setUser] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const isAuthenticated = !!user;
+  const router = useRouter();
 
   useEffect(() => {
     const { "nextauth.token": token } = parseCookies();
@@ -36,9 +37,9 @@ function AuthProvider({ children }) {
   }, []);
 
   const signOutUser = () => {
-    singOut();
     setIsLoading(false);
     setUser(undefined);
+    singOut();
   };
 
   async function singIn({ email, password }) {
@@ -63,7 +64,7 @@ function AuthProvider({ children }) {
       //atulizando o header
       axios.defaults.headers["Authorization"] = `Bearer ${token}`;
 
-      Router.push("/");
+      router.push("/");
     } catch (err) {
       console.log(err);
     }

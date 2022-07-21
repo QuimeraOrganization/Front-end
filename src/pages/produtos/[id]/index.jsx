@@ -18,6 +18,7 @@ import {
   ModalCloseButton,
   ModalHeader,
   ModalBody,
+  Avatar
 } from "@chakra-ui/react";
 import { ArrowBackIcon, EditIcon } from "@chakra-ui/icons";
 
@@ -59,6 +60,13 @@ export default function ProductDetails() {
     setFeedbacks((prevState) => {
       return [...prevState, feedbackResponse.feedback];
     });
+  }
+
+  function formatDate(dateString) {
+    let date = new Date(dateString);
+    let dateFormatted = ((date.getDate()) + "/" + ((date.getMonth() + 1)) + "/" + date.getFullYear() + " " + (date.getHours()) + ":" + (date.getMinutes()))
+
+    return dateFormatted;
   }
 
   return (
@@ -117,84 +125,119 @@ export default function ProductDetails() {
           )}
 
           <VStack mx={5}>
-            <Heading>{product.name}</Heading>
+            <VStack
+              align="flex-start"
+              spacing={10}
+            >
+              <Heading>{product.name}</Heading>
 
-            <VStack align="flex-start">
-              <Text>{product.description}</Text>
+              <VStack align="flex-start" spacing={4}>
+                <Text>{product.description}</Text>
 
-              <HStack>
-                <Text as="b">Marca: </Text>
-                <Text>{product.brand.name}</Text>
-              </HStack>
+                <HStack>
+                  <Text as="b">Marca: </Text>
+                  <Text>{product.brand.name}</Text>
+                </HStack>
 
-              <HStack>
-                <Text as="b">Categoria(s): </Text>
-                {product.CategoriesOnProducts.map((category) => (
-                  <Text
-                    key={category.id}
-                    backgroundColor="#253C1F"
-                    color="#FFFFFF"
-                    borderRadius={200}
-                    px="5px"
-                  >
-                    {category.category.name}
-                  </Text>
-                ))}
-              </HStack>
-
-              <HStack>
-                <Text as="b">Ingredientes(s): </Text>
-                {product.IngredientsOnProducts.map((ingredient) => (
-                  <Text
-                    key={ingredient.id}
-                    backgroundColor="#fff"
-                    border="1px solid #6FBE5E"
-                    borderRadius={200}
-                    px="5px"
-                  >
-                    {ingredient.ingredient.name}
-                  </Text>
-                ))}
-              </HStack>
-
-              <InputGroup border="0px solid #6FBE5E">
-                <Input
-                  placeholder="Deixe um comentário"
-                  _focusVisible={{
-                    borderColor: "#6FBE5E",
-                    boxShadow: "0 0 0 1px #6FBE5E",
-                  }}
-                  value={contentsFeedback}
-                  onChange={(e) => setContentsFeedback(e.target.value)}
-                />
-                <InputRightAddon
-                  cursor="pointer"
-                  backgroundColor="#253C1F"
-                  onClick={handleCreateFeedback}
-                  children={
-                    <Button
+                <HStack>
+                  <Text as="b">Categoria(s): </Text>
+                  {product.CategoriesOnProducts.map((category) => (
+                    <Text
+                      key={category.id}
                       backgroundColor="#253C1F"
-                      color="#fff"
-                      _hover={{}}
-                      height="100%"
+                      color="#FFFFFF"
+                      borderRadius={200}
+                      px="5px"
                     >
-                      Publicar
-                    </Button>
-                  }
-                />
-              </InputGroup>
+                      {category.category.name}
+                    </Text>
+                  ))}
+                </HStack>
 
-              {feedbacks.length > 0 &&
-                feedbacks.map((feedback, index) => (
-                  <VStack key={index}>
-                    <Text as="b">{feedback.user.email}</Text>
-                    <Text>{feedback.contents}</Text>
-                  </VStack>
-                ))}
+                <HStack>
+                  <Text as="b">Ingredientes(s): </Text>
+                  {product.IngredientsOnProducts.map((ingredient) => (
+                    <Text
+                      key={ingredient.id}
+                      backgroundColor="#fff"
+                      border="1px solid #6FBE5E"
+                      borderRadius={200}
+                      px="5px"
+                    >
+                      {ingredient.ingredient.name}
+                    </Text>
+                  ))}
+                </HStack>
+              </VStack>
+
+              <VStack
+                align="flex-start"
+                spacing={8}
+                maxWidth="30vw"
+              >
+                {isAuthenticated && (
+                  <InputGroup
+                    border="0px solid #6FBE5E"
+                  >
+                    <Input
+                      placeholder="Deixe um comentário"
+                      _focusVisible={{
+                        borderColor: "#6FBE5E",
+                        boxShadow: "0 0 0 1px #6FBE5E",
+                      }}
+                      value={contentsFeedback}
+                      onChange={(e) => setContentsFeedback(e.target.value)}
+                    />
+                    <InputRightAddon
+                      cursor="pointer"
+                      backgroundColor="#253C1F"
+                      onClick={handleCreateFeedback}
+                      children={
+                        <Button
+                          backgroundColor="#253C1F"
+                          color="#fff"
+                          _hover={{}}
+                          height="100%"
+                        >
+                          Publicar
+                        </Button>
+                      }
+                    />
+                  </InputGroup>
+                )}
+
+                {feedbacks.length > 0 &&
+                  feedbacks.map((feedback, index) => (
+                    <VStack
+                      key={index}
+                      align="flex-start"
+                    >
+                      <HStack align="flex-start">
+
+                        <HStack>
+                          <Avatar
+                            size="sm"
+                            name={feedback.user.email}
+                          />
+                        </HStack>
+
+                        <VStack align="flex-start">
+                          <HStack>
+                            <Text as="b">{feedback.user.email}</Text>
+                            <Text>- {formatDate(feedback.created_at)}</Text>
+                          </HStack>
+                          <Text>{feedback.contents}</Text>
+                        </VStack>
+
+                      </HStack>
+                    </VStack>
+                  ))}
+              </VStack>
             </VStack>
           </VStack>
         </HStack>
-      )}
-    </VStack>
+      )
+      }
+    </VStack >
   );
 }
