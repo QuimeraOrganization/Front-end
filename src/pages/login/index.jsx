@@ -50,7 +50,7 @@ const SignIn = () => {
       display={{ md: "flex" }}
       width="full"
       height="full"
-      minHeight="calc(100vh - 60px - 183px)"
+      minHeight="calc(100vh - 173px)"
       justifyContent="center"
       alignItems="center"
     >
