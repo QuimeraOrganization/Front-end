@@ -1,15 +1,11 @@
-import { useState } from "react";
 import {
   Flex,
   Heading,
   Box,
   Divider,
   Image,
-  Spacer,
   Text,
-  Center,
-  Container,
-  Stack,
+  Center
 } from "@chakra-ui/react";
 
 const Login = () => {
@@ -29,7 +25,7 @@ const Login = () => {
             fontWeight="25"
             fontSize={{ base: "20px", md: "20px", lg: "25px" }}
             lineHeight="30px"
-            Aling="Center"
+            align="Center"
             justifyContent="center"
             color="#253C1F"
           >
@@ -58,7 +54,7 @@ const Login = () => {
             fontWeight="20"
             fontSize={{ base: "20px", md: "20px", lg: "25px" }}
             lineHeight="30px"
-            Aling="Center"
+            align="Center"
             justifyContent="center"
             color="#253C1F"
           >
@@ -119,7 +115,7 @@ const Login = () => {
               fontStyle="Bold"
               fontSize={{ base: "30px", md: "32px", lg: "35px" }}
               lineHeight="50px"
-              Aling="Center"
+              align="Center"
               justifyContent="center"
               color="#6FBE5E"
             >
@@ -158,7 +154,7 @@ const Login = () => {
               fontStyle="Bold"
               fontSize={{ base: "30px", md: "32px", lg: "35px" }}
               lineHeight="50px"
-              Aling="Center"
+              align="Center"
               justifyContent="center"
               color="#6FBE5E"
             >
@@ -194,7 +190,7 @@ const Login = () => {
               fontStyle="normal"
               fontSize={{ base: "30px", md: "32px", lg: "35px" }}
               lineHeight="50px"
-              Aling="Center"
+              align="Center"
               justifyContent="center"
               color="#6FBE5E"
             >
