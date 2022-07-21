@@ -34,7 +34,6 @@ export default function ProductDetails() {
   const [product, setProduct] = useState();
   const [feedbacks, setFeedbacks] = useState([]);
   const [contentsFeedback, setContentsFeedback] = useState("");
-  const [userAllergicIngredients, setUserAllergicIngredients] = useState([]);
   const [listIngredientsAllergic, setListIngredientsAllergic] = useState([]);
   const [listIngredientsNonAllergic, setListIngredientsNonAllergic] = useState([]);
 
@@ -59,10 +58,9 @@ export default function ProductDetails() {
 
       if (user) {
         const userResponse = await getUserById(user.id);
-        setUserAllergicIngredients(userResponse.IngredientsOnUsersAllergic);
 
         productResponse.IngredientsOnProducts.forEach((ingredient) => {
-          if (isAllergic(ingredient)) {
+          if (isAllergic(userResponse.IngredientsOnUsersAllergic, ingredient)) {
             ingredientsAllergic.push(ingredient);
           } else {
             ingredientsNonAllergic.push(ingredient);
@@ -110,10 +108,10 @@ export default function ProductDetails() {
     return dateFormatted;
   }
 
-  function isAllergic(seekerIngredient) {
+  function isAllergic(listIngredients, seekerIngredient) {
     let allergic = false;
 
-    userAllergicIngredients.forEach(ingredient => {
+    listIngredients.forEach(ingredient => {
       if (ingredient.ingredient.id === seekerIngredient.ingredient.id) {
         allergic = true;
       }
@@ -242,6 +240,7 @@ export default function ProductDetails() {
                 </HStack>
 
                 {listIngredientsAllergic.length > 0 && (
+                  console.log(listIngredientsAllergic),
                   <HStack wrap="wrap">
                     <Text marginBottom="10px" as="b">Ingredientes(s) alergico(s): </Text>
 
