@@ -1,5 +1,4 @@
 import { useRouter } from "next/router";
-import { parseCookies } from "nookies";
 import { useEffect } from "react";
 
 export default function Home() {
