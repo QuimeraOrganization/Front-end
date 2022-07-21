@@ -261,7 +261,7 @@ export default function Home() {
   }
 
   return (
-    <VStack minHeight="calc(100vh - 80px - 173px)" alignItems="space-between">
+    <VStack minHeight="calc(100vh - 60px - 183px)" alignItems="space-between">
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
