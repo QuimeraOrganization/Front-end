@@ -4,8 +4,14 @@ import ActiveLink from "./ActiveLink";
 export default function NavLink({ icon, entidade, href, ...rest }) {
   return (
     <Link href={href} passHref>
-      <ChakraLink display="flex" align="center" gap="5" {...rest}>
-        <Icon as={icon} fontSize="28px" marginTop="6px" />
+      <ChakraLink
+        display="flex"
+        align="center"
+        gap="5"
+        {...rest}
+        _hover={{ textDecoration: "none" }}
+      >
+        <Icon as={icon} fontSize={"30px"} marginTop="6px" />
         <ActiveLink href={href} passHref>
           <Text
             width="264px"
@@ -19,8 +25,8 @@ export default function NavLink({ icon, entidade, href, ...rest }) {
             border="0.5px solid #6FBE5E"
             textAlign="center"
             padding="10px"
-            _hover={{ textDecoration: "none" }}
             borderRadius="10px"
+            _hover={{ bg: "#6FBE5E", color: "#FFFFFF" }}
           >
             {entidade}
           </Text>

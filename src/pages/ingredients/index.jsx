@@ -30,7 +30,7 @@ import {
 } from "../../services/ingredientService";
 export default function IngredientList(props) {
   const [ingredients, setIngredients] = useState(props.ingredients);
-  console.log(moment());
+
   //breakpoint de responsividade
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -43,7 +43,7 @@ export default function IngredientList(props) {
   };
 
   return (
-    <Box minHeight="100vh">
+    <Box minHeight="calc(100vh - 90px - 183px)">
       <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
         <SideBar />
         <Box

@@ -89,7 +89,16 @@ export default function ProductDetails() {
 
   function formatDate(dateString) {
     let date = new Date(dateString);
-    let dateFormatted = ((date.getDate()) + "/" + ((date.getMonth() + 1)) + "/" + date.getFullYear() + " " + (date.getHours()) + ":" + (date.getMinutes()))
+    let dateFormatted =
+      date.getDate() +
+      "/" +
+      (date.getMonth() + 1) +
+      "/" +
+      date.getFullYear() +
+      " " +
+      date.getHours() +
+      ":" +
+      date.getMinutes();
 
     return dateFormatted;
   }
@@ -187,7 +196,6 @@ export default function ProductDetails() {
               align="flex-start"
               spacing={10}
             >
-
               <VStack align="flex-start" spacing={4}>
                 <Heading>{product.name}</Heading>
                 <Text>{product.description}</Text>
@@ -248,15 +256,9 @@ export default function ProductDetails() {
                 </HStack>
               </VStack>
 
-              <VStack
-                align="flex-start"
-                spacing={8}
-                maxWidth="30vw"
-              >
+              <VStack align="flex-start" spacing={8} maxWidth="30vw">
                 {isAuthenticated && (
-                  <InputGroup
-                    border="0px solid #6FBE5E"
-                  >
+                  <InputGroup border="0px solid #6FBE5E">
                     <Input
                       placeholder="Deixe um comentário"
                       minWidth="200px"
@@ -287,17 +289,10 @@ export default function ProductDetails() {
 
                 {feedbacks.length > 0 &&
                   feedbacks.map((feedback, index) => (
-                    <VStack
-                      key={index}
-                      align="flex-start"
-                    >
+                    <VStack key={index} align="flex-start">
                       <HStack align="flex-start">
-
                         <HStack>
-                          <Avatar
-                            size="sm"
-                            name={feedback.user.email}
-                          />
+                          <Avatar size="sm" name={feedback.user.email} />
                         </HStack>
 
                         <VStack align="flex-start">
@@ -310,7 +305,6 @@ export default function ProductDetails() {
                           </HStack>
                           <Text>{feedback.contents}</Text>
                         </VStack>
-
                       </HStack>
                     </VStack>
                   ))}
@@ -318,8 +312,7 @@ export default function ProductDetails() {
             </VStack>
           </VStack>
         </HStack>
-      )
-      }
-    </VStack >
+      )}
+    </VStack>
   );
 }

@@ -134,6 +134,7 @@ const Cadastro = () => {
       display={{ md: "flex" }}
       width="100wh"
       height="full"
+      minHeight="calc(100vh - 90px - 183px)"
       justifyContent="center"
       alignItems="center"
     >

@@ -261,7 +261,7 @@ export default function Home() {
   }
 
   return (
-    <VStack minH="74.1vh" alignItems="space-between">
+    <VStack minHeight="calc(100vh - 80px - 173px)" alignItems="space-between">
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -338,27 +338,27 @@ export default function Home() {
 
               {(filter.label === "Contém ingredientes" ||
                 filter.label === "Não contém ingredientes") && (
-                  <Select
-                    isMulti
-                    useBasicStyles
-                    id="SelectIngredients"
-                    instanceId="SelectIngredients"
-                    size="sm"
-                    placeholder="Selecione os ingredientes"
-                    chakraStyles={chakraStyles}
-                    onChange={(e) => handleSelectIngredients(e)}
-                    options={ingredientsOptions}
-                    noOptionsMessage={({ inputValue }) =>
-                      !inputValue ? (
-                        "Sem resultados"
-                      ) : (
-                        <VStack>
-                          <Text>Ingrediente não cadastrado</Text>
-                        </VStack>
-                      )
-                    }
-                  />
-                )}
+                <Select
+                  isMulti
+                  useBasicStyles
+                  id="SelectIngredients"
+                  instanceId="SelectIngredients"
+                  size="sm"
+                  placeholder="Selecione os ingredientes"
+                  chakraStyles={chakraStyles}
+                  onChange={(e) => handleSelectIngredients(e)}
+                  options={ingredientsOptions}
+                  noOptionsMessage={({ inputValue }) =>
+                    !inputValue ? (
+                      "Sem resultados"
+                    ) : (
+                      <VStack>
+                        <Text>Ingrediente não cadastrado</Text>
+                      </VStack>
+                    )
+                  }
+                />
+              )}
 
               {filter.label === "Categorias" && (
                 <Select
