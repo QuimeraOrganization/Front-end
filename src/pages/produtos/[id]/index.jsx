@@ -54,19 +54,26 @@ export default function ProductDetails() {
       setProduct(productResponse);
       setFeedbacks(productResponse.feedbacks);
 
-      const userResponse = await getUserById(user.id);
-      setUserAllergicIngredients(userResponse.IngredientsOnUsersAllergic);
-
       let ingredientsAllergic = [];
       let ingredientsNonAllergic = [];
 
-      productResponse.IngredientsOnProducts.forEach((ingredient) => {
-        if (isAllergic(ingredient)) {
-          ingredientsAllergic.push(ingredient);
-        } else {
+      if (user) {
+        const userResponse = await getUserById(user.id);
+        setUserAllergicIngredients(userResponse.IngredientsOnUsersAllergic);
+
+        productResponse.IngredientsOnProducts.forEach((ingredient) => {
+          if (isAllergic(ingredient)) {
+            ingredientsAllergic.push(ingredient);
+          } else {
+            ingredientsNonAllergic.push(ingredient);
+          }
+        });
+
+      } else {
+        productResponse.IngredientsOnProducts.forEach((ingredient) => {
           ingredientsNonAllergic.push(ingredient);
-        }
-      });
+        });
+      }
 
       setListIngredientsAllergic(ingredientsAllergic);
       setListIngredientsNonAllergic(ingredientsNonAllergic);
@@ -120,7 +127,7 @@ export default function ProductDetails() {
   }
 
   return (
-    <VStack minHeight="calc(100vh - 80px - 173px)">
+    <VStack minHeight="calc(100vh - 60px - 183px)">
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -161,13 +168,10 @@ export default function ProductDetails() {
         <HStack
           alignItems="flex-start"
           spacing={["20px", "40px", "60px", "80px", "120px"]}
-          wrap="wrap"
           pb="20px"
           ref={containerRef}
         >
           {product.image ? (
-            console.log(containerRef),
-
             <Box minHeight={containerRef?.current?.scrollHeight}>
               <Image
                 src={product.image}
@@ -221,13 +225,15 @@ export default function ProductDetails() {
                 </HStack>
 
                 <HStack wrap="wrap">
-                  <Text as="b">Ingredientes(s): </Text>
+                  <Text marginBottom="10px" as="b">Ingredientes(s): </Text>
+
                   {listIngredientsNonAllergic.map((ingredient) => (
                     <Text
                       key={ingredient.id}
                       backgroundColor="#fff"
                       border="1px solid #6FBE5E"
                       borderRadius={200}
+                      style={{ marginBottom: "10px" }}
                       px="5px"
                     >
                       {ingredient.ingredient.name}
@@ -235,20 +241,24 @@ export default function ProductDetails() {
                   ))}
                 </HStack>
 
-                <HStack wrap="wrap">
-                  <Text as="b">Ingredientes(s) alergico(s): </Text>
-                  {listIngredientsAllergic.map((ingredient) => (
-                    <Text
-                      key={ingredient.id}
-                      backgroundColor="#fff"
-                      border="1px solid red"
-                      borderRadius={200}
-                      px="5px"
-                    >
-                      {ingredient.ingredient.name}
-                    </Text>
-                  ))}
-                </HStack>
+                {listIngredientsAllergic.length > 0 && (
+                  <HStack wrap="wrap">
+                    <Text marginBottom="10px" as="b">Ingredientes(s) alergico(s): </Text>
+
+                    {listIngredientsAllergic.map((ingredient) => (
+                      <Text
+                        key={ingredient.id}
+                        backgroundColor="#fff"
+                        border="1px solid red"
+                        borderRadius={200}
+                        px="5px"
+                        style={{ marginBottom: "10px" }}
+                      >
+                        {ingredient.ingredient.name}
+                      </Text>
+                    ))}
+                  </HStack>
+                )}
 
                 <HStack>
                   <Text as="b">Publicado por: </Text>
