@@ -80,7 +80,7 @@ export default function Provider({ userId }) {
   };
 
   return (
-    <Box>
+    <Box minHeight="73vh">
       <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
         <SideBar />
         <Box

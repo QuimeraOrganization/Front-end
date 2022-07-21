@@ -332,7 +332,7 @@ export async function getServerSideProps(context) {
   if (token) {
     return {
       redirect: {
-        destination: "/produtos?page=1",
+        destination: "/inicio",
         permanent: false,
       },
     };
