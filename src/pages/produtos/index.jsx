@@ -53,11 +53,12 @@ const chakraStyles = {
   control: (provided, state) => ({
     ...provided,
     cursor: "pointer",
+    borderRadius: "10px",
     _hover: {
       border: "1.5px solid #6FBE5E",
     },
     _focusVisible: {
-      border: "1.5px solid #6FBE5E",
+      border: "2px solid #6FBE5E",
     },
   }),
   container: (provided, state) => ({
@@ -337,27 +338,27 @@ export default function Home() {
 
               {(filter.label === "Contém ingredientes" ||
                 filter.label === "Não contém ingredientes") && (
-                <Select
-                  isMulti
-                  useBasicStyles
-                  id="SelectIngredients"
-                  instanceId="SelectIngredients"
-                  size="sm"
-                  placeholder="Selecione os ingredientes"
-                  chakraStyles={chakraStyles}
-                  onChange={(e) => handleSelectIngredients(e)}
-                  options={ingredientsOptions}
-                  noOptionsMessage={({ inputValue }) =>
-                    !inputValue ? (
-                      "Sem resultados"
-                    ) : (
-                      <VStack>
-                        <Text>Ingrediente não cadastrado</Text>
-                      </VStack>
-                    )
-                  }
-                />
-              )}
+                  <Select
+                    isMulti
+                    useBasicStyles
+                    id="SelectIngredients"
+                    instanceId="SelectIngredients"
+                    size="sm"
+                    placeholder="Selecione os ingredientes"
+                    chakraStyles={chakraStyles}
+                    onChange={(e) => handleSelectIngredients(e)}
+                    options={ingredientsOptions}
+                    noOptionsMessage={({ inputValue }) =>
+                      !inputValue ? (
+                        "Sem resultados"
+                      ) : (
+                        <VStack>
+                          <Text>Ingrediente não cadastrado</Text>
+                        </VStack>
+                      )
+                    }
+                  />
+                )}
 
               {filter.label === "Categorias" && (
                 <Select
