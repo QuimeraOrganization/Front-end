@@ -179,7 +179,7 @@ export default function ProductForm({ productProp = null }) {
         });
       }
     })();
-  }, []);
+  }, [defaultCategories, defaultIngredients, router, user]);
 
   async function handleCreatebrand(brandName) {
     const brandResponse = await createBrand(brandName);
@@ -481,7 +481,7 @@ export default function ProductForm({ productProp = null }) {
                     inputProps={{ cursor: "pointer" }}
                     inputGroupProps={{ cursor: "pointer" }}
                     accept="image/*"
-                    onFileChange={(fileList) => {}}
+                    onFileChange={(fileList) => { }}
                     multipleFiles={false}
                     hideClearButton={false}
                     ref={imageRef}

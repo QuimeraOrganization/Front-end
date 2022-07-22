@@ -32,7 +32,7 @@ export default function EditFeedback({ feedbackId }) {
       setProductId(data.product.id);
       setUserId(data.user.id);
     });
-  }, []);
+  }, [feedbackId]);
 
   const handleUpdateFeedback = async () => {
     console.log("userId", userId);

@@ -219,7 +219,7 @@ export default function CreateUser() {
               />
             </SimpleGrid>
 
-            {error ? <p>"Verifique a senha!"</p> : ""}
+            {error ? <p>Verifique a senha!</p> : ""}
           </VStack>
           <Flex mt="8" justify="flex-end">
             <HStack spacing="4">

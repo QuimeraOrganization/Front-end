@@ -292,11 +292,12 @@ export default function Home() {
                 borderRadius={200}
               />
               <InputRightAddon
-                children={<SearchIcon color="#6FBE5E" />}
                 backgroundColor="transparent"
                 borderRadius={200}
                 cursor="pointer"
-              />
+              >
+                <SearchIcon color="#6FBE5E" />
+              </InputRightAddon>
             </InputGroup>
 
             {isAuthenticated && (

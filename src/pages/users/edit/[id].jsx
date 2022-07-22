@@ -11,6 +11,7 @@ import {
   FormControl,
   FormLabel,
   Text,
+  FormErrorMessage
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { Select } from "chakra-react-select";
@@ -56,6 +57,7 @@ export default function EditUser({ userId }) {
   const [isIngredientsError, setIngredientsError] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
   const ingredientsRef = useRef();
+
   useEffect(() => {
     (async () => {
       await getUserById(userId).then(async (data) => {
@@ -83,7 +85,7 @@ export default function EditUser({ userId }) {
         })
       );
     })();
-  }, []);
+  }, [userId]);
 
   async function handleCreateIngredient(ingredientName) {
     const ingredientResponse = await createIngredient(ingredientName);

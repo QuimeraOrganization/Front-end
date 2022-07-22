@@ -16,6 +16,7 @@ import {
   Divider,
   FormLabel,
   VStack,
+  FormErrorMessage
 } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
 import FilePicker from "chakra-ui-file-picker";
