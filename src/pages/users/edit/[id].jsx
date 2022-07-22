@@ -85,7 +85,7 @@ export default function EditUser({ userId }) {
         })
       );
     })();
-  }, [userId]);
+  }, []);
 
   async function handleCreateIngredient(ingredientName) {
     const ingredientResponse = await createIngredient(ingredientName);

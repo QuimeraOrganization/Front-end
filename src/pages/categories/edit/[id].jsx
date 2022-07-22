@@ -33,7 +33,7 @@ export default function EditCategory({ categoryId }) {
         name,
       });
     });
-  }, [categoryId]);
+  }, []);
 
   const handleUpdateCategory = async () => {
     try {
