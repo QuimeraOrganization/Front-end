@@ -37,6 +37,34 @@ const chakraStyles = {
     color: "#fff",
   }),
 
+  control: (provided, state) => ({
+    ...provided,
+    height: "44.74",
+    borderRadius: "10px",
+    _hover: {
+      border: "1.5px solid #6FBE5E",
+    },
+    _focusVisible: {
+      border: "2px solid #6FBE5E",
+    },
+  }),
+
+  crossIcon: (provided, state) => ({
+    ...provided,
+    color: "red"
+  }),
+
+  downChevron: (provided, state) => ({
+    ...provided,
+    color: "#6FBE5E"
+  }),
+
+  container: (provided, state) => ({
+    ...provided,
+
+    border: "0px solid #6FBE5E",
+  }),
+
   option: (provided, state) => ({
     ...provided,
     color: "#253C1F",
