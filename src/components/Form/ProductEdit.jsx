@@ -50,6 +50,35 @@ const chakraStyles = {
     backgroundColor: "#6FBE5E",
     color: "#fff",
   }),
+
+  control: (provided, state) => ({
+    ...provided,
+    height: "44.74",
+    borderRadius: "10px",
+    _hover: {
+      border: "1.5px solid #6FBE5E",
+    },
+    _focusVisible: {
+      border: "2px solid #6FBE5E",
+    },
+  }),
+
+  crossIcon: (provided, state) => ({
+    ...provided,
+    color: "red"
+  }),
+
+  downChevron: (provided, state) => ({
+    ...provided,
+    color: "#6FBE5E"
+  }),
+
+  container: (provided, state) => ({
+    ...provided,
+
+    border: "0px solid #6FBE5E",
+  }),
+
   option: (provided, state) => ({
     ...provided,
     color: "#253C1F",
@@ -316,7 +345,7 @@ export default function ProductForm({ productProp = null }) {
   }
 
   return (
-    <Box>
+    <Box minHeight="calc(100vh - 70px - 183px)">
       <Flex w="100%" h="100%" my="6" maxWidth={1480} mx="auto" px="6">
         <SideBar />
         <Box
