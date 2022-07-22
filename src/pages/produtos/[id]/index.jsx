@@ -165,20 +165,23 @@ export default function ProductDetails() {
       {product != null && (
         <HStack
           alignItems="flex-start"
+          justify="center"
           spacing={["20px", "40px", "60px", "80px", "120px"]}
           pb="20px"
+          wrap="wrap"
         >
           {product.image ? (
-            <Box minHeight={containerRef?.current?.scrollHeight}>
+            <Box minHeight={["0", containerRef?.current?.scrollHeight, containerRef?.current?.scrollHeight, containerRef?.current?.scrollHeight]}>
               <Image
                 src={product.image}
                 position="sticky"
                 top="100px"
                 objectFit="scale-down"
-                width={["400px", "420px", "440px"]}
-                height={["400px", "420px", "440px"]}
+                width={["200px", "320px", "380px", "440px"]}
+                height={["200px", "320px", "380px", "440px"]}
                 border="1px solid rgba(128,128,128, .1)"
                 boxShadow="5px 5px 5px rgba(128,128,128, .3)"
+                style={{ marginBottom: "20px" }}
               />
             </Box>
           ) : (
@@ -194,8 +197,8 @@ export default function ProductDetails() {
 
           <VStack
             mx={5}
-            minHeight="40vh"
-            maxWidth="40vw"
+            minHeight={["100%", "30vh", "35vh", "40vh"]}
+            maxWidth={["100%", "30vw", "35vw", "40vw"]}
             ref={containerRef}
           >
             <VStack
@@ -300,7 +303,10 @@ export default function ProductDetails() {
 
                 {feedbacks.length > 0 &&
                   feedbacks.map((feedback, index) => (
-                    <VStack key={index} align="flex-start">
+                    <VStack
+                      key={index}
+                      align="flex-start"
+                    >
                       <HStack align="flex-start">
                         <HStack>
                           <Avatar size="sm" name={feedback.user.email} />

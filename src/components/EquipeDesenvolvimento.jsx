@@ -23,7 +23,7 @@ export default function EquipeDesenvolvimento({
 }) {
   return (
     <Box
-      width="343px"
+      // width="343px"
       flexDirection="column"
       borderRadius={20}
       color="#1c1c1c"
@@ -60,6 +60,6 @@ export default function EquipeDesenvolvimento({
           <Image src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
         </Text>
       </Box>
-    </Box>
+    </Box >
   );
 }

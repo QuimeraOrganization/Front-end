@@ -195,7 +195,7 @@ const Login = () => {
         width="100%"
         display="flex"
         flexDirection="column"
-        // minHeight="calc(100vh - 90px - 183px)"
+      // minHeight="calc(100vh - 90px - 183px)"
       >
         <Text
           ml="4"
@@ -208,7 +208,7 @@ const Login = () => {
         >
           Equipe de Desenvolvimento:
         </Text>
-        <HStack wrap="wrap" gap="2rem" ml="20px" alignItems="center">
+        <HStack wrap="wrap" gap="1rem" ml="20px" justify="center">
           <EquipeDesenvolvimento
             imagePerfil="https://avatars.githubusercontent.com/u/54625876?s=400&u=e866644bc64ded7ac4e5dead9d57b1b1719a19e9&v=4"
             name="Eros Linnyker"
