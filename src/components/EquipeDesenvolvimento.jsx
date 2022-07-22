@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 
 export default function EquipeDesenvolvimento({
-  imagePerfil,
+  imageProfile,
   name,
   linkGit,
   linkLinkedin,
@@ -28,6 +28,7 @@ export default function EquipeDesenvolvimento({
       borderRadius={20}
       color="#1c1c1c"
       padding="20px"
+      _hover={{ transform: "scale(1.1)", transition: "all 0.5s" }}
     >
       <Image
         width="120px"
@@ -36,7 +37,7 @@ export default function EquipeDesenvolvimento({
         mb="10px"
         borderRadius={10}
         margin="0 auto"
-        src={imagePerfil}
+        src={imageProfile}
       />
 
       <Text
@@ -52,7 +53,12 @@ export default function EquipeDesenvolvimento({
       >
         {name}
       </Text>
-      <Box display="flex" alignItems="center" justifyContent="center">
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        cursor="pointer"
+      >
         <Text as="a" href={linkLinkedin} mr="10px" target="_blank">
           <Image src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
         </Text>
@@ -60,6 +66,6 @@ export default function EquipeDesenvolvimento({
           <Image src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
         </Text>
       </Box>
-    </Box >
+    </Box>
   );
 }
