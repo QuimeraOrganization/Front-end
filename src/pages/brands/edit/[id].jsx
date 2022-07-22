@@ -29,7 +29,7 @@ export default function EditBrand({ brandId }) {
         name,
       });
     });
-  }, [brandId]);
+  }, []);
 
   const handleUpdateBrand = async () => {
     try {

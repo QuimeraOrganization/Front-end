@@ -178,7 +178,7 @@ export default function CreateProduct({ productProp = null }) {
         });
       }
     })();
-  }, [defaultCategories, defaultIngredients, router, user]);
+  }, []);
 
   async function handleCreatebrand(brandName) {
     const brandResponse = await createBrand(brandName);
