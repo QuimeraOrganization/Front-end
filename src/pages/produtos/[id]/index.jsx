@@ -77,7 +77,7 @@ export default function ProductDetails() {
       setListIngredientsNonAllergic(ingredientsNonAllergic);
 
     })();
-  }, [router.query.id]);
+  }, [router.query.id, user]);
 
 
   async function handleCreateFeedback() {
@@ -282,17 +282,16 @@ export default function ProductDetails() {
                       cursor="pointer"
                       backgroundColor="#253C1F"
                       onClick={handleCreateFeedback}
-                      children={
-                        <Button
-                          backgroundColor="#253C1F"
-                          color="#fff"
-                          _hover={{}}
-                          height="100%"
-                        >
-                          Publicar
-                        </Button>
-                      }
-                    />
+                    >
+                      <Button
+                        backgroundColor="#253C1F"
+                        color="#fff"
+                        _hover={{}}
+                        height="100%"
+                      >
+                        Publicar
+                      </Button>
+                    </InputRightAddon>
                   </InputGroup>
                 )}
 

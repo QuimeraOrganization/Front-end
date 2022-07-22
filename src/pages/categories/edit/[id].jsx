@@ -33,7 +33,8 @@ export default function EditCategory({ categoryId }) {
         name,
       });
     });
-  }, []);
+  }, [categoryId]);
+
   const handleUpdateCategory = async () => {
     try {
       await updateCategory(categoryId, category.name);

@@ -177,7 +177,6 @@ const SignIn = () => {
               </Box>
             </Flex>
           </Box>
-          </Flex>
         </Box>
       </Flex>
 

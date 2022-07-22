@@ -95,7 +95,7 @@ export default function UserList(props) {
                   {isWideVersion && (
                     <Td>
                       {user.IngredientsOnUsersAllergic.map((ingredient) => (
-                        <Text>
+                        <Text key={ingredient.id}>
                           id: {ingredient.ingredient.id}-
                           {ingredient.ingredient.name}
                         </Text>
