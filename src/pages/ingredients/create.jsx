@@ -22,17 +22,21 @@ export default function CreateIngredient() {
 
   const handleSubmit = async () => {
     try {
-      await createIngredient(name);
-      toast.success("Ingrediente cadastrado com sucesso!", {
-        autoClose: 2000,
-      });
-      Router.push("/ingredients");
-    } catch (err) {
-      if (!email) {
+      if (name) {
+        await createIngredient(name);
+        toast.success("Ingrediente cadastrado com sucesso!", {
+          autoClose: 2000,
+        });
+        Router.push("/ingredients");
+      } else {
         toast.error("Nome do ingrediente obrigatório!", {
           autoClose: 2000,
         });
       }
+    } catch (err) {
+      toast.error(err.response.data.message, {
+        autoClose: 2000,
+      });
     }
 
     setName("");

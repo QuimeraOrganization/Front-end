@@ -37,19 +37,22 @@ export default function EditCategory({ categoryId }) {
 
   const handleUpdateCategory = async () => {
     try {
-      await updateCategory(categoryId, category.name);
+      if (category.name) {
+        await updateCategory(categoryId, category.name);
 
-      toast.success("Categoria atualizada com sucesso", {
-        autoClose: 2000,
-      });
-      Router.push("/categories");
-    } catch (err) {
-      // console.log(ingredient.name);
-      if (!category.name) {
-        toast.error("Nome do ingrediente obrigatório!", {
+        toast.success("Categoria atualizada com sucesso", {
+          autoClose: 2000,
+        });
+        Router.push("/categories");
+      } else {
+        toast.error("Por favor, informe o nome da Categoria!", {
           autoClose: 2000,
         });
       }
+    } catch (err) {
+      toast.error(err.response.data.message, {
+        autoClose: 2000,
+      });
     }
   };
 
