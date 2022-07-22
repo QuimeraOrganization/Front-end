@@ -20,6 +20,7 @@ import {
   updateFeedback,
 } from "../../../services/feedbackService";
 import { toast } from "react-toastify";
+import Router from "next/router";
 
 export default function EditFeedback({ feedbackId }) {
   const [contents, setContents] = useState({});
@@ -35,26 +36,22 @@ export default function EditFeedback({ feedbackId }) {
   }, []);
 
   const handleUpdateFeedback = async () => {
-    console.log("userId", userId);
     try {
-      await updateFeedback(feedbackId, contents, userId, productId);
+      if (contents) {
+        await updateFeedback(feedbackId, contents, userId, productId);
 
-      toast.success("Comentário atualizado com sucesso", {
-        autoClose: 2000,
-      });
-    } catch (err) {
-      if (!contents) {
+        toast.success("Comentário atualizado com sucesso", {
+          autoClose: 2000,
+        });
+        Router.push("/feedbacks");
+      } else {
         toast.error("Comentário obrigatório!", {
           autoClose: 2000,
         });
       }
-      if (!productId) {
-        toast.error("ID do PRODUTO obrigatório!", {
-          autoClose: 2000,
-        });
-      }
-      if (!userId) {
-        toast.error("ID do USER obrigatória!", {
+    } catch (err) {
+      if (!contents) {
+        toast.error("Comentário obrigatório!", {
           autoClose: 2000,
         });
       }
@@ -130,15 +127,14 @@ export default function EditFeedback({ feedbackId }) {
                   Cancelar
                 </Button>
               </Link>
-              <Link href="/feedbacks">
-                <Button
-                  bg="#6FBE5E"
-                  color="#ffffff"
-                  onClick={handleUpdateFeedback}
-                >
-                  Salvar
-                </Button>
-              </Link>
+
+              <Button
+                bg="#6FBE5E"
+                color="#ffffff"
+                onClick={handleUpdateFeedback}
+              >
+                Salvar
+              </Button>
             </HStack>
           </Flex>
         </Box>

@@ -4,6 +4,7 @@ import axios from "../config/axios";
 import parseJwt from "../utils/parseJWT";
 import { singOut } from "../utils/singOut";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 const AuthContext = createContext({});
 
 function AuthProvider({ children }) {
@@ -66,7 +67,9 @@ function AuthProvider({ children }) {
 
       router.push("/");
     } catch (err) {
-      console.log(err);
+      toast.error(err.response.data.message, {
+        autoClose: 2000,
+      });
     }
   }
 

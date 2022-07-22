@@ -50,6 +50,9 @@ export default function EditIngredient({ ingredientId }) {
           autoClose: 2000,
         });
       }
+      toast.error(err.response.data.message, {
+        autoClose: 2000,
+      });
     }
   };
 

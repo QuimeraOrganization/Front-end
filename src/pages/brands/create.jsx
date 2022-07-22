@@ -22,11 +22,17 @@ export default function CreateBrand() {
 
   const handleSubmit = async () => {
     try {
-      await createBrand(name);
-      toast.success("Marca cadastrada com sucesso!", {
-        autoClose: 2000,
-      });
-      Router.push("/brands");
+      if (name) {
+        await createBrand(name);
+        toast.success("Marca cadastrada com sucesso!", {
+          autoClose: 2000,
+        });
+        Router.push("/brands");
+      } else {
+        toast.error("Por favor, informe o nome da Marca!", {
+          autoClose: 2000,
+        });
+      }
     } catch (err) {
       if (!name) {
         toast.error("O campo Nome é obrigatório!", {
