@@ -193,7 +193,7 @@ export default function ProductDetails() {
             />
           )}
 
-          <VStack mx={5} minHeight="40vh">
+          <VStack mx={5} minHeight="40vh" maxWidth="40vw">
             <VStack
               align="flex-start"
               spacing={10}
@@ -265,7 +265,7 @@ export default function ProductDetails() {
                 </HStack>
               </VStack>
 
-              <VStack align="flex-start" spacing={8} maxWidth="30vw">
+              <VStack align="flex-start" spacing={8} maxWidth="40vw">
                 {isAuthenticated && (
                   <InputGroup border="0px solid #6FBE5E">
                     <Input
