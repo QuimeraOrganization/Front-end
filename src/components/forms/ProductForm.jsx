@@ -262,10 +262,12 @@ export default function ProductForm({ productProp = null }) {
 
         const response = await createProduct(product, imageRef);
 
-        if (response.status === 200) {
+        if (response.status === 201) {
           toast.success("Produto cadastrado com sucesso!", {
             autoClose: 2000,
           });
+
+          router.push(`/produtos/${response.data.id}`);
         }
 
       } else {
@@ -283,11 +285,10 @@ export default function ProductForm({ productProp = null }) {
           toast.success("Produto atualizado com sucesso!", {
             autoClose: 2000,
           });
+
+          router.reload();
         }
       }
-
-      // router.push(`/produtos/${product.id}`);
-      router.reload();
     }
   }
 

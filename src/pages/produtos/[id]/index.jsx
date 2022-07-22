@@ -167,7 +167,6 @@ export default function ProductDetails() {
           alignItems="flex-start"
           spacing={["20px", "40px", "60px", "80px", "120px"]}
           pb="20px"
-          ref={containerRef}
         >
           {product.image ? (
             <Box minHeight={containerRef?.current?.scrollHeight}>
@@ -193,7 +192,12 @@ export default function ProductDetails() {
             />
           )}
 
-          <VStack mx={5} minHeight="40vh" maxWidth="40vw">
+          <VStack
+            mx={5}
+            minHeight="40vh"
+            maxWidth="40vw"
+            ref={containerRef}
+          >
             <VStack
               align="flex-start"
               spacing={10}
@@ -240,7 +244,6 @@ export default function ProductDetails() {
                 </HStack>
 
                 {listIngredientsAllergic.length > 0 && (
-                  console.log(listIngredientsAllergic),
                   <HStack wrap="wrap">
                     <Text marginBottom="10px" as="b">Ingredientes(s) alergico(s): </Text>
 
@@ -311,7 +314,7 @@ export default function ProductDetails() {
                             <Text as="b">{feedback.user.email}</Text>
                             <Text>{formatDate(feedback.created_at)}</Text>
                           </HStack>
-                          <Text>{feedback.contents}</Text>
+                          <Text wordBreak="break-word">{feedback.contents}</Text>
                         </VStack>
                       </HStack>
                     </VStack>
