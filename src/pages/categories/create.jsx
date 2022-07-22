@@ -29,7 +29,7 @@ export default function CreateCategory() {
       Router.push("/categories");
     } catch (err) {
       if (!name) {
-        toast.error("O campo Nome é obrigatório!", {
+        toast.error(err.response.data.message, {
           autoClose: 2000,
         });
       }
