@@ -18,15 +18,17 @@ const Login = () => {
       justifyContent="center"
       alignItems="center"
     >
-      <Flex mr="120px" ml="120px" my="7" display={{ md: "flex" }}>
-        <Box w={{ base: "full", md: "full", lg: "full" }} mr="30px">
+      <Flex mr="120px" ml="120px" my="8" display={{ md: "flex" }}>
+        <Box w={{ base: "full", md: "full", lg: "full" }}ml='50px' mr="10px">
+         <Center>
           <Text
+            
             fontFamily="Nunito Sans"
             fontStyle="Bold"
-            fontWeight="25"
-            fontSize={{ base: "20px", md: "20px", lg: "25px" }}
+            fontWeight="20"
+            fontSize={{ base: "18px", md: "19px", lg: "20px" }}
             lineHeight="30px"
-            align="Center"
+            
             justifyContent="center"
             color="#253C1F"
           >
@@ -35,9 +37,8 @@ const Login = () => {
               <Text
                 as="span"
                 color="#6FBE5E"
-                fontSize="7xl"
-                textShadow="3px 2px #253C1F"
-                m="2"
+                fontSize="6xl"
+                m="1"
               >
                 S
               </Text>
@@ -48,14 +49,16 @@ const Login = () => {
             surgiu diante de um contexto crescente de alergia alimentar na
             população, principalmente em crianças.{" "}
           </Text>
+          </Center>
+          <Center>
           <Text
             my="5"
             fontFamily="Nunito Sans"
             fontStyle="Bold"
             fontWeight="20"
-            fontSize={{ base: "20px", md: "20px", lg: "25px" }}
+            fontSize={{ base: "18px", md: "19px", lg: "20px" }}
             lineHeight="30px"
-            align="Center"
+          
             justifyContent="center"
             color="#253C1F"
           >
@@ -64,9 +67,8 @@ const Login = () => {
               <Text
                 as="span"
                 color="#6FBE5E"
-                fontSize="7xl"
-                textShadow="3px 2px #253C1F"
-                m="2"
+                fontSize="6xl"              
+                m="1"
               >
                 E
               </Text>
@@ -78,9 +80,11 @@ const Login = () => {
             este público com necessidades diferenciadas, sempre buscando a
             melhoria da qualidade de vida das pessoas.
           </Text>
+          </Center>
         </Box>
 
-        <Box w={{ base: "full", md: "full", lg: "full" }}>
+        <Box w={{ base: "full", md: "full", lg: "full" }}
+        ml='50px'>
           <Image
             w="full"
             h="340px"
@@ -92,25 +96,23 @@ const Login = () => {
         </Box>
       </Flex>
 
-      <Divider
+      {/*<Divider
         display={{ md: "flex" }}
         w={{ base: "full", md: "full", lg: "full" }}
         my="7"
         borderColor="#6FBE5E"
-      />
+      />*/}
 
-      <Flex mr="120px" ml="120px" my="8" display={{ md: "flex" }}>
+      <Flex mr="200px" ml="200px" my="8" display={{ md: "flex" }}>
         <Box
-          mr="50px"
+          mr="px"
           w={{ base: "full", md: "full", lg: "full" }}
-          h="full"
-          mb="3"
-          boxShadow="dark-lg"
-          borderRadius="10"
+          
+          mb="5"
+          
         >
           <Center>
-            <Heading
-              textShadow="2px 1px #253C1F"
+            <Heading              
               m=""
               fontFamily="Nunito Sans"
               fontStyle="Bold"
@@ -123,33 +125,32 @@ const Login = () => {
               Missão
             </Heading>
           </Center>
-
+          <Center>
           <Text
             ml="4"
             mr="4"
             fontFamily="Nunito Sans"
             fontStyle="normal"
             fontWeight="20"
-            fontSize={{ base: "18px", md: "20px", lg: "25px" }}
+            fontSize={{ base: "17px", md: "19px", lg: "20px" }}
             lineHeight="30px"
             color="#253C1F"
           >
             Proporcionar aos nossos clientes informações e uma vida livre de
             alergia.
           </Text>
+          </Center>
         </Box>
 
         <Box
-          mr="50px"
+          mr=""
           w={{ base: "full", md: "full", lg: "full" }}
-          h="full"
-          mb="3"
-          boxShadow="dark-lg"
-          borderRadius="10"
+          
+          mb="5"
+         
         >
           <Center>
-            <Heading
-              textShadow="2px 1px #253C1F"
+            <Heading              
               m=""
               fontFamily="Nunito Sans"
               fontStyle="Bold"
@@ -162,33 +163,34 @@ const Login = () => {
               Visão
             </Heading>
           </Center>
+          <Center>
           <Text
             ml="4"
             mr="4"
             fontFamily="Nunito Sans"
             fontStyle="normal"
             fontWeight="20"
-            fontSize={{ base: "18px", md: "20px", lg: "25px" }}
+            fontSize={{ base: "17px", md: "19px", lg: "20px" }}
             lineHeight="30px"
             color="#253C1F"
           >
             Que o Sistema seja sinônimo de informações de confiança, preocupado
             com a saúde e futuro das pessoas.
           </Text>
+          </Center>
         </Box>
 
         <Box
           w={{ base: "full", md: "full", lg: "full" }}
-          h="full"
-          boxShadow="dark-lg"
-          borderRadius="10"
+          h=""
+          mb='10'
+         
         >
           <Center>
-            <Heading
-              textShadow="2px 1px #253C1F"
+            <Heading              
               m=""
               fontFamily="Nunito Sans"
-              fontStyle="normal"
+              fontStyle="Bold"
               fontSize={{ base: "30px", md: "32px", lg: "35px" }}
               lineHeight="50px"
               align="Center"
@@ -198,20 +200,22 @@ const Login = () => {
               Valores
             </Heading>
           </Center>
+          <Center>
           <Text
             ml="4"
             mr="4"
             fontFamily="Nunito Sans"
             fontStyle="normal"
-            fontWeight="10"
-            fontSize={{ base: "18px", md: "20px", lg: "25px" }}
+            fontWeight="20"
+            fontSize={{ base: "17px", md: "19px", lg: "20px" }}
             lineHeight="30px"
             color="#253C1F"
           >
-            Embasamento Técnico e Científico, Transparência, Inovação,
-            Valorização do ser humano, Ambiente acolhedor e de ajuda mútua,
+            Embasamento Técnico e Científico, Ambiente acolhedor e de ajuda mútua, Inovação, Transparência,
+             Valorização do ser humano,
             Preocupação com o futuro das pessoas.
           </Text>
+          </Center>
         </Box>
       </Flex>
     </Flex>
