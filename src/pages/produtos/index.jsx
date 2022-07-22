@@ -119,6 +119,7 @@ export default function Home() {
   const [ingredientsSelected, setIngredientsSelected] = useState([]);
   const [categoriesOptions, setCategoriesOptions] = useState([]);
   const [categoriesSelected, setCategoriesSelected] = useState([]);
+  const [searchBar, setSearchBar] = useState("");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isAuthenticated } = useContext(AuthContext);
@@ -260,6 +261,26 @@ export default function Home() {
     setLoading(false);
   }
 
+  async function handleSearchWithName() {
+    setLoading(true);
+
+    let urlFront = `/produtos/?page=1&name=${searchBar}`;
+
+    router.push(urlFront);
+
+    let urlBack = urlFront.replace("produtos", "products");
+    const searchResponse = await getProductsWithFilter(urlBack);
+    setSearchBar("");
+    setPageProducts(searchResponse);
+    setLoading(false);
+  }
+
+  async function handleSearchKeyPress(event) {
+    if (event.key === "Enter") {
+      await handleSearchWithName();
+    }
+  }
+
   return (
     <VStack minHeight="calc(100vh - 60px - 183px)" alignItems="space-between">
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -288,17 +309,23 @@ export default function Home() {
               border="0px solid #6FBE5E"
             >
               <Input
-                focusBorderColor="#6FBE5E"
                 placeholder="Busque por um produto..."
+                _placeholder={{ color: "#253C1F" }}
+                _hover={{ borderColor: "#6FBE5E" }}
+                focusBorderColor="#6FBE5E"
                 fontSize={{ base: "13px", md: "14px", lg: "15px" }}
                 minWidth="150px"
                 maxWidth="300px"
                 borderRadius={200}
+                value={searchBar}
+                onChange={(e) => setSearchBar(e.target.value)}
+                onKeyPress={(e) => handleSearchKeyPress(e)}
               />
               <InputRightAddon
                 backgroundColor="transparent"
                 borderRadius={200}
                 cursor="pointer"
+                onClick={handleSearchWithName}
               >
                 <SearchIcon color="#6FBE5E" />
               </InputRightAddon>
@@ -434,6 +461,13 @@ export default function Home() {
                   onClick={(e) => handleCardClick(product.id)}
                 />
               ))}
+
+            {pageProducts != null &&
+              pageProducts.data != null &&
+              pageProducts.data.length == 0 &&
+              !loading && (
+                <Text>Sem resultados para busca "{router.query.name}"</Text>
+              )}
           </Flex>
         </HStack>
 
