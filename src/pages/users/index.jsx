@@ -17,13 +17,15 @@ import {
 } from "@chakra-ui/react";
 
 import { parseCookies } from "nookies";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { RiAddLine, RiDeleteBinLine, RiPencilLine } from "react-icons/ri";
 import Link from "next/link";
 
 import axios from "../../config/axios";
 import SideBar from "../../components/SideBar/index";
 import { getUsers, deleteUser } from "../../services/userService";
+import parseJwt from "../../utils/parseJWT";
+import { AuthContext } from "../../context/AuthContext";
 export default function UserList(props) {
   const [users, setUsers] = useState(props.users);
   //breakpoint de responsividade
@@ -163,6 +165,7 @@ export async function getServerSideProps(context) {
     };
   }
   const response = await axios.get("/users");
+
   return {
     props: {
       users: response.data,

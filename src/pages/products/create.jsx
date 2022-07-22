@@ -271,14 +271,18 @@ export default function CreateProduct({ productProp = null }) {
       ? setDescriptionError(true)
       : setDescriptionError(false);
     product.brandId === null ? setBrandError(true) : setBrandError(false);
-
+    if (!product.description) {
+      toast.error("Adicone uma descrição ao produto!", {
+        autoClose: 2000,
+      });
+    }
     try {
       if (isValidFields()) {
         if (productProp === null) {
           // Cadastra
 
           const response = await createProduct(product, imageRef);
-          console.log(response.status);
+
           if (response.status === 201) {
             toast.success("Produto cadastrado com sucesso!", {
               autoClose: 2000,
@@ -291,7 +295,6 @@ export default function CreateProduct({ productProp = null }) {
           // Edita
 
           if (isDeleteImage) {
-            console.log("Entrou");
             // Requisição para deletar imagem
             await deleteProductImage(product.id);
           }
@@ -306,7 +309,6 @@ export default function CreateProduct({ productProp = null }) {
         }
       }
     } catch (err) {
-      console.log(err.data.response.message);
       toast.error(err.data.response.message, {
         autoClose: 2000,
       });
@@ -479,7 +481,7 @@ export default function CreateProduct({ productProp = null }) {
                     inputProps={{ cursor: "pointer" }}
                     inputGroupProps={{ cursor: "pointer" }}
                     accept="image/*"
-                    onFileChange={(fileList) => { }}
+                    onFileChange={(fileList) => {}}
                     multipleFiles={false}
                     hideClearButton={false}
                     ref={imageRef}

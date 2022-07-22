@@ -107,6 +107,9 @@ const Cadastro = () => {
         });
       }
     } catch (err) {
+      toast.error(err.response.data.message, {
+        autoClose: 2000,
+      });
       if (!email) {
         toast.error("Email obrigatório!", {
           autoClose: 2000,
