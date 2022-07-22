@@ -33,7 +33,7 @@ export default function EditIngredient({ ingredientId }) {
         name,
       });
     });
-  }, [ingredientId]);
+  }, []);
 
   const handleUpdateIngredient = async () => {
     try {

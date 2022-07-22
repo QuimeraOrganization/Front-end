@@ -49,7 +49,7 @@ export default function EditProduct({ productId }) {
       setProduct(productResponse);
       // setFeedbacks(productResponse.feedbacks);
     })();
-  }, [productId]);
+  }, []);
 
   return (
     <VStack minHeight="calc(100vh - 90px - 183px)">

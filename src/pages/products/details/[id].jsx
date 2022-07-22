@@ -37,7 +37,7 @@ export default function ProductDetails({ productId }) {
     } finally {
       setLoading(false);
     }
-  }, [productId]);
+  }, []);
 
   return (
     <Box minHeight="calc(100vh - 90px - 183px)">

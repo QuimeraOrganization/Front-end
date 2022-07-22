@@ -77,7 +77,7 @@ export default function ProductDetails() {
       setListIngredientsNonAllergic(ingredientsNonAllergic);
 
     })();
-  }, [router.query.id, user]);
+  }, [router.query.id]);
 
 
   async function handleCreateFeedback() {
