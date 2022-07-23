@@ -466,7 +466,7 @@ export default function Home() {
               pageProducts.data != null &&
               pageProducts.data.length == 0 &&
               !loading && (
-                <Text>Sem resultados para busca "{router.query.name}"</Text>
+                <Text>Sem resultados para busca {router.query.name}</Text>
               )}
           </Flex>
         </HStack>
