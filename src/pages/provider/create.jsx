@@ -11,7 +11,7 @@ import {
 import { Input } from "../../components/Form/Input";
 import Link from "next/link";
 import Router from "next/router";
-import SideBarProvider from "../../components/SideBar/SideBarProvider";
+import SideBar from "../../components/SideBar/index";
 import { parseCookies } from "nookies";
 import { toast } from "react-toastify";
 import { useState, useEffect, useRef, useContext } from "react";
@@ -43,10 +43,12 @@ import {
 } from "../../services/productService";
 
 import { AuthContext } from "../../context/AuthContext";
+import SideBarProvider from "../../components/SideBar/SideBarProvider";
 
 const chakraStyles = {
   multiValue: (provided, state) => ({
     ...provided,
+
     backgroundColor: "#6FBE5E",
     color: "#fff",
   }),
@@ -78,7 +80,6 @@ const chakraStyles = {
 
     border: "0px solid #6FBE5E",
   }),
-
   option: (provided, state) => ({
     ...provided,
     color: "#253C1F",
@@ -89,8 +90,7 @@ const chakraStyles = {
   }),
 };
 
-export default function ProductForm({ productProp = null }) {
-  console.log(productProp);
+export default function CreateProduct({ productProp = null }) {
   let initialProduct = null;
   let defaultBrand = null;
   let defaultCategories = null;
@@ -300,9 +300,15 @@ export default function ProductForm({ productProp = null }) {
     product.description === ""
       ? setDescriptionError(true)
       : setDescriptionError(false);
-    product.brandId === null ? setBrandError(true) : setBrandError(false);
+    // product.brandId === null ? setBrandError(true) : setBrandError(false);
+    console.log();
 
     try {
+      if (!product.description || !product.name || !product.brandId) {
+        toast.error("Verifique os dados e tente novamente!", {
+          autoClose: 2000,
+        });
+      }
       if (isValidFields()) {
         if (productProp === null) {
           // Cadastra
@@ -321,23 +327,20 @@ export default function ProductForm({ productProp = null }) {
           // Edita
 
           if (isDeleteImage) {
-            console.log("Entrou");
             // Requisição para deletar imagem
             await deleteProductImage(product.id);
           }
 
           const response = await updateProduct(product, imageRef);
-          console.log(response);
+
           if (response.status === 200) {
             toast.success("Produto atualizado com sucesso!", {
               autoClose: 2000,
             });
-            Router.push("/produtos?page=1");
           }
         }
       }
     } catch (err) {
-      console.log(err.data.response.message);
       toast.error(err.data.response.message, {
         autoClose: 2000,
       });
@@ -345,7 +348,7 @@ export default function ProductForm({ productProp = null }) {
   }
 
   return (
-    <Box minHeight="calc(100vh - 70px - 183px)">
+    <Box minHeight="calc(100vh - 90px - 183px)">
       <Flex w="100%" h="100%" my="6" maxWidth={1480} mx="auto" px="6">
         <SideBarProvider />
         <Box
@@ -358,7 +361,7 @@ export default function ProductForm({ productProp = null }) {
           p={["6", "8"]}
         >
           <Heading size="lg" fontWeight="700">
-            Editar Produto
+            Adicionar Produto
           </Heading>
           <Divider my="6" borderColor="gray.700" />
           <VStack spacing={["6", "8"]} gap="1rem">
@@ -411,7 +414,7 @@ export default function ProductForm({ productProp = null }) {
                   }
                 />
               </FormControl>
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel htmlFor="categories">Categoria(s)</FormLabel>
                 <Select
                   isMulti
@@ -444,7 +447,7 @@ export default function ProductForm({ productProp = null }) {
               </FormControl>
             </SimpleGrid>
             <SimpleGrid minChildWidth="248px" spacing={["6", "8"]} w="100%">
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel htmlFor="ingredients">Ingrediente(s)</FormLabel>
                 <Select
                   isMulti
@@ -477,7 +480,7 @@ export default function ProductForm({ productProp = null }) {
                 />
               </FormControl>
               {product.image ? (
-                <FormControl>
+                <FormControl isRequired>
                   <FormLabel htmlFor="image">Imagem</FormLabel>
                   <Tag
                     size="lg"
@@ -522,7 +525,7 @@ export default function ProductForm({ productProp = null }) {
           </VStack>
           <Flex mt="8" justify="flex-end">
             <HStack spacing="4">
-              <Link href={"/produtos?page=1"} passHref>
+              <Link href="/produtos?page=1" passHref>
                 <Button as="a" bg="grey" color="#ffffff">
                   Cancelar
                 </Button>
@@ -534,7 +537,7 @@ export default function ProductForm({ productProp = null }) {
                 _hover={{ bg: "green.400" }}
                 color="#ffffff"
               >
-                Salvar
+                Cadastrar
               </Button>
             </HStack>
           </Flex>
