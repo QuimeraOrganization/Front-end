@@ -96,7 +96,7 @@ export default function Provider({ userId }) {
             <Heading size="lg" fontWeight="normal">
               Produtos
             </Heading>
-            <Link href="/products/create" passHref>
+            <Link href="/provider/create" passHref>
               <Button
                 as="a"
                 size="sm"
@@ -137,7 +137,7 @@ export default function Provider({ userId }) {
                   <Td>{product.id}</Td>
 
                   <Td>
-                    <Link href={`/products/edit/${product.id}`}>
+                    <Link href={`/provider/edit/${product.id}`}>
                       <Button
                         as="a"
                         left="10px"

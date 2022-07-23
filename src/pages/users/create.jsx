@@ -51,12 +51,12 @@ const chakraStyles = {
 
   crossIcon: (provided, state) => ({
     ...provided,
-    color: "red"
+    color: "red",
   }),
 
   downChevron: (provided, state) => ({
     ...provided,
-    color: "#6FBE5E"
+    color: "#6FBE5E",
   }),
 
   container: (provided, state) => ({
@@ -137,23 +137,21 @@ export default function CreateUser() {
         setError(true);
       }
     } catch (err) {
-      //   console.log(email);
-      //   if (!email) {
-      //     toast.error("Email obrigatório!", {
-      //       autoClose: 2000,
-      //     });
-      //   }
-      //   if (!password) {
-      //     toast.error("Senha obrigatória!", {
-      //       autoClose: 2000,
-      //     });
-      //   }
-      //   if (password.length > 16) {
-      //     toast.error("Password deve ter no máximo 16 caracteres!", {
-      //       autoClose: 2000,
-      //     });
-      //   }
-      // }
+      if (!email) {
+        toast.error("Email obrigatório!", {
+          autoClose: 2000,
+        });
+      }
+      if (!password) {
+        toast.error("Senha obrigatória!", {
+          autoClose: 2000,
+        });
+      }
+      if (password.length > 16) {
+        toast.error("Password deve ter no máximo 16 caracteres!", {
+          autoClose: 2000,
+        });
+      }
     }
     setError(false);
     setEmail("");

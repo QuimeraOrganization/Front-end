@@ -11,7 +11,7 @@ import {
 import { Input } from "../../components/Form/Input";
 import Link from "next/link";
 import Router from "next/router";
-import SideBar from "../../components/SideBar/index";
+import SideBarProvider from "../../components/SideBar/SideBarProvider";
 import { parseCookies } from "nookies";
 import { toast } from "react-toastify";
 import { useState, useEffect, useRef, useContext } from "react";
@@ -65,12 +65,12 @@ const chakraStyles = {
 
   crossIcon: (provided, state) => ({
     ...provided,
-    color: "red"
+    color: "red",
   }),
 
   downChevron: (provided, state) => ({
     ...provided,
-    color: "#6FBE5E"
+    color: "#6FBE5E",
   }),
 
   container: (provided, state) => ({
@@ -313,7 +313,7 @@ export default function ProductForm({ productProp = null }) {
             toast.success("Produto cadastrado com sucesso!", {
               autoClose: 2000,
             });
-            Router.push("/products");
+            Router.push("/produtos?page=1");
           } else {
             toast.error("ERROR!!! Verifique os dados e tente novamente!");
           }
@@ -332,7 +332,7 @@ export default function ProductForm({ productProp = null }) {
             toast.success("Produto atualizado com sucesso!", {
               autoClose: 2000,
             });
-            Router.push("/products");
+            Router.push("/produtos?page=1");
           }
         }
       }
@@ -347,7 +347,7 @@ export default function ProductForm({ productProp = null }) {
   return (
     <Box minHeight="calc(100vh - 70px - 183px)">
       <Flex w="100%" h="100%" my="6" maxWidth={1480} mx="auto" px="6">
-        <SideBar />
+        <SideBarProvider />
         <Box
           width="1010px"
           height="637px"
@@ -510,7 +510,7 @@ export default function ProductForm({ productProp = null }) {
                     inputProps={{ cursor: "pointer" }}
                     inputGroupProps={{ cursor: "pointer" }}
                     accept="image/*"
-                    onFileChange={(fileList) => { }}
+                    onFileChange={(fileList) => {}}
                     multipleFiles={false}
                     hideClearButton={false}
                     ref={imageRef}
@@ -522,7 +522,7 @@ export default function ProductForm({ productProp = null }) {
           </VStack>
           <Flex mt="8" justify="flex-end">
             <HStack spacing="4">
-              <Link href="/products" passHref>
+              <Link href={`/provider/monitoration/${user.id}`} passHref>
                 <Button as="a" bg="grey" color="#ffffff">
                   Cancelar
                 </Button>

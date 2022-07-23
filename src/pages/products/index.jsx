@@ -97,7 +97,9 @@ export default function ProductList(props) {
                       <Text fontSize="sm">{product.name}</Text>
                     </Box>
                   </Td>
-                  {isWideVersion && <Td>{product.description}</Td>}
+                  {isWideVersion && (
+                    <Td wordBreak="break-word">{product.description}</Td>
+                  )}
                   <Td>{product.id}</Td>
 
                   <Td>
