@@ -525,7 +525,7 @@ export default function CreateProduct({ productProp = null }) {
           </VStack>
           <Flex mt="8" justify="flex-end">
             <HStack spacing="4">
-              <Link href="/produtos?page=1" passHref>
+              <Link href={`/provider/monitoration/${user.id}`} passHref>
                 <Button as="a" bg="grey" color="#ffffff">
                   Cancelar
                 </Button>
