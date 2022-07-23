@@ -47,8 +47,37 @@ import { AuthContext } from "../../context/AuthContext";
 const chakraStyles = {
   multiValue: (provided, state) => ({
     ...provided,
+
     backgroundColor: "#6FBE5E",
     color: "#fff",
+  }),
+
+  control: (provided, state) => ({
+    ...provided,
+    height: "44.74",
+    borderRadius: "10px",
+    _hover: {
+      border: "1.5px solid #6FBE5E",
+    },
+    _focusVisible: {
+      border: "2px solid #6FBE5E",
+    },
+  }),
+
+  crossIcon: (provided, state) => ({
+    ...provided,
+    color: "red",
+  }),
+
+  downChevron: (provided, state) => ({
+    ...provided,
+    color: "#6FBE5E",
+  }),
+
+  container: (provided, state) => ({
+    ...provided,
+
+    border: "0px solid #6FBE5E",
   }),
   option: (provided, state) => ({
     ...provided,
@@ -270,13 +299,15 @@ export default function CreateProduct({ productProp = null }) {
     product.description === ""
       ? setDescriptionError(true)
       : setDescriptionError(false);
-    product.brandId === null ? setBrandError(true) : setBrandError(false);
-    if (!product.description) {
-      toast.error("Adicone uma descrição ao produto!", {
-        autoClose: 2000,
-      });
-    }
+    // product.brandId === null ? setBrandError(true) : setBrandError(false);
+    console.log();
+
     try {
+      if (!product.description || !product.name || !product.brandId) {
+        toast.error("Verifique os dados e tente novamente!", {
+          autoClose: 2000,
+        });
+      }
       if (isValidFields()) {
         if (productProp === null) {
           // Cadastra
@@ -382,7 +413,7 @@ export default function CreateProduct({ productProp = null }) {
                   }
                 />
               </FormControl>
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel htmlFor="categories">Categoria(s)</FormLabel>
                 <Select
                   isMulti
@@ -415,7 +446,7 @@ export default function CreateProduct({ productProp = null }) {
               </FormControl>
             </SimpleGrid>
             <SimpleGrid minChildWidth="248px" spacing={["6", "8"]} w="100%">
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel htmlFor="ingredients">Ingrediente(s)</FormLabel>
                 <Select
                   isMulti
@@ -448,7 +479,7 @@ export default function CreateProduct({ productProp = null }) {
                 />
               </FormControl>
               {product.image ? (
-                <FormControl>
+                <FormControl isRequired>
                   <FormLabel htmlFor="image">Imagem</FormLabel>
                   <Tag
                     size="lg"
