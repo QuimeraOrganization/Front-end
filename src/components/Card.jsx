@@ -7,7 +7,8 @@ export default function Card({ title, brand, categories, image, ...rest },) {
       margin={2}
       padding={4}
       borderRadius={15}
-      minWidth="20%"
+      minWidth="25%"
+      minHeight="30%"
       cursor="pointer"
       {...rest}
     >
@@ -15,8 +16,8 @@ export default function Card({ title, brand, categories, image, ...rest },) {
         <Image
           src={image || "/Sem-imagem.jpeg"}
           objectFit="scale-down"
-          width={["80px", "90px", "100px"]}
-          height={["80px", "90px", "100px"]}
+          width={["120px", "130px", "140px"]}
+          height={["120px", "130px", "140px"]}
           mb={4}
         />
       </Box>
@@ -25,10 +26,10 @@ export default function Card({ title, brand, categories, image, ...rest },) {
         align="flex-start"
         width="100%"
         height="100%"
-        fontSize={{ base: '10px', md: '11px', lg: '12px' }}
+        fontSize={{ base: '14px', md: '15px', lg: '16px' }}
       >
         <Heading
-          fontSize={{ base: '14px', md: '15px', lg: '16px' }}
+          fontSize={{ base: '17px', md: '18px', lg: '19px' }}
         >
           {title}
         </Heading>

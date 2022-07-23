@@ -165,21 +165,23 @@ export default function ProductDetails() {
       {product != null && (
         <HStack
           alignItems="flex-start"
+          justify="center"
           spacing={["20px", "40px", "60px", "80px", "120px"]}
           pb="20px"
-          ref={containerRef}
+          wrap="wrap"
         >
           {product.image ? (
-            <Box minHeight={containerRef?.current?.scrollHeight}>
+            <Box minHeight={["0", containerRef?.current?.scrollHeight, containerRef?.current?.scrollHeight, containerRef?.current?.scrollHeight]}>
               <Image
                 src={product.image}
                 position="sticky"
                 top="100px"
                 objectFit="scale-down"
-                width={["400px", "420px", "440px"]}
-                height={["400px", "420px", "440px"]}
+                width={["200px", "320px", "380px", "440px"]}
+                height={["200px", "320px", "380px", "440px"]}
                 border="1px solid rgba(128,128,128, .1)"
                 boxShadow="5px 5px 5px rgba(128,128,128, .3)"
+                style={{ marginBottom: "20px" }}
               />
             </Box>
           ) : (
@@ -193,7 +195,12 @@ export default function ProductDetails() {
             />
           )}
 
-          <VStack mx={5} minHeight="40vh" maxWidth="40vw">
+          <VStack
+            mx={5}
+            minHeight={["100%", "30vh", "35vh", "40vh"]}
+            maxWidth={["100%", "30vw", "35vw", "40vw"]}
+            ref={containerRef}
+          >
             <VStack
               align="flex-start"
               spacing={10}
@@ -240,7 +247,6 @@ export default function ProductDetails() {
                 </HStack>
 
                 {listIngredientsAllergic.length > 0 && (
-                  console.log(listIngredientsAllergic),
                   <HStack wrap="wrap">
                     <Text marginBottom="10px" as="b">Ingredientes(s) alergico(s): </Text>
 
@@ -297,7 +303,10 @@ export default function ProductDetails() {
 
                 {feedbacks.length > 0 &&
                   feedbacks.map((feedback, index) => (
-                    <VStack key={index} align="flex-start">
+                    <VStack
+                      key={index}
+                      align="flex-start"
+                    >
                       <HStack align="flex-start">
                         <HStack>
                           <Avatar size="sm" name={feedback.user.email} />
@@ -311,7 +320,7 @@ export default function ProductDetails() {
                             <Text as="b">{feedback.user.email}</Text>
                             <Text>{formatDate(feedback.created_at)}</Text>
                           </HStack>
-                          <Text>{feedback.contents}</Text>
+                          <Text wordBreak="break-word">{feedback.contents}</Text>
                         </VStack>
                       </HStack>
                     </VStack>

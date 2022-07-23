@@ -18,7 +18,6 @@ import { getBrandById, updateBrand } from "../../../services/brandService";
 import { toast } from "react-toastify";
 
 export default function EditBrand({ brandId }) {
-  console.log(brandId);
   const [brand, setBrand] = useState({
     name: "",
   });
@@ -33,16 +32,21 @@ export default function EditBrand({ brandId }) {
 
   const handleUpdateBrand = async () => {
     try {
-      await updateBrand(brandId, brand.name);
+      if (brand.name) {
+        await updateBrand(brandId, brand.name);
 
-      toast.success("Marca atualizada com sucesso", {
-        autoClose: 2000,
-      });
-      Router.push("/brands");
+        toast.success("Marca atualizada com sucesso", {
+          autoClose: 2000,
+        });
+        Router.push("/brands");
+      } else {
+        toast.error("Nome da marca obrigatória!", {
+          autoClose: 2000,
+        });
+      }
     } catch (err) {
-      // console.log(ingredient.name);
       if (!brand.name) {
-        toast.error("Nome do ingrediente obrigatório!", {
+        toast.error("Nome da marca obrigatória!", {
           autoClose: 2000,
         });
       }

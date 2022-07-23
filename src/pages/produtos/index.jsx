@@ -63,8 +63,8 @@ const chakraStyles = {
   }),
   container: (provided, state) => ({
     ...provided,
-    minWidth: "250px",
-    maxWidth: "250px",
+    minWidth: "270px",
+    maxWidth: "300px",
     border: "0px solid #6FBE5E",
   }),
   clearIndicator: (provided, state) => ({
@@ -119,6 +119,7 @@ export default function Home() {
   const [ingredientsSelected, setIngredientsSelected] = useState([]);
   const [categoriesOptions, setCategoriesOptions] = useState([]);
   const [categoriesSelected, setCategoriesSelected] = useState([]);
+  const [searchBar, setSearchBar] = useState("");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isAuthenticated } = useContext(AuthContext);
@@ -260,6 +261,26 @@ export default function Home() {
     setLoading(false);
   }
 
+  async function handleSearchWithName() {
+    setLoading(true);
+
+    let urlFront = `/produtos/?page=1&name=${searchBar}`;
+
+    router.push(urlFront);
+
+    let urlBack = urlFront.replace("produtos", "products");
+    const searchResponse = await getProductsWithFilter(urlBack);
+    setSearchBar("");
+    setPageProducts(searchResponse);
+    setLoading(false);
+  }
+
+  async function handleSearchKeyPress(event) {
+    if (event.key === "Enter") {
+      await handleSearchWithName();
+    }
+  }
+
   return (
     <VStack minHeight="calc(100vh - 60px - 183px)" alignItems="space-between">
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -276,25 +297,35 @@ export default function Home() {
       <VStack px={10} mt={4}>
         <HStack
           width="100%"
-          justify="space-between"
+          justify={["flex-start", "space-between"]}
           alignItems="flex-start"
           mb={4}
+          wrap="wrap"
         >
-          <HStack>
+          <HStack mb={2}>
             {/* Barra de busca */}
-            <InputGroup size="sm" border="0px solid #6FBE5E">
+            <InputGroup
+              size="md"
+              border="0px solid #6FBE5E"
+            >
               <Input
-                focusBorderColor="#6FBE5E"
                 placeholder="Busque por um produto..."
-                fontSize={{ base: "11px", md: "12px", lg: "13px" }}
+                _placeholder={{ color: "#253C1F" }}
+                _hover={{ borderColor: "#6FBE5E" }}
+                focusBorderColor="#6FBE5E"
+                fontSize={{ base: "13px", md: "14px", lg: "15px" }}
                 minWidth="150px"
-                maxWidth="200px"
+                maxWidth="300px"
                 borderRadius={200}
+                value={searchBar}
+                onChange={(e) => setSearchBar(e.target.value)}
+                onKeyPress={(e) => handleSearchKeyPress(e)}
               />
               <InputRightAddon
                 backgroundColor="transparent"
                 borderRadius={200}
                 cursor="pointer"
+                onClick={handleSearchWithName}
               >
                 <SearchIcon color="#6FBE5E" />
               </InputRightAddon>
@@ -322,14 +353,16 @@ export default function Home() {
           </HStack>
 
           {/* Filtros */}
-          <HStack>
+          <HStack style={{
+            marginInlineStart: "0px",
+          }}>
             <VStack>
               <Select
                 useBasicStyles
                 isSearchable={false}
                 id="SelectFilter"
                 instanceId="SelectFilter"
-                size="sm"
+                size="md"
                 placeholder="Selecione um filtro"
                 chakraStyles={chakraStyles}
                 options={filterOptions}
@@ -344,7 +377,7 @@ export default function Home() {
                     useBasicStyles
                     id="SelectIngredients"
                     instanceId="SelectIngredients"
-                    size="sm"
+                    size="md"
                     placeholder="Selecione os ingredientes"
                     chakraStyles={chakraStyles}
                     onChange={(e) => handleSelectIngredients(e)}
@@ -368,7 +401,7 @@ export default function Home() {
                   id="SelectCategories"
                   instanceId="SelectCategories"
                   placeholder="Selecione uma Categoria"
-                  size="sm"
+                  size="md"
                   chakraStyles={chakraStyles}
                   onChange={(e) => handleSelectCategories(e)}
                   options={categoriesOptions}
@@ -388,7 +421,7 @@ export default function Home() {
               <VStack>
                 <Button
                   width="100%"
-                  size="sm"
+                  size="md"
                   backgroundColor="#253C1F"
                   color="#fff"
                   _hover={{ filter: "brightness(0.5)" }}
@@ -398,7 +431,7 @@ export default function Home() {
                 </Button>
                 <Button
                   width="100%"
-                  size="sm"
+                  size="md"
                   backgroundColor="#6FBE5E"
                   color="#fff"
                   _hover={{ filter: "brightness(0.8)" }}
@@ -428,6 +461,13 @@ export default function Home() {
                   onClick={(e) => handleCardClick(product.id)}
                 />
               ))}
+
+            {pageProducts != null &&
+              pageProducts.data != null &&
+              pageProducts.data.length == 0 &&
+              !loading && (
+                <Text>Sem resultados para busca {router.query.name}</Text>
+              )}
           </Flex>
         </HStack>
 

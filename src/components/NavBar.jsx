@@ -26,13 +26,19 @@ export default function NavBar() {
   const isNotLogged = !isLoading && !user;
 
   return (
-    <Flex justify="space-between" px={10} py={5}>
+    <Flex
+      justify="space-between"
+      px={10}
+      py={5}
+      fontSize={{ base: "12px", md: "16px", lg: "18px" }}
+      wrap="wrap"
+    >
       <HStack>
         <Link href="/">
           <Image src="/Logo.svg" />
           <HStack>
             <Text
-              fontSize={{ base: "12px", md: "16px", lg: "18px" }}
+              fontSize={{ base: "13px", md: "17px", lg: "19px" }}
               fontWeight={700}
               marginLeft={4}
             >
@@ -43,26 +49,20 @@ export default function NavBar() {
       </HStack>
 
       <HStack
-        fontSize={{ base: "11px", md: "12px", lg: "13px" }}
         fontWeight={700}
         spacing={5}
       >
         <Link href="/inicio">
-          <Text fontSize="15px" _hover={{ borderBottom: "3px solid #6FBE5E" }}>
+          <Text _hover={{ borderBottom: "3px solid #6FBE5E" }}>
             Início
           </Text>
         </Link>
 
         <Link href="/produtos?page=1">
-          <Text fontSize="15px" _hover={{ borderBottom: "3px solid #6FBE5E" }}>
+          <Text _hover={{ borderBottom: "3px solid #6FBE5E" }}>
             Produtos
           </Text>
         </Link>
-        {/* <Link href="/">
-          <Text fontSize="15px" _hover={{ borderBottom: "3px solid #6FBE5E" }}>
-            Categorias
-          </Text>
-        </Link> */}
       </HStack>
 
       <HStack
@@ -74,6 +74,7 @@ export default function NavBar() {
         {isLogged && (
           <Menu>
             <MenuButton
+              fontSize={{ base: "12px", md: "16px", lg: "18px" }}
               backgroundColor="transparent"
               _hover={{
                 backgroundColor: "rgba(111,190,94, .9)",

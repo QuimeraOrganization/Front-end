@@ -26,22 +26,18 @@ export default function FeedbackList() {
 
   const handleSubmit = async () => {
     try {
-      await createFeedback(contents, productId, userId);
-      toast.success("Comentário cadastrado com sucesso!", {
+      if (contents && productId && userId) {
+        await createFeedback(contents, productId, userId);
+        toast.success("Comentário cadastrado com sucesso!", {
+          autoClose: 2000,
+        });
+        Router.push("/feedbacks");
+      }
+    } catch (err) {
+      toast.error("Verifique os campos e tente novamente!", {
         autoClose: 2000,
       });
-      Router.push("/feedbacks");
-    } catch (err) {
-      if (!productId) {
-        toast.error("ID do PRODUTO obrigatório", {
-          autoClose: 2000,
-        });
-      }
-      if (!userId) {
-        toast.error("ID do USER obrigatório", {
-          autoClose: 2000,
-        });
-      }
+
       if (!contents) {
         toast.error("Conteúdo do comentário obrigatório", {
           autoClose: 2000,
@@ -50,13 +46,6 @@ export default function FeedbackList() {
     }
   };
 
-  {
-    /* <Select  placeholder='Produto'>
-              <option value='option1'>Produto 1</option>
-              <option value='option2'>Produto 2</option>
-              <option value='option3'>Produto 3</option>
-            </Select> */
-  }
   return (
     <Box minHeight="calc(100vh - 90px - 183px)">
       <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">

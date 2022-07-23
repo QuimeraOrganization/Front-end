@@ -8,7 +8,6 @@ import {
   Thead,
   Tr,
   Th,
-  Checkbox,
   Tbody,
   Td,
   Text,
@@ -17,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 
 import { parseCookies } from "nookies";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { RiAddLine, RiDeleteBinLine, RiPencilLine } from "react-icons/ri";
 import Link from "next/link";
 
@@ -163,6 +162,7 @@ export async function getServerSideProps(context) {
     };
   }
   const response = await axios.get("/users");
+
   return {
     props: {
       users: response.data,

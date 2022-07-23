@@ -54,12 +54,17 @@ export default function Footer() {
 
       <Stack width="200">
         <Text fontSize="lg" fontWeight="bold">
-          Início
+          Páginas
         </Text>
         <Stack spacing="3" shouldWrapChildren>
           <Link href="/inicio">
             <Button variant="link" color="white" size="sm" fontWeight="light">
               Início
+            </Button>
+          </Link>
+          <Link href="/produtos?page=1">
+            <Button variant="link" color="white" size="sm" fontWeight="light">
+              Produtos
             </Button>
           </Link>
         </Stack>
