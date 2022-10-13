@@ -37,11 +37,12 @@ const Login = () => {
                   S
                 </Text>
               </>
-              omos o time Quimera, aushuahshuhasuhauhsuahshaushauhsauhsauhhuauhsuahsuahsuahsuashas
-auhsuahushaushauhsuahusahsuahushauhsuahsuahsuahsuahsuhaushausha
-uashuahsuhaushuahhsuhasuhaushuahsuhauhsuahsuhaushuahsuhaushuahh
-uahsuhaushuahsuahushuahshuahshauhsuahushhauhsuhaushuahsuhaushua
-uashuahsuhaushuahsuahsuhaushuahsuahusahuahsuahsuhauhsuhasuahsua.{" "}
+              omos o time Quimera,
+              aushuahshuhasuhauhsuahshaushauhsauhsauhhuauhsuahsuahsuahsuashas
+              auhsuahushaushauhsuahusahsuahushauhsuahsuahsuahsuahsuhaushausha
+              uashuahsuhaushuahhsuhasuhaushuahsuhauhsuahsuhaushuahsuhaushuahh
+              uahsuhaushuahsuahushuahshuahshauhsuahushhauhsuhaushuahsuhaushua
+              uashuahsuhaushuahsuahsuhaushuahsuahusahuahsuahsuhauhsuhasuahsua.{" "}
             </Text>
           </Center>
           <Center>
@@ -189,71 +190,6 @@ uashuahsuhaushuahsuahsuhaushuahsuahusahuahsuahsuhauhsuhasuahsua.{" "}
         </Box>
       </Flex>
       <Divider />
-
-//       <Flex
-//         mt="40px"
-//         width="100%"
-//         display="flex"
-//         flexDirection="column"
-//         // minHeight="calc(100vh - 90px - 183px)"
-//       >
-//         <Text
-//           margin="0 auto"
-//           mb="20px"
-//           fontSize="35px"
-//           color="#6FBE5E"
-//           fontFamily="Nunito Sans"
-//           fontStyle="normal"
-//           fontWeight="20"
-//         >
-//           Equipe de Desenvolvimento
-//         </Text>
-//         <HStack wrap="wrap" gap="1rem" ml="20px" justify="center">
-//           <EquipeDesenvolvimento
-//             imageProfile="https://avatars.githubusercontent.com/u/54625876?s=400&u=e866644bc64ded7ac4e5dead9d57b1b1719a19e9&v=4"
-//             name="Eros Linnyker"
-//             linkGit="https://github.com/LinnykerEros"
-//             linkLinkedin="https://github.com/LinnykerEros"
-//           />
-//           <EquipeDesenvolvimento
-//             imageProfile="Edmundo.jpg"
-//             name="Edmundo Vitor"
-//             linkGit="https://github.com/edmundo-vitor"
-//             linkLinkedin="https://www.linkedin.com/in/edmundo-vitor/"
-//           />
-//           <EquipeDesenvolvimento
-//             imageProfile="Rebeca.jpg"
-//             name="Rebeca Moreira"
-//             linkGit="https://github.com/becamoreira"
-//             linkLinkedin="https://www.linkedin.com/in/rebecamoreira22"
-//           />
-//           <EquipeDesenvolvimento
-//             imageProfile="Paulo.jpg"
-//             name="Paulo Nery"
-//             linkGit="https://github.com/paulonerydev"
-//             linkLinkedin="https://www.linkedin.com/in/paulomarcyro/"
-//           />
-//           <EquipeDesenvolvimento
-//             imageProfile="Nathercia.jpg"
-//             name="Nathércia Barreto"
-//             linkGit="https://github.com/Nathercia"
-//             linkLinkedin="https://www.linkedin.com/in/nathercia-barreto/"
-//           />
-//           <EquipeDesenvolvimento
-//             imageProfile="Yuri.jpg"
-//             name="Yuri Rennan"
-//             linkGit="https://github.com/yurirennan"
-//             linkLinkedin="https://www.linkedin.com/mwlite/in/yuri-campos"
-//           />
-
-//           <EquipeDesenvolvimento
-//             imageProfile="Flavia.jpg"
-//             name=" Flávia Soares"
-//             linkGit="https://github.com/Flavia-Soares"
-//             linkLinkedin="https://www.linkedin.com/in/flaviasoaressantos/"
-//           />
-//         </HStack>
-//       </Flex>
     </Flex>
   );
 };

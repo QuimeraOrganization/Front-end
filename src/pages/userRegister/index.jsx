@@ -52,12 +52,12 @@ const chakraStyles = {
 
   crossIcon: (provided, state) => ({
     ...provided,
-    color: "red"
+    color: "red",
   }),
 
   downChevron: (provided, state) => ({
     ...provided,
-    color: "#6FBE5E"
+    color: "#6FBE5E",
   }),
 
   container: (provided, state) => ({
@@ -369,7 +369,7 @@ const Cadastro = () => {
                   my="5"
                   borderColor="#6FBE5E"
                 />
-                <Link href="/providerRegister">
+                {/* <Link href="/providerRegister">
                   <Text
                     my="5"
                     ml="60px"
@@ -382,7 +382,7 @@ const Cadastro = () => {
                   >
                     Cadastre-se como Fornecedor
                   </Text>
-                </Link>
+                </Link> */}
               </FormControl>
             </Stack>
           </Box>
