@@ -10,7 +10,8 @@ const AuthContext = createContext({});
 function AuthProvider({ children }) {
   const [user, setUser] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const isAuthenticated = !!user;
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const isAuthenticated = !!user;
   const router = useRouter();
 
   useEffect(() => {
@@ -26,6 +27,7 @@ function AuthProvider({ children }) {
           .then((res) => {
             setUser(parseJwt(token));
             setIsLoading(false);
+            setIsAuthenticated(true)
           })
           .catch((error) => {
             setIsLoading(false);
@@ -40,6 +42,7 @@ function AuthProvider({ children }) {
   const signOutUser = () => {
     setIsLoading(false);
     setUser(undefined);
+    setIsAuthenticated(false);
     singOut();
   };
 
@@ -61,7 +64,7 @@ function AuthProvider({ children }) {
       });
 
       setUser(parseJwt(token));
-
+      setIsAuthenticated(true);
       //atulizando o header
       axios.defaults.headers["Authorization"] = `Bearer ${token}`;
 
