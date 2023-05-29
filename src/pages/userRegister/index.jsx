@@ -17,6 +17,7 @@ import {
   Divider,
   VStack,
   FormErrorMessage,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
 import { RiEyeLine, RiEyeOffFill } from "react-icons/ri";
@@ -91,8 +92,9 @@ const Cadastro = () => {
   useEffect(() => {
     (async () => {
       const ingredientsResponse = await getAllIngredients();
+      console.log(ingredientsResponse)
       setIngredientsOptions(
-        ingredientsResponse.map((ingredient) => {
+        ingredientsResponse?.map((ingredient) => {
           return {
             label: ingredient.name,
             value: ingredient.id,
@@ -160,74 +162,35 @@ const Cadastro = () => {
     setConfirmPassowrd("");
   };
   const [showPassword, setShowPassword] = useState(false);
-
+  const isMobile = useBreakpointValue({ base: true, md: false });
   const handleShowClick = () => setShowPassword(!showPassword);
 
   return (
-    <Flex
-      flexDirection="column, row"
-      display={{ md: "flex" }}
-      width="full"
-      height="full"
-      minHeight="calc(100vh - 173px)"
-      justifyContent="center"
-      alignItems="center"
-    >
-      <Flex mr="100px" ml="180px" w="30vw" display={{ md: "flex" }}>
-        <Box w={{ base: "full", md: "full", lg: "full" }} h="">
+    <Flex  flexDirection={{ base: "column", md: "row" }} justifyContent="center" alignItems="center" >
+      {isMobile ? "" :  <Flex  mr={{ base: "0", md: "100px" }} ml={{ base: "0", md: "180px" }} w={{ base: "full", md: "30vw" }}>
+        <Box w="full" h="">
           <Center my="px">
-            <Text
-              textShadow="2px 2px #6FBE5E"
-              m="6"
-              mr="60px"
-              ml="60px"
-              fontFamily="Nunito Sans"
-              fontStyle="normal"
-              fontWeight="700"
-              fontSize={{ base: "50px", md: "70px", lg: "85px" }}
-              lineHeight={{ base: "50px", md: "80px", lg: "95px" }}
-              color="#253C1F"
-            >
-              Venha fazer{<br />} parte desta{" "}
-              <>
-                {<br />}{" "}
-                <Text as="span" color="#6FBE5E">
-                  comunidade
-                </Text>
-                <br />
-              </>{" "}
-              você também!
+            <Text textShadow="2px 2px #6FBE5E" m="6" mr={{ base: "0", md: "60px" }} ml={{ base: "0", md: "60px" }} fontFamily="Nunito Sans" fontStyle="normal" fontWeight="700" fontSize={{ base: "50px", md: "70px", lg: "85px" }} lineHeight={{ base: "50px", md: "80px", lg: "95px" }} color="#253C1F">
+              Venha fazer<br /> parte desta{" "}
+              <Text as="span" color="#6FBE5E">
+                comunidade
+              </Text>
+              <br /> você também!
             </Text>
           </Center>
         </Box>
-      </Flex>
+      </Flex>}
+     
 
-      <Flex mr="130px" ml="90px" display={{ md: "flex" }} bg="#F9F9F9">
-        <Box w={{ base: "full", md: "full", lg: "full" }} h="">
+      <Flex mr={{ base: "0", md: "90px" }} ml={{ base: "0", md: "90px" }} mb={"6.3rem"} bg="#F9F9F9" >
+        <Box w="full" h="">
           <Box>
             <Stack spacing={8}>
-              <Image
-                mt={3.5}
-                mr="100px"
-                ml="100px"
-                src="Logo.svg"
-                alt="Logotipo da empresa"
-                onClick={() => Router.push("/login")}
-                cursor="pointer"
-              />
+              <Image  onClick={() => Router.push("/login")} mt={3.5} mr={{ base: "0", md: "100px" }} ml={{ base: "0", md: "100px" }} src="Logo.svg" alt="Logotipo da empresa" cursor="pointer" />
 
               <Box>
                 <Center>
-                  <Heading
-                    mr="60px"
-                    ml="60px"
-                    fontFamily="Nunito Sans"
-                    fontStyle="Bold"
-                    fontSize={{ base: "25px", md: "40px", lg: "45px" }}
-                    lineHeight="35px"
-                    aling="Center"
-                    color="#253C1F"
-                  >
+                  <Heading mr={{ base: "0", md: "60px" }} ml={{ base: "0", md: "60px" }} fontFamily="Nunito Sans" fontStyle="Bold" fontSize={{ base: "25px", md: "40px", lg: "45px" }} lineHeight="35px" aling="Center" color="#253C1F">
                     Cadastre-se
                   </Heading>
                 </Center>
@@ -235,86 +198,37 @@ const Cadastro = () => {
 
               <FormControl as="form">
                 <InputGroup mb={5}>
-                  <Input
-                    w="343px"
-                    h="44.74"
-                    ml="60px"
-                    mr="60px"
-                    value={email}
-                    borderRadius={10}
-                    borderColor="#6FBE5E"
-                    type="email"
-                    focusBorderColor="#6FBE5E"
-                    placeholder="E-mail"
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
+                  <Input  onChange={(e) => setEmail(e.target.value)} w="343px" h="44.74" ml={{ base: "0", md: "60px" }} mr={{ base: "0", md: "60px" }} borderRadius={10} borderColor="#6FBE5E" type="email" focusBorderColor="#6FBE5E" placeholder="E-mail" />
                 </InputGroup>
 
                 <InputGroup>
-                  <Input
-                    w="343px"
-                    h="44.74"
-                    ml="60px"
-                    mr="60px"
-                    value={password}
-                    borderRadius={10}
-                    borderColor="#6FBE5E"
-                    focusBorderColor="#6FBE5E"
-                    onChange={(e) => setPassword(e.target.value)}
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Senha"
-                  />
+                  <Input value={password} onChange={(e) => setPassword(e.target.value)} type={showPassword ? "text" : "password"} w="343px" h="44.74" ml={{ base: "0", md: "60px" }} mr={{ base: "0", md: "60px" }} borderRadius={10} borderColor="#6FBE5E" focusBorderColor="#6FBE5E" placeholder="Senha" />
                 </InputGroup>
 
                 <InputGroup mt={5}>
-                  <Input
-                    w="343px"
-                    h="44.74"
-                    ml="60px"
-                    mr="60px"
-                    fontSize={{ base: "11px", md: "17px", lg: "17px" }}
-                    value={confirmPassowrd}
-                    borderRadius={10}
-                    borderColor="#6FBE5E"
-                    focusBorderColor="#6FBE5E"
-                    type={showPassword ? "text" : "password"}
-                    onChange={(e) => setConfirmPassowrd(e.target.value)}
-                    placeholder="Confirme a senha"
-                  />
-                  <InputRightElement mr="53px" width="4.5rem">
-                    <Button
-                      h="1.75rem"
-                      size="sm"
-                      onClick={handleShowClick}
-                      bg="none"
-                      _hover={{ bg: "none" }}
-                      leftIcon={
+                  <Input  type={showPassword ? "text" : "password"} onChange={(e) => setConfirmPassowrd(e.target.value)} w="343px" h="44.74" ml={{ base: "0", md: "60px" }} mr={{ base: "0", md: "60px" }} fontSize={{ base: "11px", md: "17px", lg: "17px" }} borderRadius={10} borderColor="#6FBE5E" focusBorderColor="#6FBE5E"  placeholder="Confirme a senha" />
+                  <InputRightElement mr="53px" width="4.5rem" >
+                    <Button h="1.75rem" size="sm" bg="none" _hover={{ bg: "none" }} onClick={handleShowClick}  leftIcon={
                         showPassword ? (
                           <Icon as={RiEyeLine} />
                         ) : (
                           <Icon as={RiEyeOffFill} />
                         )
                       }
-                    >
-                      {/* {showPassword ? "Esconder" : "Mostrar"} */}
-                    </Button>
+
+></Button>
                   </InputRightElement>
                 </InputGroup>
-                <Flex mr="60px" ml="60px">
-                  <FormControl
-                    w="343px"
-                    h="44.74"
-                    mt="20px"
-                    // isRequired
-                    isInvalid={isIngredientsError}
-                  >
+
+                <Box mr={{ base: "0", md: "60px" }} ml={{ base: "0", md: "60px" }}>
+                  <FormControl w="343px" h="44.74" mt="20px" isInvalid={isIngredientsError}>
                     <FormLabel>Ingrediente(s) Alérgicos</FormLabel>
-                    <Select
-                      isMulti
-                      instanceId="ingredientsAllergic"
-                      id="ingredientsAllergic"
-                      placeholder="Selecione um ingrediente"
-                      focusBorderColor="green"
+                    <Select  
+                      isMulti 
+                      instanceId="ingredientsAllergic" 
+                      id="ingredientsAllergic" 
+                      placeholder="Selecione um ingrediente" 
+                      focusBorderColor="green" 
                       useBasicStyles
                       size="sm"
                       chakraStyles={chakraStyles}
@@ -341,48 +255,25 @@ const Cadastro = () => {
                     {isIngredientsError && (
                       <FormErrorMessage>Campo obrigatório</FormErrorMessage>
                     )}
+                      
                   </FormControl>
-                </Flex>
+                </Box>
               </FormControl>
 
-              <FormControl>
-                <Flex mr="60px" ml="60px" my="6">
-                  <Button
-                    type="submit"
-                    onClick={handleSubmit}
-                    w="343px"
-                    h="44.74"
-                    borderRadius={10}
-                    variant="solid"
-                    _hover={{ bg: "green.400" }}
-                    colorScheme="teal"
-                    backgroundColor="#253C1F"
-                  >
+              <FormControl >
+                <Box mr={{ base: "0", md: "60px" }}  ml={{ base: "0", md: "60px" }} my="6">
+                  <Button 
+                    w="343px" 
+                    h="44.74" 
+                    borderRadius={10} 
+                    variant="solid" 
+                    _hover={{ bg: "green.400" }} 
+                    colorScheme="teal" 
+                    backgroundColor="#253C1F">
                     Cadastrar
                   </Button>
-                </Flex>
-                <Divider
-                  ml="60px"
-                  mr="80px"
-                  display={{ md: "flex" }}
-                  w=""
-                  my="5"
-                  borderColor="#6FBE5E"
-                />
-                {/* <Link href="/providerRegister">
-                  <Text
-                    my="5"
-                    ml="60px"
-                    mr="60px"
-                    color="#6FBE5E"
-                    fontWeight="700"
-                    lineHeight="10"
-                    fontSize={{ base: "20", md: "25", lg: "25" }}
-                    cursor="pointer"
-                  >
-                    Cadastre-se como Fornecedor
-                  </Text>
-                </Link> */}
+                </Box>
+                <Divider ml={{ base: "0", md: "60px" }} mr={{ base: "0", md: "80px" }} my="5" borderColor="#6FBE5E" />
               </FormControl>
             </Stack>
           </Box>
@@ -390,7 +281,7 @@ const Cadastro = () => {
       </Flex>
     </Flex>
   );
-};
+}
 
 export default Cadastro;
 

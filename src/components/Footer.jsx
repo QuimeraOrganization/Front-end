@@ -17,7 +17,7 @@ import { AuthContext } from "../context/AuthContext";
   export default function Footer() {
   const isMobile = useBreakpointValue({ base: true, sm: false });
   const {isAuthenticated} = useContext(AuthContext);
-  console.log(isAuthenticated)
+
   return (
   <Flex
     direction={isMobile ? "column" : "row"}
@@ -27,11 +27,13 @@ import { AuthContext } from "../context/AuthContext";
     color="#FFFFFF"
     as="footer"
     py="4"
+    paddingRight={"2rem"}
+    paddingLeft={"2rem"}
   >
         {isMobile ?
         <>
         
-        <Stack width="200" >
+  <Stack width="200" >
           <Text  display={"flex"} alignItems={"center"} justifyContent={"center"} mt={"1rem"} fontSize="lg" fontWeight="bold">
             Páginas
           </Text>
@@ -104,7 +106,7 @@ import { AuthContext } from "../context/AuthContext";
 
   {isAuthenticated ? "" : <Stack direction={"row"} alignItems={"center"} justifyContent={ 'center'} width={"200"} gap={"3rem"}>
    
-   {isMobile ? <Box>
+   {/* {isMobile ? <Box>
    <Text fontSize="lg" fontWeight="bold">
      Páginas
    </Text>
@@ -121,9 +123,9 @@ import { AuthContext } from "../context/AuthContext";
      </Link>
    </Stack>
    </Box> : "" 
-   }
+   } */}
    
- {isAuthenticated ? "" : <Stack width="200" mb={"3.2rem"}>
+ {isMobile || isAuthenticated ? "" : <Stack width="200" mb={"3.2rem"}>
    <Text fontSize="lg" fontWeight="bold">
      Sua conta
    </Text>

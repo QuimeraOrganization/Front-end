@@ -20,12 +20,14 @@ import { AiFillControl } from "react-icons/ai";
 import Link from "../components/Link";
 import NextLink from "next/link";
 
+import { useRouter } from "next/router";
 export default function NavBar() {
   const { user, signOutUser, isLoading } = useContext(AuthContext);
 
   const isLogged = !isLoading && user;
   const isNotLogged = !isLoading && !user;
-
+  const router = useRouter();
+  const currentPath = router.pathname;
   return (
 <Box
   as="nav"
@@ -59,12 +61,12 @@ export default function NavBar() {
       fontWeight={700}
     >
       <Link href="/inicio">
-        <Text _hover={{ borderBottom: "3px solid #6FBE5E" }}>
+        <Text borderBottom={currentPath === "/inicio" && "3px solid #6FBE5E"}  _hover={{ borderBottom: "3px solid #6FBE5E" }}>
           Início
         </Text>
       </Link>
 
-      <Link href="/produtos?page=1">
+      <Link borderBottom={currentPath === "/produtos" && "3px solid #6FBE5E"} href="/produtos?page=1">
         <Text _hover={{ borderBottom: "3px solid #6FBE5E" }}>
           Produtos
         </Text>

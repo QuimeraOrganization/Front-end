@@ -11,6 +11,7 @@ function AuthProvider({ children }) {
   const [user, setUser] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [foods, setFoods] = useState("Ovos");
   // const isAuthenticated = !!user;
   const router = useRouter();
 
@@ -78,7 +79,7 @@ function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ singIn, isAuthenticated, user, signOutUser, isLoading }}
+      value={{ singIn, isAuthenticated, user, signOutUser, isLoading, foods, setFoods }}
     >
       {children}
     </AuthContext.Provider>

@@ -10,185 +10,115 @@ import {
   Stack,
   SimpleGrid
 } from "@chakra-ui/react";
+import { useEffect } from "react";
+import { useContext } from "react";
+import InformationCard from "../../components/card/InformationCard";
+import CircularMenu from "../../components/circularMenu/CircularMenu";
 import EquipeDesenvolvimento from "../../components/EquipeDesenvolvimento";
-const Login = () => {
+import { AuthContext } from "../../context/AuthContext";
+import TEXTS from "../../utils/texts";
+import { motion } from "framer-motion";
+import { useState } from "react";
+
+const MotionBox = motion(Box);  
+const Inicio = () => {
+
+  const {foods} = useContext(AuthContext);
+  const [showAnimation, setShowAnimation] = useState(false);
+
+
+  const dataEggs = {
+    title:"Ovos",
+    description: TEXTS.descriptionEggs,
+    descriptionTwo: TEXTS.descriptionEggsTwo 
+  }
+
+  const dataFish = {
+    title: "Peixe",
+    description: TEXTS.descriptionFish,
+    descriptionTwo: TEXTS.descriptionFishTwo
+  }
+  
+  const dataMilk = {
+    title: "Leite",
+    description: TEXTS.descriptionMilk,
+    descriptionTwo: TEXTS.descriptionMilkTwo
+  }
+  const dataAmendoim = {
+    title: "Amendoim",
+    description: TEXTS.descriptionAmendoim,
+    descriptionTwo: TEXTS.descriptionAmendoimTwo
+  }
+  const dataCascaRija = {
+    title: "Frutos de casca rija",
+    description: TEXTS.descriptionCascaRija,
+    descriptionTwo: TEXTS.descriptionCascaRijaTwo
+  }
+  const dataSoja = {
+    title: "Soja",
+    description: TEXTS.descriptionSoja,
+    
+  }
+  const dataGluten = {
+    title: "Glúten",
+    description: TEXTS.descriptionGluten,
+    
+  }
+  
+  const verification = foods === "Ovos" ? dataEggs : foods === "Peixe" ? dataFish : foods === "Leite" ? dataMilk : foods === "Amendoim" ? dataAmendoim : foods === "Frutos de casca rija" ? dataCascaRija : foods === "Soja" ? dataSoja : foods === "Gluten" ? dataGluten : ""
+  
+  useEffect(() => {
+    setShowAnimation(true);
+  }, [verification]);
+
   return (
     <Flex
     flexDirection="column"
     width="full"
-    minHeight="100vh"
+    minHeight="calc(100vh - 60px - 183px)"
     justifyContent="center"
     alignItems="center"
   >
     <Flex
       mx={{ base: "4", md: "8", lg: "16" }}
       my={{ base: "8", md: "0" }}
-      mb={{ base: "8", md: "0" }}
-      flexDirection={{ base: "column-reverse", md: "row" }}
+      flexDirection={{ base: "column", md: "row" }}
     >
       <Box
         w={{ base: "full", md: "full", lg: "full" }}
-        ml={{ md: "3rem" }}
+        ml={{ base: "1rem", md: "20rem" }}
         mr={{ md: "10px" }}
+        mb={{ base: "6rem", md: "20rem" }} 
+        mt={{ base: "6rem", md: "12rem" }} 
         textAlign={{ base: "center", md: "left" }}
       >
         <Center>
-          <Text
-            fontFamily="Nunito Sans"
-            fontWeight="bold"
-            fontSize={{ base: "16px", md: "19px", lg: "20px" }}
-            lineHeight={{ base: "20px", md: "30px" }}
-            color="#253C1F"
-          >
-            {" "}
-            <>
-              <Text as="span" color="#6FBE5E" fontSize="6xl" m="1">
-                S
-              </Text>
-            </>
-            aushduahsudhaudhuashsduhasduhahsduahsduha
-            aushduahsudhaudhuashsduhasduhahsduahsduha
-            aushduahsudhaudhuashsduhasduhahsduahsduha
-            aushduahsudhaudhuashsduhasduhahsduahsduha
-            aushduahsudhaudhuashsduhasduhahsduahsduha
-            aushduahsudhaudhuashsduhasduhahsduahsduha
-          </Text>
-        </Center>
-        <Center>
-          <Text
-            my="5"
-            fontFamily="Nunito Sans"
-            fontWeight="bold"
-            fontSize={{ base: "16px", md: "19px", lg: "20px" }}
-            lineHeight={{ base: "20px", md: "30px" }}
-            color="#253C1F"
-          >
-            {" "}
-            <>
-              <Text as="span" color="#6FBE5E" fontSize="6xl" m="1">
-                E
-              </Text>
-            </>
-            aushduahsudhaudhuashsduhasduhahsduahsduha
-            aushduahsudhaudhuashsduhasduhahsduahsduha
-            aushduahsudhaudhuashsduhasduhahsduahsduha
-            aushduahsudhaudhuashsduhasduhahsduahsduha
-            aushduahsudhaudhuashsduhasduhahsduahsduha
-            aushduahsudhaudhuashsduhasduhahsduahsduha
-          </Text>
+          <CircularMenu />
         </Center>
       </Box>
 
       <Stack
-        spacing="8"
         px={{ base: "4", md: "8", lg: "16" }}
-        mt={{ base: "8", md: "0" }}
-        mb={{ base: "8", md: "0" }}
+        ml={{ base: "0", md: "10rem" }}
+        // mb={{ base: "10rem", md: "15rem" }}
       >
-        <Box>
-          <Image
-            w="full"
-            h={{ base: "240px", md: "340px" }}
-            src="e.jpg"
-            alt="Logotipo da empresa"
-            borderRadius="10"
-            boxShadow="dark-lg"
-          />
-        </Box>
-        <SimpleGrid columns={{ base: 1, md: 3 }} spacing="8">
-          <Box>
-            <Center>
-              <Heading
-                fontFamily="Nunito Sans"
-                fontWeight="bold"
-                fontSize={{ base: "24px", md: "32px", lg: "35px" }}
-                lineHeight="50px"
-                align="Center"
-                justifyContent="center"
-                color="#6FBE5E"
-              >
-                Missão
-              </Heading>
-            </Center>
-            <Center>
-              <Text
-                ml={{ base: "0", md: "4" }}
-                mr={{ base: "0", md: "4" }}
-                fontFamily="Nunito Sans"
-                fontSize={{ base: "16px", md: "19px", lg: "20px" }}
-          lineHeight="30px"
-          color="#253C1F"
+        <MotionBox
+          key={verification.title} 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
         >
-          Proporcionar aos nossos clientes informações e uma vida livre de alergia.
-        </Text>
-      </Center>
-    </Box>
-    <Box>
-      <Center>
-        <Heading
-          m=""
-          fontFamily="Nunito Sans"
-          fontStyle="Bold"
-          fontSize={{ base: "24px", md: "32px", lg: "35px" }}
-          lineHeight="50px"
-          align="Center"
-          justifyContent="center"
-          color="#6FBE5E"
-        >
-          Visão
-        </Heading>
-      </Center>
-      <Center>
-        <Text
-          ml="4"
-          mr="4"
-          fontFamily="Nunito Sans"
-          fontStyle="normal"
-          fontWeight="20"
-          fontSize={{ base: "16px", md: "19px", lg: "20px" }}
-          lineHeight="30px"
-          color="#253C1F"
-        >
-          Que o Sistema seja sinônimo de informações de confiança, preocupado com a saúde e futuro das pessoas.
-        </Text>
-      </Center>
-    </Box>
-    <Box>
-      <Center>
-        <Heading
-          m=""
-          fontFamily="Nunito Sans"
-          fontStyle="Bold"
-          fontSize={{ base: "24px", md: "32px", lg: "35px" }}
-          lineHeight="50px"
-          align="Center"
-          justifyContent="center"
-          color="#6FBE5E"
-        >
-          Valores
-        </Heading>
-      </Center>
-      <Center>
-        <Text
-          ml="4"
-          mr="4"
-          fontFamily="Nunito Sans"
-          fontStyle="normal"
-          fontWeight="20"
-          fontSize={{ base: "16px", md: "19px", lg: "20px" }}
-          lineHeight="30px"
-          color="#253C1F"
-        >
-          Embasamento Técnico e Científico, Ambiente acolhedor e de ajuda mútua, Inovação, Transparência, Valorização do ser humano, Preocupação com o futuro das pessoas.
-        </Text>
-      </Center>
-    </Box>
-  </SimpleGrid>
-</Stack>
-      </Flex>
-      <Divider />
+
+        <InformationCard
+          title={verification.title}
+          description={verification.description}
+          descriptionTwo={verification.descriptionTwo}
+        />
+        </MotionBox>
+      </Stack>
     </Flex>
+  </Flex>
   );
 };
 
-export default Login;
+export default Inicio;

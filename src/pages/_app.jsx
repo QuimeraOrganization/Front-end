@@ -1,14 +1,14 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { AuthProvider } from "../context/AuthContext";
-import theme from "../styles/theme";
+
 import themeChakra from "../styles/themeChakra";
 import NavBar from "../components/NavBar";
 import { useRouter } from "next/router";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import Footer from "../components/Footer";
-import { ThemeProvider } from "@material-ui/styles";
-import { CssBaseline } from "@material-ui/core";
+
+
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   return (
