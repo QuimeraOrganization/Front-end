@@ -76,10 +76,10 @@ export default function UserList(props) {
                 <Th>Usuário</Th>
                 {isWideVersion && <Th>Ingredientes Alérgicos</Th>}
                 {isWideVersion && <Th>Permission</Th>}
-                {/* <Th>ID</Th> */}
+          
                 <Th width="1px"></Th>
                 <Th width="1px"></Th>
-                {/* <Th width="1px"></Th> */}
+            
               </Tr>
             </Thead>
             <Tbody>
