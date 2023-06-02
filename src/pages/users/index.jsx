@@ -42,7 +42,7 @@ export default function UserList(props) {
         <SideBar />
         <Box
           width="1010px"
-          //  height="700px"
+
           marginLeft="50px"
           flex="1"
           borderRadius={8}
