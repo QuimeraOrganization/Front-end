@@ -9,7 +9,10 @@ import {
   Button,
   Tag,
   TagCloseButton,
-  Avatar
+  Avatar,
+  Box,
+  CircularProgress,
+  Spinner
 } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
 import FilePicker from "chakra-ui-file-picker";
@@ -27,7 +30,16 @@ import { createProduct, updateProduct, deleteProductImage } from "../../services
 
 import { AuthContext } from "../../context/AuthContext";
 import { toast } from "react-toastify";
+import { keyframes } from "@emotion/react";
 
+const spin = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
 const chakraStyles = {
   multiValue: (provided, state) => ({
     ...provided,
@@ -248,7 +260,7 @@ export default function ProductForm({ productProp = null }) {
     }
     return false;
   }
-
+  const [isLoading, setIsLoading] = useState(false);
   async function handleSubmit() {
     product.name === "" ? setNameError(true) : setNameError(false);
     product.description === ""
@@ -256,40 +268,51 @@ export default function ProductForm({ productProp = null }) {
       : setDescriptionError(false);
     product.brandId === null ? setBrandError(true) : setBrandError(false);
 
-    if (isValidFields()) {
-      if (productProp === null) {
-        // Cadastra
-
-        const response = await createProduct(product, imageRef);
-
-        if (response.status === 201) {
-          toast.success("Produto cadastrado com sucesso!", {
-            autoClose: 2000,
-          });
-
-          router.push(`/produtos/${response.data.id}`);
-        }
-
-      } else {
-        // Edita
-
-        if (isDeleteImage) {
-          console.log("Entrou")
-          // Requisição para deletar imagem
-          await deleteProductImage(product.id);
-        }
-
-        const response = await updateProduct(product, imageRef);
-
-        if (response.status === 200) {
-          toast.success("Produto atualizado com sucesso!", {
-            autoClose: 2000,
-          });
-
-          router.reload();
+    try{
+      if (isValidFields()) {
+        if (productProp === null) {
+          // Cadastra
+          setIsLoading(true)
+          const response = await createProduct(product, imageRef);
+          if(response.status === 400){
+            toast.error("Produto já cadastrado!", {
+              autoClose: 2000,
+            });
+          }
+          if (response.status === 201) {
+            toast.success("Produto cadastrado com sucesso!", {
+              autoClose: 2000,
+            });
+  
+            router.push(`/produtos/${response.data.id}`);
+          }
+          setIsLoading(false);
+  
+        } else {
+          // Edita
+          setIsLoading(true)
+          if (isDeleteImage) {  
+            // Requisição para deletar imagem
+            await deleteProductImage(product.id);
+          }
+  
+          const response = await updateProduct(product, imageRef);
+  
+          if (response.status === 200) {
+            toast.success("Produto atualizado com sucesso!", {
+              autoClose: 2000,
+            });
+  
+            router.reload();
+          }
+          setIsLoading(false);
         }
       }
+    }catch(error){
+      console.log(error, "entrou")
+      toast.error(error,{autoClose:2000});
     }
+ 
   }
 
   return (
@@ -415,7 +438,7 @@ export default function ProductForm({ productProp = null }) {
         />
       </FormControl>
 
-      {product.image ? (
+      {/* {product.image ? (
         <FormControl>
           <FormLabel htmlFor="image">Imagem</FormLabel>
           <Tag
@@ -440,6 +463,7 @@ export default function ProductForm({ productProp = null }) {
         </FormControl>
       )
         :
+        
         (
           <FormControl>
             <FormLabel htmlFor="image">Imagem</FormLabel>
@@ -456,16 +480,20 @@ export default function ProductForm({ productProp = null }) {
             />
           </FormControl>
         )
-      }
-
-      <Button
+      } */}
+    {isLoading ? <Box>
+                      <Spinner color="#6FBE5E" />
+                 </Box> 
+          : 
+    <Button
         backgroundColor="#253C1F"
         color="#fff"
         _hover={{ backgroundColor: "#6FBE5E" }}
         onClick={handleSubmit}
       >
         {productProp ? "Salvar" : "Cadastrar"}
-      </Button>
+      </Button>}
+      
     </VStack>
   );
 }
