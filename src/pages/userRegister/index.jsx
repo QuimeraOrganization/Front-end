@@ -281,7 +281,7 @@ const Cadastro = () => {
                 </Box>
                 {isMobile ? <Box display={"flex"} color="#6FBE5E" alignItems={"center"} justifyContent={'center'} gap={"0.2rem"} >
                   Já possui uma conta? {" "}
-                    <Link color="#6FBE5E" href="/login" style={{textDecoration:"none"}}>
+                    <Link color="#6FBE5E" href="/login" >
                    Entrar
                     </Link>
                   </Box> : "" }
