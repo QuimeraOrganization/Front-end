@@ -1,13 +1,15 @@
-import { HStack, VStack, Image, Heading, Text, Box } from "@chakra-ui/react";
+import { HStack, VStack, Image, Heading, Text, Box, useBreakpointValue } from "@chakra-ui/react";
 
 export default function Card({ title, brand, categories, image, ...rest },) {
+  const isMobile = useBreakpointValue({ base: true, sm: false });
   return (
     <VStack
       backgroundColor="white"
       margin={2}
       padding={4}
       borderRadius={15}
-      minWidth="25%"
+      // minWidth="40%"
+      width={isMobile ? "100%" : "30rem"}
       minHeight="30%"
       cursor="pointer"
       {...rest}

@@ -19,7 +19,8 @@ import {
   ModalHeader,
   ModalBody,
   Avatar,
-  Box
+  Box,
+  Spinner
 } from "@chakra-ui/react";
 import { ArrowBackIcon, EditIcon } from "@chakra-ui/icons";
 
@@ -41,17 +42,23 @@ export default function ProductDetails() {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const containerRef = useRef();
-
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     // Evita chamada a api quando o query.page ainda está undefined
     if (!router.query.id) {
       return;
     }
-
-    (async () => {
+    try{ 
+      
+      (async () => {
+        setIsLoading(true);
+        console.log("entrou")
       const productResponse = await getProductById(router.query.id);
-      setProduct(productResponse);
-      setFeedbacks(productResponse.feedbacks);
+      if(productResponse){
+        setProduct(productResponse);
+        setFeedbacks(productResponse.feedbacks);
+        setIsLoading(false);
+      }
 
       let ingredientsAllergic = [];
       let ingredientsNonAllergic = [];
@@ -77,6 +84,13 @@ export default function ProductDetails() {
       setListIngredientsNonAllergic(ingredientsNonAllergic);
 
     })();
+
+    }catch(error){
+      console.log(error);
+      setIsLoading(false);
+    }
+   
+   
   }, [router.query.id]);
 
 
@@ -161,8 +175,8 @@ export default function ProductDetails() {
           </Button>
         )}
       </HStack>
-
-      {product != null && (
+          {console.log(isLoading)}
+      {isLoading ? <Spinner color="#6FBE5E" /> : product != null && (
         <HStack
           alignItems="flex-start"
           justify="center"

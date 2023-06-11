@@ -282,7 +282,7 @@ export default function Home() {
   }
 
   return (
-    <VStack minHeight="calc(100vh - 60px - 183px)" alignItems="space-between">
+    <VStack minHeight="calc(100vh - 60px - 160px)" alignItems="space-between">
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -294,7 +294,7 @@ export default function Home() {
         </ModalContent>
       </Modal>
 
-      <VStack px={10} mt={4}>
+      <VStack  px={10} mt={4} width="100%" paddingX={4} marginTop={4}>
         <HStack
           width="100%"
           justify={["flex-start", "space-between"]}
@@ -304,32 +304,29 @@ export default function Home() {
         >
           <HStack mb={2}>
             {/* Barra de busca */}
-            <InputGroup
-              size="md"
-              border="0px solid #6FBE5E"
-            >
-              <Input
-                placeholder="Busque por um produto..."
-                _placeholder={{ color: "#253C1F" }}
-                _hover={{ borderColor: "#6FBE5E" }}
-                focusBorderColor="#6FBE5E"
-                fontSize={{ base: "13px", md: "14px", lg: "15px" }}
-                minWidth="150px"
-                maxWidth="300px"
-                borderRadius={200}
-                value={searchBar}
-                onChange={(e) => setSearchBar(e.target.value)}
-                onKeyPress={(e) => handleSearchKeyPress(e)}
-              />
-              <InputRightAddon
-                backgroundColor="transparent"
-                borderRadius={200}
-                cursor="pointer"
-                onClick={handleSearchWithName}
-              >
-                <SearchIcon color="#6FBE5E" />
-              </InputRightAddon>
-            </InputGroup>
+            <InputGroup size="md" border="0px solid #6FBE5E" width="100%">
+        <Input
+          placeholder="Busque por um produto..."
+          _placeholder={{ color: "#253C1F" }}
+          _hover={{ borderColor: "#6FBE5E" }}
+          focusBorderColor="#6FBE5E"
+          fontSize={{ base: "13px", md: "14px", lg: "15px" }}
+          minWidth="150px"
+          maxWidth="300px"
+          borderRadius={200}
+          value={searchBar}
+          onChange={(e) => setSearchBar(e.target.value)}
+          onKeyPress={(e) => handleSearchKeyPress(e)}
+        />
+        <InputRightAddon
+          backgroundColor="transparent"
+          borderRadius={200}
+          cursor="pointer"
+          onClick={handleSearchWithName}
+        >
+          <SearchIcon color="#6FBE5E" />
+        </InputRightAddon>
+      </InputGroup>
 
             {isAuthenticated && (
               <Tooltip
@@ -339,15 +336,16 @@ export default function Home() {
                 fontSize={["11px", "12px", "13px"]}
               >
                 <Button
-                  minWidth="auto"
-                  width={["30px", "33px", "35px"]}
-                  height={["30px", "33px", "35px"]}
-                  borderRadius="100%"
-                  backgroundColor="#6FBE5E"
-                  onClick={onOpen}
-                >
-                  <AddIcon color="#fff" />
-                </Button>
+                    minWidth="auto"
+                    width={["30px", "33px", "35px"]}
+                    height={["30px", "33px", "35px"]}
+                    borderRadius="100%"
+                    backgroundColor="#6FBE5E"
+                    onClick={onOpen}
+                    marginTop={2}
+                  >
+                    <AddIcon color="#fff" />
+                  </Button>
               </Tooltip>
             )}
           </HStack>
@@ -446,8 +444,8 @@ export default function Home() {
 
         {loading && <Spinner color="#6FBE5E" />}
 
-        <HStack>
-          <Flex direction="row" justify="center" wrap="wrap">
+        <HStack width="100%">
+          <Flex  width="100%" direction="row" justify="center" wrap="wrap">
             {pageProducts != null &&
               pageProducts.data != null &&
               !loading &&

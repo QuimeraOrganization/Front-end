@@ -18,6 +18,7 @@ import {
   VStack,
   FormErrorMessage,
   useBreakpointValue,
+  Spinner,
 } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
 import { RiEyeLine, RiEyeOffFill } from "react-icons/ri";
@@ -88,7 +89,7 @@ const Cadastro = () => {
   const [ingredients, setIngredients] = useState([]);
   const [ingredientsOptions, setIngredientsOptions] = useState([]);
   const [isIngredientsError, setIngredientsError] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     (async () => {
       const ingredientsResponse = await getAllIngredients();
@@ -125,12 +126,14 @@ const Cadastro = () => {
 
   const handleSubmit = async () => {
     try {
+      setIsLoading(true);
       if (confirmPassowrd === password) {
         await createUser(email, password, ingredients);
         toast.success("Usuário cadastrado com sucesso!", {
           autoClose: 2000,
         });
         Router.push("/login");
+        setIsLoading(false);
       } else {
         toast.error("Verifique sua senha e tente novamente!", {
           autoClose: 2000,
@@ -206,8 +209,8 @@ const Cadastro = () => {
                 </InputGroup>
 
                 <InputGroup mt={5}>
-                  <Input  type={showPassword ? "text" : "password"} onChange={(e) => setConfirmPassowrd(e.target.value)} w="343px" h="44.74" ml={{ base: "0", md: "60px" }} mr={{ base: "0", md: "60px" }} fontSize={{ base: "11px", md: "17px", lg: "17px" }} borderRadius={10} borderColor="#6FBE5E" focusBorderColor="#6FBE5E"  placeholder="Confirme a senha" />
-                  <InputRightElement mr="53px" width="4.5rem" >
+                  <Input  type={showPassword ? "text" : "password"} onChange={(e) => setConfirmPassowrd(e.target.value)} w="343px" h="44.74" ml={{ base: "0", md: "60px" }} mr={{ base: "0", md: "60px" }}  borderRadius={10} borderColor="#6FBE5E" focusBorderColor="#6FBE5E"  placeholder="Confirme a senha" />
+                 {isMobile ? "" :  <InputRightElement mr="53px" width="4.5rem" >
                     <Button h="1.75rem" size="sm" bg="none" _hover={{ bg: "none" }} onClick={handleShowClick}  leftIcon={
                         showPassword ? (
                           <Icon as={RiEyeLine} />
@@ -217,7 +220,7 @@ const Cadastro = () => {
                       }
 
 ></Button>
-                  </InputRightElement>
+                  </InputRightElement>}
                 </InputGroup>
 
                 <Box mr={{ base: "0", md: "60px" }} ml={{ base: "0", md: "60px" }}>
@@ -262,6 +265,7 @@ const Cadastro = () => {
 
               <FormControl >
                 <Box mr={{ base: "0", md: "60px" }}  ml={{ base: "0", md: "60px" }} my="6">
+                 
                   <Button 
                     w="343px" 
                     h="44.74" 
@@ -269,12 +273,23 @@ const Cadastro = () => {
                     variant="solid" 
                     _hover={{ bg: "green.400" }} 
                     colorScheme="teal" 
-                    backgroundColor="#253C1F">
-                    Cadastrar
+                    backgroundColor="#253C1F"
+                    onClick={handleSubmit}
+                    >
+                    {isLoading ? <Spinner color="white" /> : "Cadastrar"}
                   </Button>
                 </Box>
+                {isMobile ? <Box display={"flex"} color="#6FBE5E" alignItems={"center"} justifyContent={'center'} gap={"0.2rem"} >
+                  Já possui uma conta? {" "}
+                    <Link color="#6FBE5E" href="/login" style={{textDecoration:"none"}}>
+                   Entrar
+                    </Link>
+                  </Box> : "" }
+               
                 <Divider ml={{ base: "0", md: "60px" }} mr={{ base: "0", md: "80px" }} my="5" borderColor="#6FBE5E" />
+              
               </FormControl>
+            
             </Stack>
           </Box>
         </Box>
